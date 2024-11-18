@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model django_migrations {
+  id      Int      @id @default(autoincrement())
+  app     String   @db.VarChar(255)
+  name    String   @db.VarChar(255)
+  applied DateTime @db.DateTime(0)
+}
+
+model events_event {
+  id                               Int                                @id @default(autoincrement())
+  name                             String                             @db.VarChar(200)
+  slug                             String                             @unique(map: "events_event_slug_uniq") @db.VarChar(200)
+  content                          String                             @db.LongText
+  hidden                           Boolean
+  events_eventseason_active_events events_eventseason_active_events[]
+  events_eventshift                events_eventshift[]
+  events_eventshiftmember          events_eventshiftmember[]
+  events_eventsignup               events_eventsignup[]
+
+  @@index([slug], map: "events_event_slug")
+}
+
+model events_eventseason {
+  season                           Int                                @id
+  n_required_active_events         Int
+  events_eventseason_active_events events_eventseason_active_events[]
+}
+
+model events_eventseason_active_events {
+  id                 Int                @id @default(autoincrement())
+  eventseason_id     Int
+  event_id           Int
+  events_event       events_event       @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_3314616493aeeccd")
+  events_eventseason events_eventseason @relation(fields: [eventseason_id], references: [season], onUpdate: Restrict, map: "eventseason_id_refs_season_60a2e113b0447f04")
+
+  @@unique([eventseason_id, event_id], map: "events_eventseason_active__eventseason_id_5b0d4f06343502e7_uniq")
+  @@index([eventseason_id], map: "events_eventseason_active_events_db2b98c0")
+  @@index([event_id], map: "events_eventseason_active_events_e9b82f95")
+}
+
+model events_eventshift {
+  id                        Int                         @id @default(autoincrement())
+  event_id                  Int
+  description               String                      @db.VarChar(200)
+  location                  String                      @db.VarChar(200)
+  spots                     Int
+  start_time                DateTime                    @db.DateTime(0)
+  end_time                  DateTime                    @db.DateTime(0)
+  events_event              events_event                @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_475e92960b274ffe")
+  events_eventshiftmember   events_eventshiftmember[]
+  events_eventsignup_shifts events_eventsignup_shifts[]
+
+  @@index([event_id], map: "events_eventshift_e9b82f95")
+  @@index([end_time], map: "events_eventshift_end_time")
+  @@index([start_time], map: "events_eventshift_start_time")
+}
+
+model events_eventshiftmember {
+  id                         Int               @id @default(autoincrement())
+  event_id                   Int
+  shift_id                   Int
+  member_id                  Int
+  notified                   Boolean           @default(false)
+  confirmed                  Boolean           @default(false)
+  completed                  Boolean           @default(false)
+  transportation             String            @db.VarChar(20)
+  hours                      Float
+  completedall               Boolean
+  confirmedall               Boolean
+  registration_approval_date DateTime?         @db.DateTime(6)
+  events_event               events_event      @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_131090a60ff8d15e")
+  member_member              member_member     @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_28b42eb7a01a8966")
+  events_eventshift          events_eventshift @relation(fields: [shift_id], references: [id], onUpdate: Restrict, map: "shift_id_refs_id_34479122ce0885c1")
+
+  @@index([shift_id], map: "events_eventshiftmember_25d96e11")
+  @@index([member_id], map: "events_eventshiftmember_56e38b98")
+  @@index([event_id], map: "events_eventshiftmember_e9b82f95")
+}
+
+model events_eventsignup {
+  id                        Int                         @id @default(autoincrement())
+  event_id                  Int
+  member_id                 Int
+  time                      Float
+  transportation            String                      @db.VarChar(20)
+  friends                   String                      @db.VarChar(1000)
+  events_event              events_event                @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_2d6a09530bfff117")
+  member_member             member_member               @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_671d73e463aa7865")
+  events_eventsignup_shifts events_eventsignup_shifts[]
+
+  @@index([member_id], map: "events_eventsignup_56e38b98")
+  @@index([event_id], map: "events_eventsignup_e9b82f95")
+}
+
+model events_eventsignup_shifts {
+  id                 Int                @id @default(autoincrement())
+  eventsignup_id     Int
+  eventshift_id      Int
+  events_eventshift  events_eventshift  @relation(fields: [eventshift_id], references: [id], onUpdate: Restrict, map: "eventshift_id_refs_id_27e75a7156fd97f5")
+  events_eventsignup events_eventsignup @relation(fields: [eventsignup_id], references: [id], onUpdate: Restrict, map: "eventsignup_id_refs_id_3b62e0d1e79cb8d8")
+
+  @@unique([eventsignup_id, eventshift_id], map: "events_eventsignup_shifts_eventsignup_id_efaafd9afc9dc40_uniq")
+  @@index([eventshift_id], map: "events_eventsignup_shifts_2fdb0132")
+  @@index([eventsignup_id], map: "events_eventsignup_shifts_7f010fc1")
+}
+
+model files_file {
+  id        Int    @id @default(autoincrement())
+  name      String @unique(map: "name") @db.VarChar(250)
+  data      Bytes
+  thumbnail Bytes?
+  size      Int
+  dispname  String @db.VarChar(250)
+}
+
+model him_page {
+  id            Int     @id @default(autoincrement())
+  path          String  @unique(map: "path") @db.VarChar(200)
+  template      String  @db.VarChar(200)
+  user_created  Boolean @default(true)
+  in_sidebar    Boolean @default(false)
+  sidebar_order Int     @default(0)
+  title         String  @db.VarChar(200)
+  category      String  @db.VarChar(200)
+  content       String  @db.LongText
+}
+
+model member_member {
+  id                      Int                       @id @default(autoincrement())
+  email                   String                    @unique(map: "member_member_email_uniq") @db.VarChar(254)
+  first_name              String                    @db.VarChar(50)
+  last_name               String                    @db.VarChar(50)
+  address                 String                    @db.VarChar(200)
+  city                    String                    @db.VarChar(50)
+  zip                     String                    @db.VarChar(5)
+  cell_phone              String                    @db.VarChar(12)
+  home_phone              String                    @db.VarChar(12)
+  dob                     DateTime                  @db.Date
+  school                  String                    @db.VarChar(50)
+  homeroom                String                    @db.VarChar(20)
+  graduating_year         Int
+  shirt_size              String                    @db.VarChar(2)
+  activities              String                    @db.VarChar(2000)
+  comments                String                    @db.VarChar(2000)
+  friends                 String                    @db.VarChar(2000)
+  referrer                String                    @db.VarChar(100)
+  twitter_url             String                    @db.VarChar(200)
+  emergency_contact_name  String                    @db.VarChar(100)
+  emergency_contact_phone String                    @db.VarChar(12)
+  emergency_contact_dob   DateTime                  @db.Date
+  vaccine_date_1          DateTime?                 @db.Date
+  vaccine_date_2          DateTime?                 @db.Date
+  vaccine_date_3          DateTime?                 @db.Date
+  vaccine_status          String                    @db.VarChar(2)
+  events_eventshiftmember events_eventshiftmember[]
+  events_eventsignup      events_eventsignup[]
+  member_memberprivate    member_memberprivate?
+  member_memberrestricted member_memberrestricted?
+
+  @@index([email], map: "member_member_email")
+  @@index([first_name], map: "member_member_first_name")
+  @@index([last_name], map: "member_member_last_name")
+}
+
+model member_memberprivate {
+  member_id         Int           @id
+  extra_hours       Float         @default(0)
+  start_date        DateTime      @db.Date
+  in_him_group      Boolean
+  in_him_crew_group Boolean
+  member_type       String        @db.VarChar(4)
+  contact           String        @db.VarChar(4)
+  contact_notes     String        @db.LongText
+  has_lanyard       Boolean
+  has_name_badge    Boolean
+  has_crew_neck     Boolean
+  has_tshirt        Boolean
+  has_long_sleeves  Boolean
+  has_hoodies       Boolean
+  member_member     member_member @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_10e14295d0e2712b")
+}
+
+model member_memberrestricted {
+  member_id     Int           @unique(map: "member_id")
+  admin_level   Int
+  member_member member_member @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_2bfdbbee7bc05016")
+}
+
+model openidauth_openidassociation {
+  assoc_handle String @id @db.VarChar(255)
+  expires_on   BigInt
+  mac_key      String @db.VarChar(63)
+}
+
+model openidauth_openidnonce {
+  response_nonce String   @id @db.VarChar(255)
+  created_on     DateTime @db.DateTime(0)
+}
+
+model south_migrationhistory {
+  id        Int      @id @default(autoincrement())
+  app_name  String   @db.VarChar(255)
+  migration String   @db.VarChar(255)
+  applied   DateTime @db.DateTime(0)
+}
