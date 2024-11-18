@@ -1,4 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "rules": { "@typescript-eslint/no-empty-object-type": "off", "no-unused-vars": "off", "@typescript-eslint/no-unused-vars-experimental": "error" }
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
+  }
 }
