@@ -148,10 +148,10 @@ export const Navbar = () => {
                         </svg>
                     </button>
                     <div className="flex justify-center relative group">
-                        <a href="/home">
+                        <Link href="/home">
                             <span className="sr-only">Heart in Motion</span>
                             <img className="w-auto h-36 sm:h-38" src="/assets/logo.png" loading="lazy" width="202" height="40" alt="Heart in Motion Logo" />
-                        </a>
+                        </Link>
                     </div>
                     <div className="flex flex-col space-y-6">
                         {['Volunteer', 'Leadership', 'About'].map((section) => (
