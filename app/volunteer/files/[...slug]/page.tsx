@@ -14,7 +14,7 @@ const FilePage = () => {
 
     useEffect(() => {
         const fetchFile = async () => {
-            await getFileBySlug(slug[0] as string)
+            await getFileBySlug(slug ? slug[0] as string : '')
             .then((res) => {
                 if(res)
                     setFileData(res)
