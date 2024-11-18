@@ -14,19 +14,20 @@ const HIMPage = () => {
             await getPageByPath(path)
             .then(res => {
                 const container = document.getElementById("page-content-container")!
+                console.log("1")
                 if(res)
                     container.innerHTML = res.content
                 else
                     router.push('/')
+                console.log("3")
             })
         }
-        
+        console.log("2")
         renderPage()
     }, [])
 
     return (
         <div className="m-5">
-            <div>hi</div>
             <div id="page-content-container"></div>
         </div>
     )
