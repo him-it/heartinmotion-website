@@ -38,8 +38,8 @@ model events_eventseason_active_events {
   id                 Int                @id @default(autoincrement())
   eventseason_id     Int
   event_id           Int
-  events_event       events_event       @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_3314616493aeeccd")
-  events_eventseason events_eventseason @relation(fields: [eventseason_id], references: [season], onUpdate: Restrict, map: "eventseason_id_refs_season_60a2e113b0447f04")
+  events_event       events_event       @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "event_id_refs_id_3314616493aeeccd")
+  events_eventseason events_eventseason @relation(fields: [eventseason_id], references: [season], onDelete: NoAction, onUpdate: NoAction, map: "eventseason_id_refs_season_60a2e113b0447f04")
 
   @@unique([eventseason_id, event_id], map: "events_eventseason_active__eventseason_id_5b0d4f06343502e7_uniq")
   @@index([eventseason_id], map: "events_eventseason_active_events_db2b98c0")
@@ -54,7 +54,7 @@ model events_eventshift {
   spots                     Int
   start_time                DateTime                    @db.DateTime(0)
   end_time                  DateTime                    @db.DateTime(0)
-  events_event              events_event                @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_475e92960b274ffe")
+  events_event              events_event                @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "event_id_refs_id_475e92960b274ffe")
   events_eventshiftmember   events_eventshiftmember[]
   events_eventsignup_shifts events_eventsignup_shifts[]
 
@@ -76,9 +76,9 @@ model events_eventshiftmember {
   completedall               Boolean
   confirmedall               Boolean
   registration_approval_date DateTime?         @db.DateTime(6)
-  events_event               events_event      @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_131090a60ff8d15e")
-  member_member              member_member     @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_28b42eb7a01a8966")
-  events_eventshift          events_eventshift @relation(fields: [shift_id], references: [id], onUpdate: Restrict, map: "shift_id_refs_id_34479122ce0885c1")
+  events_event               events_event      @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "event_id_refs_id_131090a60ff8d15e")
+  member_member              member_member     @relation(fields: [member_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "member_id_refs_id_28b42eb7a01a8966")
+  events_eventshift          events_eventshift @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "shift_id_refs_id_34479122ce0885c1")
 
   @@index([shift_id], map: "events_eventshiftmember_25d96e11")
   @@index([member_id], map: "events_eventshiftmember_56e38b98")
@@ -92,8 +92,8 @@ model events_eventsignup {
   time                      Float
   transportation            String                      @db.VarChar(20)
   friends                   String                      @db.VarChar(1000)
-  events_event              events_event                @relation(fields: [event_id], references: [id], onUpdate: Restrict, map: "event_id_refs_id_2d6a09530bfff117")
-  member_member             member_member               @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_671d73e463aa7865")
+  events_event              events_event                @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "event_id_refs_id_2d6a09530bfff117")
+  member_member             member_member               @relation(fields: [member_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "member_id_refs_id_671d73e463aa7865")
   events_eventsignup_shifts events_eventsignup_shifts[]
 
   @@index([member_id], map: "events_eventsignup_56e38b98")
@@ -104,8 +104,8 @@ model events_eventsignup_shifts {
   id                 Int                @id @default(autoincrement())
   eventsignup_id     Int
   eventshift_id      Int
-  events_eventshift  events_eventshift  @relation(fields: [eventshift_id], references: [id], onUpdate: Restrict, map: "eventshift_id_refs_id_27e75a7156fd97f5")
-  events_eventsignup events_eventsignup @relation(fields: [eventsignup_id], references: [id], onUpdate: Restrict, map: "eventsignup_id_refs_id_3b62e0d1e79cb8d8")
+  events_eventshift  events_eventshift  @relation(fields: [eventshift_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "eventshift_id_refs_id_27e75a7156fd97f5")
+  events_eventsignup events_eventsignup @relation(fields: [eventsignup_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "eventsignup_id_refs_id_3b62e0d1e79cb8d8")
 
   @@unique([eventsignup_id, eventshift_id], map: "events_eventsignup_shifts_eventsignup_id_efaafd9afc9dc40_uniq")
   @@index([eventshift_id], map: "events_eventsignup_shifts_2fdb0132")
@@ -185,13 +185,13 @@ model member_memberprivate {
   has_tshirt        Boolean
   has_long_sleeves  Boolean
   has_hoodies       Boolean
-  member_member     member_member @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_10e14295d0e2712b")
+  member_member     member_member @relation(fields: [member_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "member_id_refs_id_10e14295d0e2712b")
 }
 
 model member_memberrestricted {
   member_id     Int           @unique(map: "member_id")
   admin_level   Int
-  member_member member_member @relation(fields: [member_id], references: [id], onUpdate: Restrict, map: "member_id_refs_id_2bfdbbee7bc05016")
+  member_member member_member @relation(fields: [member_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "member_id_refs_id_2bfdbbee7bc05016")
 }
 
 model openidauth_openidassociation {
