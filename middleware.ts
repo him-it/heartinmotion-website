@@ -27,8 +27,6 @@ export default auth((req) => {
     const isBasicAdminRoute = basicAdminRoutes.includes(nextUrl.pathname)
     const isSuperAdminRoute = superAdminRoutes.includes(nextUrl.pathname)
 
-    console.log(Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)))
-    
     if(isApiAuthRoutes)
         return
 
@@ -38,8 +36,6 @@ export default auth((req) => {
         return
     }
 
-    console.log(Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)))
-    
     if(isNonMemberRoute) {
         if(!isLoggedIn || adminLevel !== undefined)
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
