@@ -8,9 +8,9 @@ import {
     basicAdminRoutes,
     superAdminRoutes,
     publicRoutes
-} from "../routes"
+} from "./routes"
 
-import { auth } from "../auth" 
+import { auth } from "./auth" 
 
 export default auth((req) => {
     const { nextUrl } = req
