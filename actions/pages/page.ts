@@ -10,8 +10,7 @@ export const getPageByPath = async (path: string) => {
              }
          })
         return page
-    } catch(e) {
-        console.log(e)
+    } catch {
         return null
     }
 }
