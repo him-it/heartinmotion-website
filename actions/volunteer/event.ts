@@ -33,7 +33,8 @@ export const getUpcomingEvents = async () => {
             }
          })
         return events
-    } catch {
+    } catch(e) {
+        console.log(e)
         return null
     }
 }

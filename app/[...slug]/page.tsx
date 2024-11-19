@@ -20,7 +20,6 @@ const HIMPage = () => {
                     router.push('/')
             })
         }
-        
         renderPage()
     }, [])
 
