@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 
 import authConfig from "./auth.config"
 import { getUserByEmail } from "./actions/account/user"
+import next from "next"
 
 export const {
     handlers: { GET, POST },
