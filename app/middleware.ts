@@ -8,9 +8,9 @@ import {
     basicAdminRoutes,
     superAdminRoutes,
     publicRoutes
-} from "./routes"
+} from "../routes"
 
-import authConfig from "./auth.config"
+import authConfig from "../auth.config"
 import NextAuth from "next-auth"
 
 export const { auth } = NextAuth(authConfig)
