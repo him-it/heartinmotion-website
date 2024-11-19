@@ -13,7 +13,6 @@ import {
 import { auth } from './auth'
 
 export default auth((req) => {
-    console.log(!!req.auth)
     const { nextUrl } = req
     const isLoggedIn = !!req.auth
     const adminLevel = req.auth?.user.admin_level
@@ -49,10 +48,8 @@ export default auth((req) => {
     }
 
     if(isJuniorAdminRoute) {
-        if(!isLoggedIn || adminLevel! < 2) {
-            console.log("admin")
+        if(!isLoggedIn || adminLevel! < 2)
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
-        }
         }
         
     if(isBasicAdminRoute) {
