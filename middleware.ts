@@ -13,6 +13,7 @@ import {
 import { auth } from './auth'
 
 export default auth((req) => {
+    console.log("test")
     const { nextUrl } = req
     const isLoggedIn = !!req.auth
     const adminLevel = req.auth?.user.admin_level
