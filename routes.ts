@@ -5,7 +5,8 @@ export const publicRoutes = [
     "/volunteer",
     "/volunteer/files",
     "/volunteer/events",
-    "/leadership"
+    "/leadership",
+    "/leadership/spotlight"
 ]
 
 export const authRoutes = [
