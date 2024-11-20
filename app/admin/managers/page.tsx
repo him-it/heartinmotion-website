@@ -8,7 +8,7 @@ const Admin_ManagersListPage = async () => {
     const memberData = await getMemberNames()
 
     return (
-        <AdminPageWrapper title="Managers" redirect="/admin/managers">
+        <AdminPageWrapper title="Managers" redirect="/admin">
             <AdminManagerList managerData={managerData} memberData={memberData} />
         </AdminPageWrapper>
     )
