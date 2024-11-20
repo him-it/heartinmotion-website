@@ -23,6 +23,7 @@ export const memberRoutes = [
 ]
 
 export const juniorAdminRoutes = [
+    "/admin",
     "/admin/members"
 ]
 
