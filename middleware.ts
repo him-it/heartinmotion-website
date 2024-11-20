@@ -48,17 +48,17 @@ export default auth((req) => {
     }
 
     if(isJuniorAdminRoute) {
-        if(!isLoggedIn || adminLevel! < 2)
+        if(!isLoggedIn || adminLevel === undefined || adminLevel < 2 )
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
         }
         
     if(isBasicAdminRoute) {
-        if(!isLoggedIn || adminLevel! < 4)
+        if(!isLoggedIn || adminLevel === undefined || adminLevel! < 4)
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
         }    
     
     if(isSuperAdminRoute) {
-        if(!isLoggedIn || adminLevel! < 10)
+        if(!isLoggedIn || adminLevel === undefined || adminLevel! < 10)
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     }
 
