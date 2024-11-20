@@ -1023,9 +1023,6 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                 onChange={(e) => {
                                                     if(!isNaN(Number(e.target.value)))
                                                         setExtraHours(Number(e.target.value))
-                                                    
-                                                    if(!extraHours)
-                                                        setExtraHours(0)
                                                 }}
                                                 onKeyDown={(e) => {
                                                     if (e.key === '-') {
@@ -1037,7 +1034,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                             />
                                             <Button className='mt-2 bg-black text-white'
                                                 onClick={() => {
-                                                    if(extraHours)
+                                                    if(extraHours !== undefined)
                                                         changeExtraHours(extraHours)
                                                 }}
                                                 disabled={ isPending || !updatedData.id }
