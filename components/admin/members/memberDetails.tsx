@@ -1023,6 +1023,8 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                 onChange={(e) => {
                                                     if(!isNaN(Number(e.target.value)))
                                                         setExtraHours(Number(e.target.value))
+                                                    else
+                                                        setExtraHours(0)
                                                 }}
                                                 onKeyDown={(e) => {
                                                     if (e.key === '-') {
