@@ -1029,6 +1029,10 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                         if(extraHours)
                                                             setExtraHours(-extraHours)
                                                     }
+                                                    if (e.key === 'Backspace') {
+                                                        if(extraHours && extraHours < 0 && extraHours > -10)
+                                                            setExtraHours(0)
+                                                    }
                                                 }}
                                                 disabled={ isPending || !updatedData.id }
                                             />
