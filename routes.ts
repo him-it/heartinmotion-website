@@ -1,12 +1,16 @@
 export const publicRoutes = [
     "/",
     "/about",
+    "/about/pvsa",
+    "/about/faqs",
+    "/about/donate",
     "/home",
     "/volunteer",
     "/volunteer/files",
     "/volunteer/events",
     "/leadership",
-    "/leadership/spotlight"
+    "/leadership/spotlight",
+    "/leadership/internship"
 ]
 
 export const authRoutes = [
