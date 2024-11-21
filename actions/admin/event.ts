@@ -258,7 +258,7 @@ export const shiftAddMember = async (data: z.infer<typeof AddMemberSchema>, shif
                 completedall: false,
                 confirmedall: false,
                 notified: false,
-                registration_approval_date: null
+                registration_approval_date: new Date()
             }
         })
     } catch {
