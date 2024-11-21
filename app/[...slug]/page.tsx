@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const HIMPage = () => {
-    const path = usePathname()
+    const path = usePathname()!
     const router = useRouter()
 
     useEffect(() => {
