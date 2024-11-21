@@ -25,7 +25,7 @@ const HIMPage = () => {
 
     return (
         <div className="m-5">
-            <div id="page-content-container" className="prose prose-lg"></div>
+            <div id="page-content-container" className="prose prose-sm max-w-none"></div>
         </div>
     )
 };

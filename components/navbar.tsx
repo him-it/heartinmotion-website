@@ -54,22 +54,22 @@ export const Navbar = () => {
                                     <div className={`absolute left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white shadow-lg rounded-lg ${activeDropdown === section.toLowerCase() ? 'block' : 'hidden'}`}>
                                         {section === 'Volunteer' && (
                                             <>
-                                                <Link href="/volunteer/events" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-t-lg hover:text-gray-900 text-center">Events</Link>
-                                                <Link href="/volunteer/files" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Files</Link>
+                                                <Link href="/volunteer/events" onClick={()=>setActiveDropdown('')} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-t-lg hover:text-gray-900 text-center">Events</Link>
+                                                <Link href="/volunteer/files" onClick={()=>setActiveDropdown('')} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Files</Link>
                                             </>
                                         )}
                                         {section === 'Leadership' && (
                                             <>
-                                                <Link href="/leadership/spotlight" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-t-lg hover:text-gray-900 text-center">Spotlight</Link>
-                                                <Link href="/leadership/internship" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Internship</Link>
+                                                <Link href="/leadership/spotlight" onClick={()=>setActiveDropdown('')} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-t-lg hover:text-gray-900 text-center">Spotlight</Link>
+                                                <Link href="/leadership/internship" onClick={()=>setActiveDropdown('')} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Internship</Link>
                                             </>
                                         )}
                                         {section === 'About' && (
                                             <>
-                                                <Link href="/about" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-t-lg hover:text-gray-900 text-center">About</Link>
-                                                <Link href="/about/donate" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Donate</Link>
-                                                <Link href="/about/pvsa" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">PVSA</Link>
-                                                <Link href="/about/faqs" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">FAQs</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-t-lg hover:text-gray-900 text-center">About</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about/donate" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Donate</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about/pvsa" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">PVSA</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about/faqs" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">FAQs</Link>
                                             </>
                                         )}
                                     </div>
@@ -112,14 +112,14 @@ export const Navbar = () => {
                                                     <>
                                                         {
                                                             session.data.user.admin_level > 0 &&
-                                                            <Link href="/admin" className="block px-4 py-3 text-white rounded-t-lg bg-red-900 hover:bg-red-950 text-center">Admin Panel</Link>
+                                                            <Link onClick={()=>setActiveDropdown('')} href="/admin" className="block px-4 py-3 text-white rounded-t-lg bg-red-900 hover:bg-red-950 text-center">Admin Panel</Link>
                                                         }
-                                                        <Link href="/account/shifts" className="block px-4 py-3 text-gray-500 hover:text-gray-900 rounded-t-lg hover:bg-gray-100 text-center">Registered Shifts</Link>
-                                                        <Link href="/account/hours" className="block px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 text-center">Hours Earned</Link>
-                                                        <Link href="/account/edit" className="block px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 text-center">Edit Info</Link>
+                                                        <Link onClick={()=>setActiveDropdown('')} href="/account/shifts" className="block px-4 py-3 text-gray-500 hover:text-gray-900 rounded-t-lg hover:bg-gray-100 text-center">Registered Shifts</Link>
+                                                        <Link onClick={()=>setActiveDropdown('')} href="/account/hours" className="block px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 text-center">Hours Earned</Link>
+                                                        <Link onClick={()=>setActiveDropdown('')} href="/account/edit" className="block px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 text-center">Edit Info</Link>
                                                     </>
                                                 ) : (
-                                                    <Link href="/account/register" className="block px-4 py-3 text-gray-500 hover:text-gray-900 rounded-t-lg hover:bg-gray-100 text-center">Become a Member</Link>
+                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/register" className="block px-4 py-3 text-gray-500 hover:text-gray-900 rounded-t-lg hover:bg-gray-100 text-center">Become a Member</Link>
                                                 )
                                             }
                                             <AuthButton action="Log Out" styles='block mt-2 px-4 py-2 text-white bg-gray-900 rounded hover:bg-gray-800 w-[80%] text-center mx-auto' status={ session.status }/>
