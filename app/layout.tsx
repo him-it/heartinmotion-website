@@ -26,7 +26,7 @@ export default async function RootLayout({
           <Loading />
           { children }
           <footer
-            className="text-center my-5 text-gray-600 text-sm"
+            className="text-center my-5 text-gray-600 text-sm mx-auto w-4/5"
           >Heart in Motion is a non-profit and tax-exempt 501(c)(3) organization.</footer>
         </body>
       </html>
