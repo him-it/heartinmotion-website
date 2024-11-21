@@ -89,8 +89,8 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
     return (
         <div className="p-5 mx-auto flex flex-col md:flex-row shadow-lg rounded-lg">
             <div className="flex-1 flex items-start">
-                <div className='p-5 justify-start'>
-                    <div id="page-content-container" className="prose prose-md max-w-none"></div>
+                <div className='p-5'>
+                    <div id="page-content-container" className="prose prose-md max-w-none justify-start"></div>
                 </div>
             </div>
             <div className="w-full md:w-1/3 flex flex-col items-center justify-start p-4">
