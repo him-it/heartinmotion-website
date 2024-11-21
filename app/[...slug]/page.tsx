@@ -15,7 +15,6 @@ const HIMPage = () => {
                 const container = document.getElementById("page-content-container")!
                 if(res) {
                     container.innerHTML = res.content
-                    container.classList.remove('tailwind-layout')
                 }
                 else
                     router.push('/')
@@ -26,7 +25,7 @@ const HIMPage = () => {
 
     return (
         <div className="m-5">
-            <div className="prose" id="page-content-container"></div>
+            <div id="page-content-container" className="prose prose-lg"></div>
         </div>
     )
 };
