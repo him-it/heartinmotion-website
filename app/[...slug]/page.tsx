@@ -13,8 +13,10 @@ const HIMPage = () => {
             await getPageByPath(path)
             .then(res => {
                 const container = document.getElementById("page-content-container")!
-                if(res)
+                if(res) {
                     container.innerHTML = res.content
+                    container.classList.remove('tailwind-layout')
+                }
                 else
                     router.push('/')
             })
