@@ -1,5 +1,4 @@
 import { getPages } from "@/actions/admin/pages/page";
-import { Button } from "@/components/ui/button";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 
