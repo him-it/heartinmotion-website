@@ -308,11 +308,6 @@ export const currentEventDataReport = async (id: number) => {
 
     const worksheet = workbook.getWorksheet(worksheetName)!
 
-    const title = worksheet.getCell('A1')
-    title.value = worksheetName
-    title.font = { bold: true }
-    worksheet.mergeCells('A1:AJ1')
-
     const labelsArray = ['Registration Approval', 'Caller', 'Confirmation', 'ARRIVAL Time', 'Shift Date', 'Shift Name', 'Start Time', 'Member Type', 'Has Discord', 'E Waiver', 'H Waiver', 'Lanyard', 'Name', 'Cell Phone', 'School', 'Year', 'Instagram URL', 'Friends', 'Email', 'DOB', 'Age', 'Shirt Size', 'Via', 'Address', 'City', 'Zip Code', 'E contact', 'E Phone', 'E DOB', 'Has name badge', 'Comment', 'Confirmed']
     const labels = worksheet.addRow(labelsArray)
         labels.font = { bold: true }
