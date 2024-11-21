@@ -148,8 +148,8 @@ export const Navbar = () => {
                         </svg>
                     </button>
                     <div className="flex justify-center relative group">
-                        <Link href="/home">
-                            <span className="sr-only">Heart in Motion</span>
+                        <Link onClick={() => setMobileMenuOpen(false)} href="/home">
+                            <span className="sr-only" >Heart in Motion</span>
                             <img className="w-auto h-36 sm:h-38" src="/assets/logo.png" loading="lazy" width="202" height="40" alt="Heart in Motion Logo" />
                         </Link>
                     </div>
@@ -169,22 +169,22 @@ export const Navbar = () => {
                                     <div className="mt-2 w-full bg-white shadow-lg rounded-lg">
                                         {section === 'Volunteer' && (
                                             <>
-                                                <Link href="/volunteer/events" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Events</Link>
-                                                <Link href="/volunteer/files" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Files</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/volunteer/events" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Events</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/volunteer/files" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Files</Link>
                                             </>
                                         )}
                                         {section === 'Leadership' && (
                                             <>
-                                                <Link href="/leadership/spotlight" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Spotlight</Link>
-                                                <Link href="/leadership/internship" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Internship</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/leadership/spotlight" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Spotlight</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/leadership/internship" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Internship</Link>
                                             </>
                                         )}
                                         {section === 'About' && (
                                             <>
-                                                <Link href="/about/about" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">About</Link>
-                                                <Link href="/about/donate" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Donate</Link>
-                                                <Link href="/about/pvsa" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">PVSA</Link>
-                                                <Link href="/about/faqs" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">FAQs</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/about/about" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">About</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/about/donate" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Donate</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/about/pvsa" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">PVSA</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/about/faqs" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">FAQs</Link>
                                             </>
                                         )}
                                     </div>
@@ -207,12 +207,12 @@ export const Navbar = () => {
                                         <div className="mt-2 w-full bg-white shadow-lg rounded-lg">
                                             { session.data.user.admin_level >= 0 ? (
                                                 <>
-                                                    <Link href="/account/shifts" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Registered Shifts</Link>
-                                                    <Link href="/account/hours" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Hours Earned</Link>
-                                                    <Link href="/account/edit" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Edit Info</Link>
+                                                    <Link href="/account/shifts" onClick={() => setMobileMenuOpen(false)}className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Registered Shifts</Link>
+                                                    <Link href="/account/hours" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Hours Earned</Link>
+                                                    <Link href="/account/edit" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Edit Info</Link>
                                                 </>
                                             ) : (
-                                                <Link href="/account/register" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Become A Member</Link>
+                                                <Link href="/account/register" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Become A Member</Link>
                                             )}
                                         </div>
                                     )}
