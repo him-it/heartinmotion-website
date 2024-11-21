@@ -41,5 +41,5 @@
 }
 
 #page-content-container * {
-  all: revert !important;
+  all: initial !important;
 }
