@@ -24,7 +24,7 @@ const HIMPage = () => {
 
     return (
         <div className="m-5">
-            <div id="page-content-container"></div>
+            <div className="prose" id="page-content-container"></div>
         </div>
     )
 };

@@ -39,7 +39,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-#page-content-container * {
-  all: initial !important;
-}
