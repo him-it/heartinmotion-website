@@ -21,8 +21,10 @@ export default async function RootLayout({
   return (
     <SessionProvider>
       <html lang="en">
-        <body className={inter.className +  "flex flex-col items-center justify-between min-h-screen"}>
-          <Navbar />
+        <body className={inter.className}>
+          <div className="flex justify-center w-full">
+            <Navbar />
+          </div>
           <Loading />
           { children }
           <footer
