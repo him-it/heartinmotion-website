@@ -196,6 +196,7 @@ const AdminEditPage = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeo
                                         <textarea 
                                             value={homeContent}
                                             disabled={isPending}
+                                            className="w-full min-h-[200px] h-auto"
                                             onChange={(e) => {
                                                 setHomeContent(e.target.value)
                                             }}
