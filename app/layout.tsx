@@ -21,7 +21,6 @@ export default async function RootLayout({
   return (
     <SessionProvider>
       <html lang="en">
-        <body className={inter.className}>
             <Navbar />
           <Loading />
           { children }

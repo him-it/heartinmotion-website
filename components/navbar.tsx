@@ -17,7 +17,7 @@ export const Navbar = () => {
 
     return (
         <nav>
-            <div className="px-4 md:mx-20 mx-5 max-w-7xl sm:px-6">
+            <div className="px-4 md:mx-20 mx-5 sm:px-6">
                 <div className="relative pt-7 pb-6 sm:pb-10">
                     <nav className="relative flex items-center justify-between sm:h-10 md:justify-center" aria-label="Global">
                         <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
@@ -116,10 +116,10 @@ export const Navbar = () => {
                                                         }
                                                         <Link onClick={()=>setActiveDropdown('')} href="/account/shifts" className="block px-4 py-3 text-gray-500 hover:text-gray-900 rounded-t-lg hover:bg-gray-100 text-center">Registered Shifts</Link>
                                                         <Link onClick={()=>setActiveDropdown('')} href="/account/hours" className="block px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 text-center">Hours Earned</Link>
-                                                        <Link onClick={()=>setActiveDropdown('')} href="/account/edit" className="block px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 text-center">Edit Info</Link>
+                                                        <Link onClick={()=>setActiveDropdown('')}href="/account/edit" className="block px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 text-center">Edit Info</Link>
                                                     </>
                                                 ) : (
-                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/register" className="block px-4 py-3 text-gray-500 hover:text-gray-900 rounded-t-lg hover:bg-gray-100 text-center">Become a Member</Link>
+                                                    <Link href="/account/register" className="block px-4 py-3 text-gray-500 hover:text-gray-900 rounded-t-lg hover:bg-gray-100 text-center">Become a Member</Link>
                                                 )
                                             }
                                             <AuthButton action="Log Out" styles='block mt-2 px-4 py-2 text-white bg-gray-900 rounded hover:bg-gray-800 w-[80%] text-center mx-auto' status={ session.status }/>
