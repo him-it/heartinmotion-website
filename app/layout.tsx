@@ -22,8 +22,8 @@ export default async function RootLayout({
     <SessionProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Navbar />
-          <Loading />
+            <Navbar />
+            <Loading />
           { children }
           <footer
             className="text-center my-5 text-gray-600 text-sm mx-auto w-4/5"
