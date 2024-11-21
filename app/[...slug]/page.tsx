@@ -24,7 +24,7 @@ const HIMPage = () => {
     }, [])
 
     return (
-        <div className="m-10">
+        <div className="m-5">
             <div id="page-content-container" className="prose prose-sm max-w-none"></div>
         </div>
     )
