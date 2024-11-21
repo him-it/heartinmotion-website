@@ -16,7 +16,7 @@ export const Navbar = () => {
     };
 
     return (
-        <nav>
+        <nav className="flex justify-center">
             <div className="px-4 md:mx-20 mx-5 max-w-7xl sm:px-6">
                 <div className="relative pt-7 pb-6 sm:pb-10">
                     <nav className="relative flex items-center justify-between sm:h-10 md:justify-center" aria-label="Global">
