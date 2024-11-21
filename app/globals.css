@@ -39,3 +39,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+#page-content-container * {
+  all: revert !important;
+}
