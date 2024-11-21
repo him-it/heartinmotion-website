@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const HIMPage = () => {
-    const path = usePathname()
+    const path = usePathname()!
     const router = useRouter()
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const HIMPage = () => {
     }, [])
 
     return (
-        <div className="mx-auto w-4/5">
+        <div className="mx-auto w-4/5 mt-5">
             <div id="page-content-container" className="prose prose-sm max-w-none"></div>
         </div>
     )

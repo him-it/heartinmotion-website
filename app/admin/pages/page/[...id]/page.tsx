@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 
 const Admin_PagePage = () => {
     const router = useRouter()
-    const { id } = useParams()
+    const { id } = useParams()!
     const [ pageData, setPageData ] = useState<Prisma.PromiseReturnType<typeof getPageById>>()
 
     const DynamicEditor = dynamic(() => import("@/components/admin/pages/editPage"), { ssr: false });
