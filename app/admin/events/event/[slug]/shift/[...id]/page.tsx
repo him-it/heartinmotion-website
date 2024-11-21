@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 
 const Admin_EventShiftPage = () => {
     const router = useRouter()
-    const { id } = useParams()
+    const { id } = useParams()!
     const [ shiftData, setShiftData ] = useState<Prisma.PromiseReturnType<typeof getShiftById>>({} as Prisma.PromiseReturnType<typeof getShiftById>) 
     const [ memberData, setMemberData ] = useState<Prisma.PromiseReturnType<typeof getMemberNames>>({} as Prisma.PromiseReturnType<typeof getMemberNames>)
 
