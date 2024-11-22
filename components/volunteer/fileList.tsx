@@ -4,7 +4,6 @@ import { getFiles } from "@/actions/volunteer/file"
 import { Prisma } from "@prisma/client"
 import Link from "next/link"
 
-
 export const FileList = ({fileData} : {fileData: Prisma.PromiseReturnType<typeof getFiles>}) => {
 
     const bufferToImg = (arrayBuffer: Buffer | null) => {
