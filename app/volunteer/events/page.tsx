@@ -1,15 +1,27 @@
-"use server"
+"use client"
 
 import { getUpcomingEvents } from "@/actions/volunteer/event"
 import { PageWrapper } from "@/components/pageWrapper"
 import { EventsList } from "@/components/volunteer/eventsList"
+import { Prisma } from "@prisma/client"
+import { useEffect, useState } from "react"
 
-const Events = async () => {
-    const eventsListData = await getUpcomingEvents()
+const Events = () => {
+    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getUpcomingEvents>>()
 
+    useEffect(() => {
+        const fetchEvents = async () => {
+            await getUpcomingEvents()
+            .then(res => {
+                if(res)
+                    setEventData([...res])
+            })
+        }
+        fetchEvents()
+    }, [])
     return (
         <PageWrapper title="Upcoming Events">
-            <EventsList eventListData={ eventsListData }></EventsList>
+            <EventsList eventListData={ eventData }></EventsList>
         </PageWrapper>
     )
 }

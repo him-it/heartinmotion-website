@@ -13,7 +13,8 @@ const Admin_EventsListPage = () => {
         const fetchEvents = async () => {
             await getEvents()
             .then(res => {
-                setEventData(res)
+                if(res)
+                    setEventData([...res])
             })
         }
         fetchEvents()
