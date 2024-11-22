@@ -1,3 +1,5 @@
+"use client"
+
 import { getEventBySlug, registerShiftSignup, deleteShiftSignup, createShift, deleteEventData } from "@/actions/admin/event";
 import { ShiftSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +13,7 @@ import { Input } from '@/components/ui/input'
 import { FormError } from '@/components/ui/formError';
 import { Button } from "@/components/ui/button";
 import { currentEventDataReport, dateRangeReport, pastEventDataReport } from "../reports/generateReports";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<typeof getEventBySlug> | undefined }) => {
     const [showPopup, setShowPopup] = useState(false);
