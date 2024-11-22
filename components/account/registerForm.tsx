@@ -84,6 +84,7 @@ export const RegisterForm = ({ email }: { email : string }) => {
 
     const onSubmit: SubmitHandler<z.infer<typeof AccountSchema>> = (data) => {
         startTransition(() => {
+            if(confirm("Once you successfully register you will be logged out and must sign back in. Are you ready?"))
             register(data)
                 .then((res) => {
                     setError(res.error)
