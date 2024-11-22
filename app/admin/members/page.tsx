@@ -12,7 +12,8 @@ const Admin_MembersListPage = () => {
         const fetchMembers = async () => {
             await getMembers()
             .then((res) => {
-                setMemberData(res)
+                if(res)
+                    setMemberData([...res])
             })
         }
         fetchMembers()
@@ -20,7 +21,7 @@ const Admin_MembersListPage = () => {
 
     return (
         <AdminPageWrapper title="Members" redirect="/admin">
-            <AdminMembersList memberData={memberData ? [...memberData] : {} as Prisma.PromiseReturnType<typeof getMembers>}></AdminMembersList>
+            <AdminMembersList memberData={memberData}></AdminMembersList>
         </AdminPageWrapper>
     )
 }
