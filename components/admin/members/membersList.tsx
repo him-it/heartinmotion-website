@@ -28,7 +28,7 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
             } else 
                 setMaxPages(memberData.length / pageLength)
         }     
-    }, [pageLength, page, search])
+    }, [pageLength, page, search, memberData])
 
     useEffect(() => {
         setPage(1)
