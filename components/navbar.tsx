@@ -181,7 +181,7 @@ export const Navbar = () => {
                                         )}
                                         {section === 'About' && (
                                             <>
-                                                <Link onClick={() => setMobileMenuOpen(false)} href="/about/about" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">About</Link>
+                                                <Link onClick={() => setMobileMenuOpen(false)} href="/about" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">About</Link>
                                                 <Link onClick={() => setMobileMenuOpen(false)} href="/about/donate" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Donate</Link>
                                                 <Link onClick={() => setMobileMenuOpen(false)} href="/about/pvsa" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">PVSA</Link>
                                                 <Link onClick={() => setMobileMenuOpen(false)} href="/about/faqs" className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">FAQs</Link>
