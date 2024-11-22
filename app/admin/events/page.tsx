@@ -10,12 +10,9 @@ const Admin_EventsListPage = () => {
     const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEvents>>()
 
     useEffect(() => {
-        console.log("what the freak")
         const fetchEvents = async () => {
-            console.log("what the freak 1")
             await getEvents()
             .then(res => {
-                console.log("what the freak 2")
                 if(res)
                     setEventData([...res])
             })
@@ -25,7 +22,7 @@ const Admin_EventsListPage = () => {
 
     return (
         <AdminPageWrapper title="Events" redirect="/admin">
-           <AdminEventsList eventsData={eventData} />
+           <AdminEventsList eventData={eventData} />
         </AdminPageWrapper>
     )
 }

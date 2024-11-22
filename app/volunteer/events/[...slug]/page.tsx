@@ -12,7 +12,7 @@ import { getRegisteredShifts, getWaitlistedShifts } from "@/actions/account/user
 
 const Events = () => {
     const router = useRouter()
-    const { slug } = useParams()
+    const { slug } = useParams()!
     const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEventBySlug>>({} as Prisma.PromiseReturnType<typeof getEventBySlug>)
     const [ registeredShiftData, setRegisteredShiftData ] = useState<Prisma.PromiseReturnType<typeof getRegisteredShifts>>()
     const [ waitlistedShiftData, setWaitlistedShiftData ] = useState<Prisma.PromiseReturnType<typeof getWaitlistedShifts>>()

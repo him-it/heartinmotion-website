@@ -3,8 +3,23 @@
 import { getEvents } from "@/actions/admin/event";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<typeof getEvents> | undefined }) => {
+const AdminEventsList = ({ eventData }: { eventData: Prisma.PromiseReturnType<typeof getEvents> | undefined }) => {
+    
+    const [ eventsData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEvents>>()
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            await getEvents()
+            .then(res => {
+                if(res)
+                    setEventData([...res])
+            })
+        }
+        fetchEvents()
+    }, [eventData])
+    
     return (
         <div className="flex flex-col items-center">
             <div className="flex space-x-4 mb-6">
