@@ -20,7 +20,7 @@ const Admin_MembersListPage = () => {
 
     return (
         <AdminPageWrapper title="Members" redirect="/admin">
-            <AdminMembersList membersData={memberData}></AdminMembersList>
+            <AdminMembersList memberData={memberData ? [...memberData] : {} as Prisma.PromiseReturnType<typeof getMembers>}></AdminMembersList>
         </AdminPageWrapper>
     )
 }
