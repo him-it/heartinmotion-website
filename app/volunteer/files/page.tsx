@@ -20,7 +20,7 @@ const FilesPage = () => {
 
     return (
         <PageWrapper title="Files">
-            <FileList fileData={JSON.parse(JSON.stringify(fileData))}></FileList>
+            <FileList fileData={fileData ? JSON.parse(JSON.stringify(fileData)) : undefined}></FileList>
         </PageWrapper>
     )
 }
