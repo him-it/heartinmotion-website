@@ -17,12 +17,18 @@ const Admin_EventsListPage = () => {
                     setEventData([...res])
             })
         }
+
         fetchEvents()
     }, [])
 
     return (
         <AdminPageWrapper title="Events" redirect="/admin">
-           <AdminEventsList eventData={eventData} />
+            {
+                eventData && eventData.map(event => (
+                    <div>{event.name}</div>
+                ))
+            }
+           <AdminEventsList eventsData={eventData} />
         </AdminPageWrapper>
     )
 }
