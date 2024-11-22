@@ -1,25 +1,30 @@
-"use server"
+"use client"
 
 import { getEvents } from "@/actions/admin/event"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import AdminEventsList from "@/components/admin/events/eventsList"
 import { Prisma } from "@prisma/client"
+import { useEffect, useState } from "react"
 
-const Admin_EventsListPage = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<typeof getEvents> }) => {
+const Admin_EventsListPage = () => {
+    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEvents>>()
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            await getEvents()
+            .then(res => {
+                setEventData(res)
+                console.log(res)
+            })
+        }
+        fetchEvents()
+    }, [])
+
     return (
         <AdminPageWrapper title="Events" redirect="/admin">
-           <AdminEventsList eventsData={eventsData} />
+           <AdminEventsList eventsData={eventData} />
         </AdminPageWrapper>
     )
-}
-
-export async function getServerSideProps() {
-    try {
-        const events = await getEvents()
-        return { props: { eventsData: events } }
-    } catch (error) {
-        return { props: { eventsData: undefined } }
-    }
 }
 
 export default Admin_EventsListPage
