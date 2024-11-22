@@ -39,7 +39,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
     const handleTabClick = (tab: 'profile' | 'club' | 'shifts') => {
         setActiveTab(tab)
     }
-
+    
     useEffect(() => {
         if(memberData && memberData.member_memberprivate) {
             profileForm.setValue("email", memberData.email)
