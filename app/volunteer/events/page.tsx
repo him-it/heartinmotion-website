@@ -14,7 +14,7 @@ const Events = () => {
             await getUpcomingEvents()
             .then(res => {
                 if(res)
-                    setEventData([...res])
+                    setEventData(res)
             })
         }
         fetchEvents()
