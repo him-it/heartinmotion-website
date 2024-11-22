@@ -4,6 +4,7 @@ import { getEventBySlug } from "@/actions/admin/event"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import AdminEventDetails from "@/components/admin/events/event/eventDetails"
 import { Prisma } from "@prisma/client"
+
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
