@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist'
 import '@ungap/with-resolvers'
 
@@ -16,6 +16,10 @@ const AdminFilesList = ({fileData} : {fileData: any[]}) => {
     const [isPending, startTransition] = useTransition()   
     const [ fileUpload, setFileUpload ] = useState<File>()
     
+    useEffect(() => {
+        GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'
+    }, [])
+
     const renderImage = async () => {
         if(fileUpload) {
             const images:any[] = []
