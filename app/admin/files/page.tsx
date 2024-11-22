@@ -22,7 +22,7 @@ const Admin_FilesListPage = () => {
 
     return (
         <AdminPageWrapper title="Files" redirect="/admin">
-            <AdminFilesList fileData={JSON.parse(JSON.stringify(fileData))}></AdminFilesList>
+            <AdminFilesList fileData={fileData ? JSON.parse(JSON.stringify(fileData)) : undefined}></AdminFilesList>
         </AdminPageWrapper>
     )
 }

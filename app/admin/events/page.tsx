@@ -23,11 +23,6 @@ const Admin_EventsListPage = () => {
 
     return (
         <AdminPageWrapper title="Events" redirect="/admin">
-            {
-                eventData && eventData.map(event => (
-                    <div>{event.name}</div>
-                ))
-            }
            <AdminEventsList eventsData={eventData} />
         </AdminPageWrapper>
     )
