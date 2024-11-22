@@ -12,8 +12,7 @@ const Admin_MembersListPage = () => {
         const fetchMembers = async () => {
             await getMembers()
             .then((res) => {
-                if(res)
-                    setMemberData([...res])
+                setMemberData(res)
             })
         }
         fetchMembers()
