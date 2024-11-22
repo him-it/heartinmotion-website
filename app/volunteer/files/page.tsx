@@ -6,7 +6,7 @@ import { FileList } from "@/components/volunteer/fileList"
 import { Prisma } from "@prisma/client"
 import { useEffect, useState } from "react"
 
-const FilesPage = async () => {
+const FilesPage = () => {
     const [fileData, setFileData] = useState<Prisma.PromiseReturnType<typeof getFiles>>()
     useEffect(() => {
         const fetchFiles = async () => {

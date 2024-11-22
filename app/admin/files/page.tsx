@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 import { getFiles } from "@/actions/volunteer/file"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
@@ -6,7 +6,7 @@ import AdminFilesList from "@/components/admin/files/filesList"
 import { Prisma } from "@prisma/client"
 import { useEffect, useState } from "react"
 
-const Admin_FilesListPage = async () => {
+const Admin_FilesListPage = () => {
     const [fileData, setFileData] = useState<Prisma.PromiseReturnType<typeof getFiles>>()
     useEffect(() => {
         const fetchFiles = async () => {
@@ -17,7 +17,7 @@ const Admin_FilesListPage = async () => {
         }
         fetchFiles()
     }, [])
-    
+
     return (
         <AdminPageWrapper title="Files" redirect="/admin">
             <AdminFilesList fileData={JSON.parse(JSON.stringify(fileData))}></AdminFilesList>
