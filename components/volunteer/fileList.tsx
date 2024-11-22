@@ -1,3 +1,5 @@
+"use client"
+
 import { getFiles } from "@/actions/volunteer/file"
 import { Prisma } from "@prisma/client"
 import Link from "next/link"
