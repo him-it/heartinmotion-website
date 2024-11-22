@@ -6,7 +6,7 @@ import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { weeklyUpdateReport } from "../events/reports/generateReports";
 
-const AdminMembersList = ({ membersData } : { membersData : Prisma.PromiseReturnType<typeof getMembers> }) => {
+const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnType<typeof getMembers> }) => {
     const [ loadedData, setLoadedData ] = useState<Prisma.PromiseReturnType<typeof getMembers>>([])
     const [ page, setPage ] = useState<number>(1)
     const [ pageLength, setPageLength ] = useState<number>(100)
@@ -14,12 +14,6 @@ const AdminMembersList = ({ membersData } : { membersData : Prisma.PromiseReturn
     const [ maxPages, setMaxPages ] = useState<number>(1)
     const [ fromTime, setFromTime ] = useState<Date>()
     const [ toTime, setToTime ] = useState<Date>()
-
-    const [memberData, setMemberData] = useState<Prisma.PromiseReturnType<typeof getMembers>>()
-
-    useEffect(() => {
-        setMemberData(membersData)
-    }, [membersData])
 
     useEffect(() => {
         if(memberData) {
