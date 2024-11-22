@@ -23,7 +23,7 @@ export const Navbar = () => {
                         <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
                             <div className="flex items-center justify-between w-full md:w-auto">
                                 <Link href="/"><span className="sr-only">Heart in Motion</span>
-                                    <img className="w-auto h-16 sm:h-24" src="/assets/logo.png" loading="lazy" width="202" height="40" />
+                                    <img className="w-auto h-16 sm:h-24" src="/assets/logo.png" width="202" height="40" />
                                 </Link>
                                 <div className="flex items-center -mr-2 md:hidden">
                                     <button
@@ -150,7 +150,7 @@ export const Navbar = () => {
                     <div className="flex justify-center relative group">
                         <Link onClick={() => setMobileMenuOpen(false)} href="/home">
                             <span className="sr-only" >Heart in Motion</span>
-                            <img className="w-auto h-36 sm:h-38" src="/assets/logo.png" loading="lazy" width="202" height="40" alt="Heart in Motion Logo" />
+                            <img className="w-auto h-36 sm:h-38" src="/assets/logo.png" width="202" height="40" alt="Heart in Motion Logo" />
                         </Link>
                     </div>
                     <div className="flex flex-col space-y-6">
