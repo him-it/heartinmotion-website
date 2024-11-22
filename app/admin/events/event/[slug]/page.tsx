@@ -4,12 +4,14 @@ import { getEventBySlug } from "@/actions/admin/event"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import AdminEventDetails from "@/components/admin/events/event/eventDetails"
 import { Prisma } from "@prisma/client"
+import { useSession } from "next-auth/react"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 const Admin_EventDetailsPage = () => {
     const router = useRouter()
     const { slug } = useParams()!
+    const session = useSession();
     const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEventBySlug>>({} as Prisma.PromiseReturnType<typeof getEventBySlug>) 
 
     useEffect(() => {
@@ -24,7 +26,7 @@ const Admin_EventDetailsPage = () => {
         }
 
         fetchEvent()
-    }, [])
+    }, [session])
 
     return (
         <AdminPageWrapper title={ eventData?.name ? eventData.name : "Loading..." } redirect="/admin/events">
