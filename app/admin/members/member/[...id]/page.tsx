@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 
 const Admin_MemberDetailsPage = () => {
     const router = useRouter()
-    const { id } = useParams()
+    const { id } = useParams()!
     const [ memberData, setMemberData ] = useState<Prisma.PromiseReturnType<typeof getMemberById>>()
 
     useEffect(() => {
