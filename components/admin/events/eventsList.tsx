@@ -3,7 +3,6 @@
 import { getEvents } from "@/actions/admin/event";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<typeof getEvents> | undefined }) => {
     return (

@@ -1,7 +1,7 @@
 import { getEventBySlug, registerShiftSignup, deleteShiftSignup, createShift, deleteEventData } from "@/actions/admin/event";
 import { ShiftSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { events_event, events_eventshift, events_eventsignup, member_member, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { FormError } from '@/components/ui/formError';
 import { Button } from "@/components/ui/button";
 import { currentEventDataReport, dateRangeReport, pastEventDataReport } from "../reports/generateReports";
+import { useRouter } from "next/router";
 
 const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<typeof getEventBySlug> | undefined }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -21,6 +22,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
     const [isPending, startTransition] = useTransition() 
     const [ fromTime, setFromTime ] = useState<Date>()
     const [ toTime, setToTime ] = useState<Date>()
+    const router = useRouter()
 
     const handleViewClick = (shiftSignup: any) => {
         setSelectedShift(shiftSignup);
@@ -82,7 +84,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
             if(eventData?.id) {
                 deleteEventData(eventData.id)
                 .then(() => {
-                    window.location.replace("/admin/events")
+                    router.push("/admin/events")
                 })
                 .catch(() => {
                     setError("An unexpected error occured.")
