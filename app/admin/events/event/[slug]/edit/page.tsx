@@ -10,7 +10,7 @@ const Admin_EventDetailsEditPage = () => {
     const DynamicEditor = dynamic(() => import("@/components/admin/events/event/editEvent"), { ssr: false });
     
     const router = useRouter()
-    const { slug } = useParams()
+    const { slug } = useParams()!
     const [ eventData, setEventData ] = useState<events_event>({} as events_event) 
 
     useEffect(() => {
