@@ -132,6 +132,12 @@ const AdminFilesList = ({fileData} : {fileData: any[]}) => {
                       </div>
                     ))
                 }
+                {
+                    !fileData && 
+                    <div className="flex justify-center items-center w-full h-full col-span-4 text-gray-500">
+                        Loading files...
+                    </div>
+                }
             </ul>
         </div>
     )

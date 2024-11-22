@@ -33,6 +33,12 @@ export const FileList = ({fileData} : {fileData: Prisma.PromiseReturnType<typeof
                         </li>
                     ))
                 }
+                {
+                    !fileData && 
+                    <div className="flex justify-center items-center w-full h-full col-span-4 text-gray-500">
+                        Loading files...
+                    </div>
+                }
             </ul>
         </div>
     )
