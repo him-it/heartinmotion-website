@@ -4,7 +4,7 @@ import { getUpcomingEvents } from "@/actions/volunteer/event"
 import { Prisma } from "@prisma/client"
 import Link from "next/link"
 
-export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseReturnType<typeof getUpcomingEvents> }) => {
+export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseReturnType<typeof getUpcomingEvents> | undefined }) => {
     return (
         <div className="p-5 max-w-lg mx-auto">
             {
