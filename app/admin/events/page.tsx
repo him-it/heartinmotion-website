@@ -14,7 +14,7 @@ const Admin_EventsListPage = () => {
             await getEvents()
             .then(res => {
                 if(res)
-                    setEventData([...res])
+                    setEventData(res)
             })
         }
 
