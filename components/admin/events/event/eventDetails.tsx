@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input'
 import { FormError } from '@/components/ui/formError';
 import { Button } from "@/components/ui/button";
 import { currentEventDataReport, dateRangeReport, pastEventDataReport } from "../reports/generateReports";
-import { useRouter } from "next/navigation";
 
 const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<typeof getEventBySlug> | undefined }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -24,7 +23,6 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
     const [isPending, startTransition] = useTransition() 
     const [ fromTime, setFromTime ] = useState<Date>()
     const [ toTime, setToTime ] = useState<Date>()
-    const router = useRouter()
 
     const handleViewClick = (shiftSignup: any) => {
         setSelectedShift(shiftSignup);
@@ -86,7 +84,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
             if(eventData?.id) {
                 deleteEventData(eventData.id)
                 .then(() => {
-                    router.push("/admin/events")
+                    window.location.replace("/admin/events")
                 })
                 .catch(() => {
                     setError("An unexpected error occured.")

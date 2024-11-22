@@ -11,7 +11,7 @@ import { useEffect, useState } from "react"
 const Admin_EventDetailsPage = () => {
     const router = useRouter()
     const { slug } = useParams()!
-    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEventBySlug>>({} as Prisma.PromiseReturnType<typeof getEventBySlug>) 
+    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEventBySlug>>() 
 
     useEffect(() => {
         const fetchEvent = async () => {

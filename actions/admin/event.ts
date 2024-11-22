@@ -358,7 +358,7 @@ export const deleteShiftData = async (id: number) => {
 
 export const deleteEventData = async (id: number) => {
     try {
-        db.$transaction([
+        await db.$transaction([
             db.events_eventsignup_shifts.deleteMany({
                 where: {
                     events_eventshift: {
