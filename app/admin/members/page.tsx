@@ -7,7 +7,7 @@ import { Prisma } from "@prisma/client"
 import { useEffect, useState } from "react"
 
 const Admin_MembersListPage = () => {
-    const [memberData, setMemberData] = useState<Prisma.PromiseReturnType<typeof getMembers>>({} as Prisma.PromiseReturnType<typeof getMembers>)
+    const [memberData, setMemberData] = useState<Prisma.PromiseReturnType<typeof getMembers>>()
     useEffect(() => {
         const fetchMembers = async () => {
             await getMembers()
