@@ -6,7 +6,6 @@ import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from "@/components/ui/input";
 import { FormError } from "@/components/ui/formError";
 import { Button } from "@/components/ui/button";
 import { AddManagerSchema } from "@/schemas";
@@ -14,7 +13,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export const AdminManagerList = ({ managerData, memberData } : { managerData: Prisma.PromiseReturnType<typeof getManagers>, memberData: Prisma.PromiseReturnType<typeof getMemberNames> }) => {
+export const AdminManagerList = ({ managerData, memberData } : { managerData: Prisma.PromiseReturnType<typeof getManagers> | undefined, memberData: Prisma.PromiseReturnType<typeof getMemberNames> | undefined}) => {
     const [isPending, startTransition] = useTransition() 
     const [addMemberError, setAddMemberError] = useState<string | undefined>(undefined)
     

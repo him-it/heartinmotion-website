@@ -9,10 +9,10 @@ import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 
 const Admin_ManagersListPage = () => {
-    const [memberData, setMemberData] = useState<Prisma.PromiseReturnType<typeof getMemberNames>>({} as Prisma.PromiseReturnType<typeof getMemberNames>)
-    const [managerData, setManagerData] = useState<Prisma.PromiseReturnType<typeof getManagers>>({} as Prisma.PromiseReturnType<typeof getManagers>)
+    const [memberData, setMemberData] = useState<Prisma.PromiseReturnType<typeof getMemberNames>>()
+    const [managerData, setManagerData] = useState<Prisma.PromiseReturnType<typeof getManagers>>()
     const session = useSession();
-    
+
     useEffect(() => {
         const fetchData = async () => {
             await getManagers()
