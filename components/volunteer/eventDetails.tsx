@@ -100,7 +100,7 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
                             <div key={key} className="mb-4 border rounded-lg shadow-md p-4 bg-white">
                                 <h3 className="text-red-600 font-semibold text-lg">{shift.description}</h3>
                                 <div className="mt-1 text-gray-700">{shift.start_time.toLocaleDateString('en-US', { timeZone:'UTC', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
-                                <div className="mt-1 text-gray-600">{ shift.start_time.toLocaleTimeString('en-US', { timeZone:'UTC', hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { timeZone:'UTC',  hour: 'numeric', minute: 'numeric', hour12: true })}</div>
+                                <div className="mt-1 text-gray-600">{ shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div>
                                 <div className="mt-1 text-gray-600">{shift.location}</div>
                                 <div className="mt-1 text-gray-600"><span className="font-bold">{shift.spots - shift.events_eventshiftmember.length}</span><span> spots left</span></div>
                                 { registeredShiftData && waitlistedShiftData && session.data?.user.admin_level !== undefined &&

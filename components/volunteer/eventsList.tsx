@@ -25,7 +25,7 @@ export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseRe
                                         {shift.start_time.toLocaleDateString('en-US', { timeZone:'UTC',  weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                                     </p>
                                     <p className="text-gray-600 text-sm">
-                                        {shift.start_time.toLocaleTimeString('en-US', { timeZone:'UTC',  hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { timeZone:'UTC', hour: 'numeric', minute: 'numeric', hour12: true })}
+                                        {shift.start_time.toLocaleTimeString('en-US', {   hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
                                     </p>
                                 </div>
                             ))}

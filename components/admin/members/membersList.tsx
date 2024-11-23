@@ -235,7 +235,7 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                                         <div className="flex items-center h-full">{member.emergency_contact_phone}</div>
                                     </td>
                                     <td className="border border-gray-300 p-2 text-sm md:text-base max-w-[150px] overflow-auto whitespace-nowrap">
-                                        <div className="flex items-center h-full">{member.emergency_contact_dob.toLocaleDateString()}</div>
+                                        <div className="flex items-center h-full">{member.emergency_contact_dob.toLocaleDateString('en-US', {timeZone: 'UTC'})}</div>
                                     </td>
                                     <td className="border border-gray-300 p-2 text-sm md:text-base max-w-[350px] overflow-auto whitespace-nowrap">
                                         <div className="flex items-center h-full">{member.twitter_url}</div>
