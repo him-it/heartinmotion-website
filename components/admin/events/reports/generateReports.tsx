@@ -36,7 +36,7 @@ export const dateRangeReport = async (start: Date, end: Date, event_id: number, 
                 '',
                 '',
                 new Date(shift.start_time.getTime() - 30 * 60 * 1000).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}),
-                shift.start_time.toLocaleDateString('en-US', {timeZone: 'UTC'}),
+                shift.start_time.toLocaleDateString('en-US'),
                 shift.description,
                 shift.start_time.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}) + ' - ' + shift.end_time.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}),
                 member.member_member.member_memberprivate?.member_type,
@@ -89,7 +89,7 @@ export const weeklyUpdateReport = async (start: Date, end: Date) => {
     const worksheet = workbook.getWorksheet(worksheetName)!
 
     const title = worksheet.getCell('A1')
-    title.value = "Members (Generated on " + new Date().toLocaleString('en-US', { timeZone:'UTC'}) +")"
+    title.value = "Members (Generated on " + new Date().toLocaleString('en-US') +")"
     title.font = { bold: true }
     worksheet.mergeCells('A1:AJ1')
 
@@ -163,7 +163,7 @@ export const yearlyEventReport = async () => {
 
         filteredEvents.map(event => {
             const dataArray = [
-                event.events_eventshift[0].start_time.toLocaleDateString('en-US', { timeZone:'UTC' }) + " - " + event.events_eventshift[event.events_eventshift.length - 1].start_time.toLocaleDateString('en-US', { timeZone:'UTC'}),
+                event.events_eventshift[0].start_time.toLocaleDateString('en-US') + " - " + event.events_eventshift[event.events_eventshift.length - 1].start_time.toLocaleDateString('en-US'),
                 event.name,
                 event.events_eventshift.reduce((acc, shift) => acc + shift.events_eventshiftmember.reduce((acc, member) => acc + member.hours, 0), 0),
                 event.events_eventshift.reduce((acc, shift) => acc + shift.events_eventshiftmember.length, 0),
@@ -396,7 +396,7 @@ export const pastEventDataReport = async (id: number) => {
                 '',
                 '',
                 new Date(shift.start_time.getTime() - 30 * 60 * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true}),
-                shift.start_time.toLocaleDateString('en-US', { timeZone:'UTC'}),
+                shift.start_time.toLocaleDateString('en-US'),
                 shift.description,
                 shift.start_time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', {  hour: '2-digit', minute: '2-digit', hour12: true }),
                 member.member_member.member_memberprivate?.member_type,
@@ -499,7 +499,7 @@ export const lifetimeReport = async (id: number) => {
             shift.events_eventshift.events_event.name,
             shift.events_eventshift.id,
             shift.events_eventshift.description,
-            shift.events_eventshift.start_time.toLocaleDateString('en-US', {timeZone: 'UTC'}),
+            shift.events_eventshift.start_time.toLocaleDateString('en-US'),
             shift.events_eventshift.start_time.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}),
             shift.events_eventshift.end_time.toLocaleTimeString('en-US', { hour: '2-digit', minute:'2-digit'}),
             lifetimeData.school,
