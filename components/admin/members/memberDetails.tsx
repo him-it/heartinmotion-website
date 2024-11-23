@@ -1074,7 +1074,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                     updatedData.events_eventshiftmember.map((shift, key) => (
                                                         <tr key={key} className="hover:bg-gray-50 border-solid border-2 border-gray-100">
                                                             <td className="p-3 text-gray-700">
-                                                                {shift.events_eventshift.start_time.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' }) + " (" + shift.events_eventshift.start_time.toLocaleString('en-US', { weekday: 'short' }) + ")"}
+                                                                {shift.events_eventshift.start_time.toLocaleDateString('en-US', { timeZone:'UTC', day: '2-digit', month: '2-digit', year: 'numeric' }) + " (" + shift.events_eventshift.start_time.toLocaleString('en-US', { timeZone:'UTC',  weekday: 'short' }) + ")"}
                                                             </td>
                                                             <td className="p-3 text-gray-700">
                                                                 <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug} className="text-red-800 hover:text-amber-950 hover:underline">{shift.events_eventshift.events_event.name}</Link>
