@@ -14,6 +14,9 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                 <Link href="/admin/active-events" className="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
                     Active Events
                 </Link>
+                <Link href="/admin/events/seasons" className="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
+                    Seasons
+                </Link>
                 <Link href="/admin/events/new" className="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
                     New
                 </Link>
