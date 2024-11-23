@@ -41,7 +41,12 @@ export const getMembers = async () => {
                 }
             ],
             include: {
-                events_eventshiftmember: true
+                events_eventshiftmember: true,
+                member_memberprivate: {
+                    select: {
+                        extra_hours: true
+                    }
+                }
             }
         })
 
