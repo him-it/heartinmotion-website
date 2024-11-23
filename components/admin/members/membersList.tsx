@@ -190,7 +190,7 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                                         <div className="flex items-center h-full">{member.friends}</div>
                                     </td>
                                     <td className="border border-gray-300 p-2 text-sm md:text-base max-w-[100px] overflow-auto whitespace-nowrap">
-                                        <div className="flex items-center h-full">{member.events_eventshiftmember.reduce((sum, shift) => shift.hours + sum, 0) + (member.member_memberprivate ? member.member_memberprivate?.extra_hours : 0)}</div>
+                                        <div className="flex items-center h-full">{member.events_eventshiftmember.filter(shift => shift.completed).reduce((sum, shift) => shift.hours + sum, 0) + (member.member_memberprivate ? member.member_memberprivate?.extra_hours : 0)}</div>
                                     </td>
                                     <td className="border border-gray-300 p-2 text-sm md:text-base max-w-[150px] overflow-auto whitespace-nowrap">
                                         <div className="flex items-center h-full">{member.id}</div>
