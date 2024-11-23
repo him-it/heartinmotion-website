@@ -192,7 +192,9 @@ const AdminShiftDetails = ({ shiftData, memberData }: { shiftData: Prisma.Promis
                 description: shiftData.description,
                 location: shiftData.location,
                 spots: shiftData.spots,
-                start_time: new Date(shiftData.start_time.getTime() + new Date().getTimezoneOffset() * -60 * 1000).toISOString().slice(0, 19),
+                start_time: new Date(shiftData.start_time.getTime() + new Date().getTimezoneOffset() * -60 * 1000).toLocaleString('en-US', {
+                    hour: 'numeric', minute: 'numeric', hour12: true
+                  }),
                 end_time: new Date(shiftData.end_time.getTime() + new Date().getTimezoneOffset() * -60 * 1000).toISOString().slice(0, 19)
             });
         }
@@ -228,8 +230,8 @@ const AdminShiftDetails = ({ shiftData, memberData }: { shiftData: Prisma.Promis
                         <div className="flex-2 p-4">
                             <h2 className="text-lg font-semibold text-gray-700 mb-4">Shift Details</h2>
                             <h3>{updatedData.description}</h3>
-                            <p>{updatedData.start_time && updatedData.start_time.toLocaleDateString('en', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                            <p>{updatedData.start_time && updatedData.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} - {updatedData.end_time && updatedData.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                            <p>{updatedData.start_time && updatedData.start_time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                            <p>{updatedData.start_time && updatedData.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} - {updatedData.end_time && updatedData.end_time.toLocaleTimeString('en-US', { timeZone:'UTC', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                             <p>{updatedData.location}</p>
                             <div className="mt-5 font-bold">
                                 {updatedData.events_eventshiftmember?.length >= updatedData.spots ? (
