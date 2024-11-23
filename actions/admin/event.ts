@@ -94,6 +94,9 @@ export const getSeasons = async () => {
                         }
                     }
                 }
+            },
+            orderBy: {
+                season: 'asc'
             }
         })
         return seasons
