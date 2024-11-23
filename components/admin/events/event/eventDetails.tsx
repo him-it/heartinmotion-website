@@ -218,7 +218,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                                 </Link>
                                             </td>
                                             <td className="border border-gray-300 p-2">{shift.start_time.toLocaleDateString('en-US', { timeZone:'UTC',  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                                            <td className="border border-gray-300 p-2">{shift.start_time.toLocaleTimeString('en-US', { timeZone:'UTC',  hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { timeZone:'UTC', hour: 'numeric', minute: 'numeric', hour12: true })}</td>
+                                            <td className="border border-gray-300 p-2">{shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</td>
                                             <td className="border border-gray-300 p-2">{shift.location}</td>
                                             <td className="border border-gray-300 p-2">{shift.spots - shift.events_eventshiftmember.length}</td>
                                             <td className="border border-gray-300 p-2">{shift.events_eventshiftmember.length}</td>
