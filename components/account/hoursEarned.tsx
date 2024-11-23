@@ -22,8 +22,8 @@ const HoursEarned = ({shiftData} : {shiftData: Prisma.PromiseReturnType<typeof g
                                     <tr key={key} className="border-b hover:bg-gray-50">
                                         <td className="border border-gray-300 p-1 md:p-2 text-sm md:text-base">
                                             <div>
-                                                <div>{shift.events_eventshift.start_time.toLocaleDateString('en', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                                                <div>{shift.events_eventshift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.events_eventshift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div>
+                                                <div>{shift.events_eventshift.start_time.toLocaleDateString('en-US', { timeZone:'UTC',  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                                                <div>{shift.events_eventshift.start_time.toLocaleTimeString('en-US', { timeZone:'UTC',  hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.events_eventshift.end_time.toLocaleTimeString('en-US', { timeZone:'UTC', hour: 'numeric', minute: 'numeric', hour12: true })}</div>
                                             </div>
                                         </td>
                                         <td className="border border-gray-300 p-1 md:p-2 text-sm md:text-base">
