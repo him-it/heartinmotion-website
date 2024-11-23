@@ -5,6 +5,7 @@ import * as z from 'zod'
 import { db } from "@/lib/db"
 import { AddMemberSchema, EventSchema, ShiftSchema } from '@/schemas'
 import { events_eventshift } from '@prisma/client'
+import { connect } from 'http2'
 
 export const getEventBySlug = async (slug: string) => {
     try {
@@ -81,11 +82,14 @@ export const getSeasons = async () => {
         const seasons = await db.events_eventseason.findMany({
             select: {
                 season: true,
+                n_required_active_events: true,
                 events_eventseason_active_events: {
                     select: {
+                        id: true,
                         events_event: {
                             select: {
-                                name: true
+                                name: true,
+                                id: true
                             }
                         }
                     }
@@ -451,4 +455,78 @@ export const createEvent = async (data: z.infer<typeof EventSchema>, content: st
     })
 
     return { success: "Saved!" }
+}
+
+export const updateActiveSeasonEvents = async (createActive : {event_id: number, eventseason_id: number}[], deleteActive: number[], season: number, n_required_active_events?: number) => {
+    try {
+        await db.$transaction([
+            db.events_eventseason.update({
+                where: {
+                    season
+                },
+                data:{
+                    n_required_active_events
+                }
+            }),
+            db.events_eventseason_active_events.createMany({
+                data: [
+                    ...createActive
+                ]
+            }),
+            db.events_eventseason_active_events.deleteMany({
+                where: {
+                    id: {
+                        in: deleteActive
+                    }
+                }
+            })
+        ])
+        return { success: "Saved!" }
+    } catch {
+        return {error: "An unexpected error occured."}
+    }
+}
+
+export const createSeason = async (season: number, n_required_active_events: number, createActive : {event_id: number, eventseason_id: number}[]) => {
+    try {
+        await db.events_eventseason.create({
+            data: {
+                season,
+                n_required_active_events
+            }
+        })
+        .then(async () => {
+            await db.events_eventseason_active_events.createMany({
+                data: [
+                    ...createActive
+                ]
+            })
+        })
+
+        return { success: "Saved!" }
+    }
+    catch {
+        return {error: "An unexpected error occured."}
+    }
+}
+
+export const deleteSeason = async (season: number) => {
+    try {
+        await db.$transaction([
+            db.events_eventseason_active_events.deleteMany({
+                where: {
+                    eventseason_id: season
+                }
+            }),
+            db.events_eventseason.delete({
+                where: {
+                    season
+                }
+            })
+        ])
+        return { success: "Deleted!" }
+    }
+    catch {
+        return {error: "An unexpected error occured."}
+    }
 }
