@@ -99,13 +99,13 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
                     {eventDetailData && eventDetailData.events_eventshift && eventDetailData.events_eventshift.filter(shift => shift.start_time > new Date()).map((shift, key) => (
                             <div key={key} className="mb-4 border rounded-lg shadow-md p-4 bg-white">
                                 <h3 className="text-red-600 font-semibold text-lg">{shift.description}</h3>
-                                <div className="mt-1 text-gray-700">{shift.start_time.toLocaleDateString('en-US', { timeZone:'UTC', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                                <div className="mt-1 text-gray-700">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
                                 <div className="mt-1 text-gray-600">{ shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div>
                                 <div className="mt-1 text-gray-600">{shift.location}</div>
-                                <div className="mt-1 text-gray-600"><span className="font-bold">{shift.spots - shift.events_eventshiftmember.length}</span><span> spots left</span></div>
+                                <div className="mt-1 text-gray-600"><span className="font-bold">{(shift.spots - shift.events_eventshiftmember.length >= 0) ? (shift.spots - shift.events_eventshiftmember.length) : 0}</span><span> spots left</span></div>
                                 { registeredShiftData && waitlistedShiftData && session.data?.user.admin_level !== undefined &&
                                     <div>
-                                        { registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && 
+                                        { registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && (shift.spots - shift.events_eventshiftmember.length) > 0 &&
                                             <Button
                                                 type="button"
                                                 onClick={() => handleRegisterClick({description: shift.description, id: shift.id})}
@@ -119,6 +119,10 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
                                         }
                                         { waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length > 0 && registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 &&
                                             <div className='mt-3 text-gray-600 bg-yellow-300'>You are on the waitlist.</div>                       
+                                        }
+                                        {
+                                            registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && (shift.spots - shift.events_eventshiftmember.length) <= 0 &&
+                                            <div className='mt-3 text-gray-600'>There no available spots in this shift.</div>       
                                         }
                                     </div>
                                 }
