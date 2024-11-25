@@ -122,7 +122,7 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
                                         }
                                         {
                                             registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && (shift.spots - shift.events_eventshiftmember.length) <= 0 &&
-                                            <div className='mt-3 text-gray-600'>This shift is full.</div>       
+                                            <div className='mt-3 text-gray-600'>There no available spots in this shift.</div>       
                                         }
                                     </div>
                                 }
