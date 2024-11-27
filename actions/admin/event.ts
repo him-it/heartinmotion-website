@@ -213,8 +213,8 @@ export const createShift = async (data: z.infer<typeof ShiftSchema>) => {
             data: {
                 description: data.description,
                 location: data.location,
-                start_time: new Date(data.start_time).toISOString(),
-                end_time: new Date(data.end_time).toISOString(),
+                start_time: new Date(data.start_time),
+                end_time: new Date(data.end_time),
                 spots: data.spots,
                 events_event: {
                     connect: {id: data.event_id}
@@ -235,8 +235,8 @@ export const updateShift = async (data: z.infer<typeof ShiftSchema>, id: number)
             data: {
                 description: data.description,
                 location: data.location,
-                start_time: new Date(data.start_time).toISOString(),
-                end_time: new Date(data.end_time).toISOString(),
+                start_time: new Date(data.start_time),
+                end_time: new Date(data.end_time),
                 spots: data.spots
             }
         })

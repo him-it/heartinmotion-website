@@ -192,8 +192,8 @@ const AdminShiftDetails = ({ shiftData, memberData }: { shiftData: Prisma.Promis
                 description: shiftData.description,
                 location: shiftData.location,
                 spots: shiftData.spots,
-                start_time: new Date(shiftData.start_time.getTime()).toISOString().slice(0, 19),
-                end_time: new Date(shiftData.end_time.getTime()).toISOString().slice(0, 19)
+                start_time: new Date(shiftData.start_time.getTime() + new Date().getTimezoneOffset() * -60 * 1000).toISOString().slice(0, 19),
+                end_time: new Date(shiftData.end_time.getTime() + new Date().getTimezoneOffset() * -60 * 1000).toISOString().slice(0, 19)
             });
         }
     }, [shiftData, form])
