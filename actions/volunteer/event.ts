@@ -9,7 +9,7 @@ export const getUpcomingEvents = async () => {
                 events_eventshift: {
                     some: {
                         start_time: {
-                            gte: new Date()
+                            gte: new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
                         }
                     }
                 }
@@ -21,7 +21,7 @@ export const getUpcomingEvents = async () => {
                 events_eventshift: {
                     where: {
                         start_time: {
-                            gte: new Date()
+                            gte: new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
                         }
                     },
                     select: {
