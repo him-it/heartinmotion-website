@@ -235,8 +235,8 @@ export const updateShift = async (data: z.infer<typeof ShiftSchema>, id: number)
             data: {
                 description: data.description,
                 location: data.location,
-                start_time: new Date(new Date(data.start_time).getTime() + new Date().getTimezoneOffset() * -60 * 1000).toISOString(),
-                end_time: new Date(new Date(data.end_time).getTime() + new Date().getTimezoneOffset() * -60 * 1000).toISOString(),
+                start_time: new Date(new Date(data.start_time).getTime() + new Date().getTimezoneOffset() * 60 * 1000).toISOString(),
+                end_time: new Date(new Date(data.end_time).getTime() + new Date().getTimezoneOffset() * 60 * 1000).toISOString(),
                 spots: data.spots
             }
         })
