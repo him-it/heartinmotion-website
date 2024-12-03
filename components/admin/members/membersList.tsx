@@ -23,8 +23,8 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
             else
                 setLoadedData(memberData.slice(pageLength*(page-1)))
             if(search != '') {
-                setLoadedData(memberData.filter(member => (member.first_name + " " + member.last_name).toLowerCase() === search.toLowerCase() || JSON.stringify(member).toLowerCase().includes(search.toLowerCase())))  
-                setMaxPages(memberData.filter(member => (member.first_name + " " + member.last_name).toLowerCase() === search.toLowerCase() || JSON.stringify(member).includes(search.toLowerCase())).length / pageLength)
+                setLoadedData(memberData.filter(member => (member.first_name + " " + member.last_name).toLowerCase().includes(search.toLowerCase()) || JSON.stringify(member).toLowerCase().includes(search.toLowerCase())))  
+                setMaxPages(memberData.filter(member => (member.first_name + " " + member.last_name).toLowerCase().includes(search.toLowerCase()) || JSON.stringify(member).includes(search.toLowerCase())).length / pageLength)
             } else 
                 setMaxPages(memberData.length / pageLength)
         }     
