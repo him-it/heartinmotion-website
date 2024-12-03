@@ -153,12 +153,12 @@ export const deleteMemberPermanent = async (member_id: number) => {
                     member_id
                 }
             }),
-            db.member_memberrestricted.delete({
+            db.member_memberrestricted.deleteMany({
                 where: {
                     member_id
                 }
             }),
-            db.member_memberprivate.delete({
+            db.member_memberprivate.deleteMany({
                 where: {
                     member_id
                 }
