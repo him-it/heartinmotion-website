@@ -172,16 +172,7 @@ export const deleteMemberPermanent = async (member_id: number) => {
 
         return { success: "Successfully deleted member." }
     } catch {
-        try {
-            await db.member_member.delete({
-                where: {
-                    id: member_id
-                }
-            })
-            return { success: "Successfully deleted member." }
-        } catch {
-            return { error: "An unexpected error occured." }
-        }
+        return { error: "An unexpected error occured." }
     }
 }
 
