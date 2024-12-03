@@ -29,6 +29,7 @@ export const EditForm = ({ user }: { user : z.infer<typeof AccountSchema> | any 
 
     useEffect(() => {
         if(user) {
+            form.setValue("id", user.id || NaN)
             form.setValue("email", user.email || '');
             form.setValue("first_name", user.first_name || '');
             form.setValue("last_name", user.last_name || '');
@@ -79,7 +80,8 @@ export const EditForm = ({ user }: { user : z.infer<typeof AccountSchema> | any 
     const form = useForm<z.infer<typeof AccountSchema>>({
         resolver: zodResolver(AccountSchema),
         
-        defaultValues: { 
+        defaultValues: {
+            id: NaN,
             email: '',
             first_name: '',
             last_name: '',

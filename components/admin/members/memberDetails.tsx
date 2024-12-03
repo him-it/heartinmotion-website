@@ -42,6 +42,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
     
     useEffect(() => {
         if(memberData && memberData.member_memberprivate) {
+            profileForm.setValue("id", memberData.id)
             profileForm.setValue("email", memberData.email)
             profileForm.setValue("first_name", memberData.first_name)
             profileForm.setValue("last_name", memberData.last_name)
@@ -116,6 +117,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
     const profileForm = useForm<z.infer<typeof AccountSchema>>({
         resolver: zodResolver(AccountSchema),
         defaultValues: {
+            id: 0,
             email: '',
             first_name: '',
             last_name: '',

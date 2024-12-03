@@ -11,11 +11,11 @@ export const edit = async (data: z.infer<typeof AccountSchema>) => {
     if(!validatedFields.success)
         return { error: "Invalid fields!" }
 
-    const { email, graduating_year } = data
+    const { id, graduating_year } = data
 
     await db.member_member.update({
         where: {
-            email
+            id
         },
         data: {
             ...data,
