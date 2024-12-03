@@ -41,7 +41,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
     }
     
     useEffect(() => {
-        if(memberData && memberData.member_memberprivate) {
+        if(memberData) {
             profileForm.setValue("id", memberData.id)
             profileForm.setValue("email", memberData.email)
             profileForm.setValue("first_name", memberData.first_name)
@@ -65,22 +65,24 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
             profileForm.setValue("emergency_contact_phone", memberData.emergency_contact_phone)
             profileForm.setValue("emergency_contact_dob", memberData.emergency_contact_dob)
             profileForm.setValue("twitter_url", memberData.twitter_url)
-
-            clubForm.setValue("start_date", memberData.member_memberprivate.start_date)
-            clubForm.setValue("member_type", memberData.member_memberprivate.member_type)
-            clubForm.setValue("in_him_group", memberData.member_memberprivate.in_him_group)
-            clubForm.setValue("in_him_crew_group", memberData.member_memberprivate.in_him_crew_group)
-            clubForm.setValue("has_lanyard", memberData.member_memberprivate.has_lanyard)
-            clubForm.setValue("has_name_badge", memberData.member_memberprivate.has_name_badge)
-            clubForm.setValue("has_crew_neck", memberData.member_memberprivate.has_crew_neck)
-            clubForm.setValue("has_tshirt", memberData.member_memberprivate.has_tshirt)
-            clubForm.setValue("has_long_sleeves", memberData.member_memberprivate.has_long_sleeves)
-            clubForm.setValue("has_hoodies", memberData.member_memberprivate.has_hoodies)
-            clubForm.setValue("contact", memberData.member_memberprivate.contact)
-            clubForm.setValue("contact_notes", memberData.member_memberprivate.contact_notes)
-
             setUpdatedData(memberData)
-            setExtraHours(memberData.member_memberprivate.extra_hours)
+
+            if(memberData.member_memberprivate) {
+                clubForm.setValue("start_date", memberData.member_memberprivate.start_date)
+                clubForm.setValue("member_type", memberData.member_memberprivate.member_type)
+                clubForm.setValue("in_him_group", memberData.member_memberprivate.in_him_group)
+                clubForm.setValue("in_him_crew_group", memberData.member_memberprivate.in_him_crew_group)
+                clubForm.setValue("has_lanyard", memberData.member_memberprivate.has_lanyard)
+                clubForm.setValue("has_name_badge", memberData.member_memberprivate.has_name_badge)
+                clubForm.setValue("has_crew_neck", memberData.member_memberprivate.has_crew_neck)
+                clubForm.setValue("has_tshirt", memberData.member_memberprivate.has_tshirt)
+                clubForm.setValue("has_long_sleeves", memberData.member_memberprivate.has_long_sleeves)
+                clubForm.setValue("has_hoodies", memberData.member_memberprivate.has_hoodies)
+                clubForm.setValue("contact", memberData.member_memberprivate.contact)
+                clubForm.setValue("contact_notes", memberData.member_memberprivate.contact_notes)
+
+                setExtraHours(memberData.member_memberprivate.extra_hours)
+            }
         }
 
     }, [memberData])
