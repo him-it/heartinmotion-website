@@ -153,12 +153,12 @@ export const deleteMemberPermanent = async (member_id: number) => {
                     member_id
                 }
             }),
-            db.member_memberrestricted.delete({
+            db.member_memberrestricted.deleteMany({
                 where: {
                     member_id
                 }
             }),
-            db.member_memberprivate.delete({
+            db.member_memberprivate.deleteMany({
                 where: {
                     member_id
                 }
@@ -172,7 +172,16 @@ export const deleteMemberPermanent = async (member_id: number) => {
 
         return { success: "Successfully deleted member." }
     } catch {
-        return { error: "An unexpected error occured." }
+        try {
+            await db.member_member.delete({
+                where: {
+                    id: member_id
+                }
+            })
+            return { success: "Successfully deleted member." }
+        } catch {
+            return { error: "An unexpected error occured." }
+        }
     }
 }
 
