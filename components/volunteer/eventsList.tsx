@@ -22,7 +22,7 @@ export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseRe
                                 <div key={key} className="mb-3">
                                     <h3 className="text-l text-red-500 font-medium">{shift.description}</h3>
                                     <p className="text-gray-600 text-sm">
-                                        {shift.start_time.toLocaleDateString('en-US', { timeZone:'UTC',  weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                                        {shift.start_time.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                                     </p>
                                     <p className="text-gray-600 text-sm">
                                         {shift.start_time.toLocaleTimeString('en-US', {   hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
