@@ -25,7 +25,7 @@ export const register = async (data: z.infer<typeof AccountSchema> | any ) => {
             graduating_year: Number(graduating_year),
             member_memberprivate: {
                 create: {
-                    start_date: new Date(new Date().getTime() - 8 * 60 * 60 * 1000),
+                    start_date: new Date(new Date().getTime() - 7 * 60 * 60 * 1000),
                     in_him_group: false,
                     in_him_crew_group: false,
                     has_lanyard: false,
