@@ -24,11 +24,15 @@ const Events = () => {
                     if(res) 
                         {
                             setEventData(res);
-                                const registeredShiftsRes = await getRegisteredShifts();
-                                setRegisteredShiftData(registeredShiftsRes)
+                            await getSession().then(async sessionRes => {
+                                if (sessionRes) {
+                                    const registeredShiftsRes = await getRegisteredShifts(sessionRes.user.member_id);
+                                    setRegisteredShiftData(registeredShiftsRes)
 
-                                const waitlistedShiftsRes = await getWaitlistedShifts();
-                                setWaitlistedShiftData(waitlistedShiftsRes)
+                                    const waitlistedShiftsRes = await getWaitlistedShifts(sessionRes.user.member_id);
+                                    setWaitlistedShiftData(waitlistedShiftsRes)
+                                }
+                            });
                         }
                     else
                         router.push('/')

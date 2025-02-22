@@ -1,7 +1,6 @@
 "use server"
 
 import { db } from "@/lib/db"
-import { getSession } from "next-auth/react"
 
 export const getUserByEmail = async (email: string) => {
     try {
@@ -38,12 +37,8 @@ export const getUserById = async (id: number) => {
     }
 }
 
-export const getRegisteredShifts = async () => {
+export const getRegisteredShifts = async ( member_id: number) => {
     try {
-        const session = await getSession()
-
-        const member_id = session?.user.member_id ? session.user.member_id : NaN
-
         const user = await db.events_eventshiftmember.findMany({ 
             where: { 
                 member_id
@@ -70,12 +65,8 @@ export const getRegisteredShifts = async () => {
     }
 }
 
-export const getWaitlistedShifts = async () => {
+export const getWaitlistedShifts = async ( member_id: number) => {
     try {
-        const session = await getSession()
-
-        const member_id = session?.user.member_id ? session.user.member_id : NaN
-
         const user = await db.events_eventsignup_shifts.findMany({ 
             where: { 
                 events_eventsignup: {
@@ -97,19 +88,15 @@ export const getWaitlistedShifts = async () => {
     }
 }
 
-export const getHours = async () => {
+export const getHours = async ( member_id: number ) => {
     try {
-        const session = await getSession()
-
-        const member_id = session?.user.member_id ? session.user.member_id : NaN
-
         const hours = await db.events_eventshiftmember.findMany({
             where: {
                 member_id
             },
             include: {
                 member_member: {
-                    select: {
+                    include: {
                         member_memberprivate: {
                             select: {
                                 extra_hours: true
