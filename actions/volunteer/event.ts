@@ -38,4 +38,3 @@ export const getUpcomingEvents = async () => {
         return null
     }
 }
-

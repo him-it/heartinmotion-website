@@ -4,6 +4,7 @@ import { getUserByEmail } from '@/actions/account/user'
 import { db } from "@/lib/db"
 
 import { AccountSchema } from '@/schemas'
+import { getSession } from 'next-auth/react'
 import * as z from 'zod'
 
 export const register = async (data: z.infer<typeof AccountSchema> | any ) => {
@@ -12,12 +13,18 @@ export const register = async (data: z.infer<typeof AccountSchema> | any ) => {
     if(!validatedFields.success)
         return { error: "Invalid fields!" }
 
-    const { email, graduating_year } = data
+    const session = await getSession()
 
-    const existingUser = await getUserByEmail(email)
+    if(session?.user.email) {
+        const email = session.user.email
 
-    if(existingUser)
-        return { error: "Email already in use!" }
+        const existingUser = await getUserByEmail(email)
+
+        if(existingUser)
+            return { error: "Email already in use!" }    
+    }
+
+    const { graduating_year } = data
 
     await db.member_member.create({
         data: {
