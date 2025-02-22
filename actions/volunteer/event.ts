@@ -38,3 +38,49 @@ export const getUpcomingEvents = async () => {
         return null
     }
 }
+
+export const getEventBySlug = async (slug: string) => {
+    try {
+        const event = await db.events_event.findUnique({ 
+            where: { 
+                slug
+             },
+             include: {
+                events_eventshift: 
+                {
+                    orderBy: {
+                        start_time: 'asc'
+                    },
+                    include: {
+                        events_eventshiftmember: true
+                    }
+                },
+                events_eventshiftmember: true,
+                events_eventsignup: {
+                    select: {
+                        id: true,
+                        events_eventsignup_shifts: {
+                            select: {
+                                id: true,
+                                events_eventshift: true
+                            }
+                        },
+                        time: true,
+                        transportation: true,
+                        friends: true,
+                        member_member: {
+                            select: {
+                                first_name: true,
+                                last_name: true,
+                                id: true
+                            }
+                        }
+                    }
+                }
+             }
+         })
+        return event
+    } catch {
+        return null
+    }
+}
