@@ -8,20 +8,18 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const ShiftsPage = () => {
-    const session = useSession();
     const  [ shiftData, setShiftData ] = useState<Prisma.PromiseReturnType<typeof getRegisteredShifts>>(null)
 
   useEffect(() => {
     const fetchShifts = async () => {
-        if(session.data?.user.member_id)
-            await getRegisteredShifts(session.data.user.member_id)
-            .then(res => {
-                setShiftData(res)
-            })
+        await getRegisteredShifts()
+        .then(res => {
+            setShiftData(res)
+        })
     }
 
     fetchShifts()
-  }, [session])
+  }, [])
 
     return (
         <PageWrapper title="Registered Shifts">
