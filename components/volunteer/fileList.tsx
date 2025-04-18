@@ -24,7 +24,7 @@ export const FileList = ({fileData} : {fileData: Prisma.PromiseReturnType<typeof
                                 <p className="text-sm text-gray-500 mb-4">{Math.round(file.size / 1024 * 10) / 10 + " KB"}</p>
                                 {file.thumbnail && (
                                     <img 
-                                        src={`data:image/png;base64,${bufferToImg(file.thumbnail)}`} 
+                                        src={`data:image/png;base64,${bufferToImg(file.thumbnail as any)}`} 
                                         alt={file.dispname} 
                                         className="w-full h-56 object-contain rounded-md"
                                     />
