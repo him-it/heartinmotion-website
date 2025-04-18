@@ -1,6 +1,6 @@
 "use client"
 
-import { completeAllMembers, confirmAllMembers, deleteShiftData, getShiftById, shiftAddMember, shiftDeleteMember, updateShift, updateShiftCompleted, updateShiftConfirmed, updateShiftHours } from "@/actions/admin/event";
+import { completeAllMembers, confirmAllMembers, deleteShiftData, getShiftById, shiftAddMember, shiftDeleteMember, updateShift, updateShiftCompleted, updateShiftConfirmed, updateShiftHours, updateShiftHoursAll } from "@/actions/admin/event";
 import { events_eventshift, Prisma } from "@prisma/client";
 import { useEffect, useState, useTransition } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -155,6 +155,18 @@ const AdminShiftDetails = ({ shiftData, memberData }: { shiftData: Prisma.Promis
         })
     }
 
+    const changeHoursAll = (id: number, value: number) => {
+        startTransition(() => {
+            updateShiftHoursAll(id, value)
+            .then(() => {
+                window.location.reload()
+            })
+            .catch(() => {
+                setError("An unexpected error occured.")
+            })
+        })
+    }
+
     const confirmAll = () => {
         if(confirm("Are you sure you want to confirm all members?"))
             startTransition(() => {
@@ -221,6 +233,24 @@ const AdminShiftDetails = ({ shiftData, memberData }: { shiftData: Prisma.Promis
                     className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700">
                     Delete Shift
                 </button>
+                <button 
+                    onClick={() => {deleteShift()}} 
+                    className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700">
+                    Delete Shift
+                </button>
+                <div>
+                    <input
+                        className="inline-block px-4 py-2 mt-2 border border-gray-300 rounded-md"
+                        placeholder="Update All Hours"
+                        onKeyDown={(e) => {
+                            if (shiftData?.id && e.key === 'Enter') {
+                                const target = e.target as HTMLInputElement
+                                changeHoursAll(shiftData.id, Number(target.value)) 
+                            }
+                        }}
+                    >
+                    </input>
+                </div>
             </div>
             {updatedData && (
                 <div className="w-[80%]">

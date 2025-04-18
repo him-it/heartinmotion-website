@@ -329,6 +329,21 @@ export const updateShiftHours = async (id: number, value: number) => {
     }
 }
 
+export const updateShiftHoursAll = async (shift_id: number, value: number) => {
+    try {
+        await db.events_eventshiftmember.updateMany({
+            where: {
+                shift_id
+            },
+            data: {
+                hours: value
+            }
+        })
+    } catch {
+        return {error: "An unexpected error occured."}
+    }
+}
+
 export const deleteShiftData = async (id: number) => {
     try {
         await db.$transaction([
