@@ -96,7 +96,7 @@ export const getHours = async ( member_id: number ) => {
             },
             include: {
                 member_member: {
-                    include: {
+                    select: {
                         member_memberprivate: {
                             select: {
                                 extra_hours: true
