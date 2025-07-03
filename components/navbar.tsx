@@ -207,6 +207,10 @@ export const Navbar = () => {
                                         <div className="mt-2 w-full bg-white shadow-lg rounded-lg">
                                             { session.data.user.admin_level >= 0 ? (
                                                 <>
+                                                {
+                                                            session.data.user.admin_level > 0 &&
+                                                            <Link href="/admin" onClick={() => setMobileMenuOpen(false)}className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Admin</Link>
+                                                }
                                                     <Link href="/account/shifts" onClick={() => setMobileMenuOpen(false)}className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Registered Shifts</Link>
                                                     <Link href="/account/hours" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Hours Earned</Link>
                                                     <Link href="/account/edit" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-center">Edit Info</Link>
