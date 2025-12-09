@@ -15,7 +15,7 @@ import { auth } from './auth'
 export default auth((req) => {
     const { nextUrl } = req
     const isLoggedIn = !!req.auth
-    const adminLevel = req.auth?.user.admin_level
+    const adminLevel = req.auth?.user ? req.auth?.user.admin_level : 0
 
     const isApiAuthRoutes = nextUrl.pathname.startsWith(apiAuthPrefix)
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
