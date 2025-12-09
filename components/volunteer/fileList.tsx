@@ -6,12 +6,27 @@ import Link from "next/link"
 
 export const FileList = ({fileData} : {fileData: Prisma.PromiseReturnType<typeof getFiles>}) => {
 
-    const bufferToImg = (arrayBuffer: Buffer | null) => {
-        if(arrayBuffer) {
-            const buffer = Buffer.isBuffer(arrayBuffer) ? arrayBuffer : Buffer.from(arrayBuffer)
-            return buffer.toString('base64')
-        }
+    const bufferToImg = (arrayBuffer: any) => {
+    if (!arrayBuffer) return null;
+
+    // Handle Node Buffer
+    if (Buffer.isBuffer(arrayBuffer)) {
+        return arrayBuffer.toString('base64');
     }
+
+    // Handle plain object with numeric keys (Prisma Bytes)
+    if (typeof arrayBuffer === 'object') {
+        const arr = Object.keys(arrayBuffer)
+            .map(k => arrayBuffer[k])
+            .filter(v => typeof v === 'number');
+        const buffer = Buffer.from(arr);
+        return buffer.toString('base64');
+    }
+
+    console.warn("Invalid buffer format:", arrayBuffer);
+    return null;
+};
+
 
     return (
         <div className="max-w-6xl mx-auto px-4">
