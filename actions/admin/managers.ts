@@ -1,8 +1,12 @@
 "use server"
 
 import { db } from "@/lib/db"
+import { requireAdmin } from "@/lib/authGuard"
 
 export const getManagers = async () => {
+    if (!(await requireAdmin(10)))
+        return null
+
     try {
         const data = await db.member_member.findMany({
             where: {
@@ -38,6 +42,9 @@ export const getManagers = async () => {
 }
 
 export const updateManager = async (member_id: number, admin_level: number) => {
+    if (!(await requireAdmin(10)))
+        return { error: "Unauthorized." }
+
     try {
         await db.member_memberrestricted.update({
             where: {
@@ -47,8 +54,8 @@ export const updateManager = async (member_id: number, admin_level: number) => {
                 admin_level
             }
         })
-        return { success: "Successfully deleted file." }
+        return { success: "Successfully updated manager." }
     } catch {
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
     }
 }

@@ -10,7 +10,7 @@ const AdminEventReports = () => {
                         <a
                             href="#"
                             onClick={yearlyEventReport}
-                            className='flex items-center bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition duration-300'
+                            className='flex items-center bg-primary text-white py-2 px-4 rounded-full hover:bg-primary/90 transition duration-300'
                         >
                             Yearly Event Report
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2">
@@ -22,7 +22,7 @@ const AdminEventReports = () => {
                         <a
                             href="#"
                             onClick={internOfficerVolunteerReport}
-                            className='flex items-center bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition duration-300'
+                            className='flex items-center bg-primary text-white py-2 px-4 rounded-full hover:bg-primary/90 transition duration-300'
                         >
                             Intern/Officer Volunteer Report
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2">
@@ -34,7 +34,7 @@ const AdminEventReports = () => {
                         <a
                             href="#"
                             onClick={internOfficerVolunteerReport}
-                            className='flex items-center bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition duration-300'
+                            className='flex items-center bg-primary text-white py-2 px-4 rounded-full hover:bg-primary/90 transition duration-300'
                         >
                             Volunteer Hours Report
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2">
@@ -46,7 +46,7 @@ const AdminEventReports = () => {
                         <a
                             href="#"
                             onClick={activeVolunteerHoursReport}
-                            className='flex items-center bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition duration-300'
+                            className='flex items-center bg-primary text-white py-2 px-4 rounded-full hover:bg-primary/90 transition duration-300'
                         >
                             Active Volunteer Hours Report
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2">

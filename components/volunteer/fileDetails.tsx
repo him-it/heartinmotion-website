@@ -37,7 +37,7 @@ export const FileDetails = ({
           type="application/pdf"
           className="w-11/12 h-full"
         >
-          <p className="text-gray-500">
+          <p className="text-muted-foreground">
             Your browser or device does not support PDFs. Please contact
             support@heartinmotion.org for a waiver.
           </p>

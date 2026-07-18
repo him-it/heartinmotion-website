@@ -2,16 +2,14 @@ import Link from "next/link"
 
 export const AdminPageWrapper = ({ children, title, redirect } : { children: React.ReactNode, title?: string, redirect?: string }) => {
     return (
-        <div>
-            <div className="text-center mb-6 mt-2">
-                <div className='flex right-full ml-10 sm:ml-16 mb-10 sm:mb-0'>
-                    <Link href={ redirect || '/' } className='bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition duration-300'>Back</Link>
-                </div>
-                <h1 className="text-red-500 text-4xl font-bold mb-6">
-                    { title }
-                </h1>
-            </div>
-            <div className="p-5">
+        <div className="mx-auto max-w-6xl px-5 pt-10 pb-6">
+            <Link href={ redirect || '/' } className="eyebrow mb-4 hover:text-foreground transition-colors">
+                ← Back
+            </Link>
+            <h1 className="mt-4 text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] leading-[0.95] text-foreground mb-8">
+                { title }
+            </h1>
+            <div>
                 { children }
             </div>
         </div>

@@ -4,8 +4,12 @@ import * as z from 'zod'
 
 import { db } from "@/lib/db"
 import { MemberClubSchema } from "@/schemas"
+import { requireAdmin, requireSelfOrAdmin } from "@/lib/authGuard"
 
 export const getMemberNames = async () => {
+    if (!(await requireAdmin(2)))
+        return null
+
     try {
         const member = await db.member_member.findMany({
             select: {
@@ -30,6 +34,9 @@ export const getMemberNames = async () => {
 }
 
 export const getMembers = async () => {
+    if (!(await requireAdmin(2)))
+        return null
+
     try {
         const members = await db.member_member.findMany({
             orderBy: [
@@ -41,7 +48,12 @@ export const getMembers = async () => {
                 }
             ],
             include: {
-                events_eventshiftmember: true,
+                events_eventshiftmember: {
+                    select: {
+                        completed: true,
+                        hours: true
+                    }
+                },
                 member_memberprivate: {
                     select: {
                         extra_hours: true
@@ -57,6 +69,9 @@ export const getMembers = async () => {
 }
 
 export const getFriends = async (id: number) => {
+    if (!(await requireSelfOrAdmin(id)))
+        return null
+
     try {
         const data = await db.member_member.findUnique({
             where: {
@@ -74,6 +89,9 @@ export const getFriends = async (id: number) => {
 }
 
 export const getMemberById = async (id: number) => {
+    if (!(await requireAdmin(2)))
+        return null
+
     try {
         const data = await db.member_member.findUnique({
             where: {
@@ -117,6 +135,9 @@ export const getMemberById = async (id: number) => {
 }
 
 export const updateExtraHours = async (member_id: number, extra_hours: number) => {
+    if (!(await requireAdmin(2)))
+        return { error: "Unauthorized." }
+
     try {
         await db.member_memberprivate.update({
             where: {
@@ -129,11 +150,14 @@ export const updateExtraHours = async (member_id: number, extra_hours: number) =
 
         return { success: "Successfully updated extra hours." }
     } catch {
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
     }
 }
 
 export const deleteMemberPermanent = async (member_id: number) => {
+    if (!(await requireAdmin(2)))
+        return { error: "Unauthorized." }
+
     try {
         await db.$transaction([
             db.events_eventsignup_shifts.deleteMany({
@@ -172,11 +196,14 @@ export const deleteMemberPermanent = async (member_id: number) => {
 
         return { success: "Successfully deleted member." }
     } catch {
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
     }
 }
 
 export const editClub = async (member_id: number, data: z.infer<typeof MemberClubSchema>) => {
+    if (!(await requireAdmin(2)))
+        return { error: "Unauthorized." }
+
     try {
         await db.member_memberprivate.update({
             where: {
@@ -189,6 +216,6 @@ export const editClub = async (member_id: number, data: z.infer<typeof MemberClu
 
         return { success: "Saved successfully!" }
     } catch {
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
     }
 }

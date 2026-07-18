@@ -94,13 +94,13 @@ export const RegisterForm = ({ email }: { email : string }) => {
                 })
                 .catch(() => {
                     setSuccess(undefined)
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
         })
     }
 
     return (
-        <div className='shadow-lg p-8 border border-gray-100 rounded-lg'>
+        <div className='rounded-xl border border-border bg-card p-6 sm:p-8 shadow-xs'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className='space-y-4 sm:w-96 w-55'>
@@ -298,7 +298,7 @@ export const RegisterForm = ({ email }: { email : string }) => {
                                     <FormLabel>School</FormLabel>
                                     <FormControl>
                                         { schoolList.includes(form.getValues("school")) ? 
-                                            <select {...field} className="border rounded p-2 mb-4 w-full" disabled={isPending}
+                                            <select {...field} className="border border-input rounded-md bg-background px-3 py-2 mb-4 w-full text-sm" disabled={isPending}
                                                 onChange={(e) => {
                                                     if(e.target.value === "Other")
                                                         form.setValue("school", "")
@@ -314,7 +314,7 @@ export const RegisterForm = ({ email }: { email : string }) => {
                                                 <option value="Other">Other</option>
                                             </select> : (
                                                 <div>
-                                                    <select className="border rounded p-2 mb-4 w-full" value="Other" disabled={isPending}
+                                                    <select className="border border-input rounded-md bg-background px-3 py-2 mb-4 w-full text-sm" value="Other" disabled={isPending}
                                                         onChange={(e) => {
                                                             if(schoolList.includes(e.target.value))
                                                                 form.setValue("school", e.target.value)
@@ -384,7 +384,7 @@ export const RegisterForm = ({ email }: { email : string }) => {
                                 <FormItem>
                                     <FormLabel>Shirt Size</FormLabel>
                                     <FormControl>
-                                        <select {...field} className="border rounded p-2 mb-4 w-full" disabled={isPending}>
+                                        <select {...field} className="border border-input rounded-md bg-background px-3 py-2 mb-4 w-full text-sm" disabled={isPending}>
                                             <option></option>
                                             <option value="XS">XS</option>
                                             <option value="S">S</option>
@@ -558,7 +558,7 @@ export const RegisterForm = ({ email }: { email : string }) => {
                     )}
                     <Button
                         type="submit"
-                        className='text-white w-full mt-8 rounded-full bg-red-500 hover:bg-red-600 transition duration-300'
+                        className='w-full mt-8'
                         disabled={ isPending }
                     >
                         Save

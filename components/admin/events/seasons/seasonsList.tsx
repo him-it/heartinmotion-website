@@ -102,7 +102,7 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
 
     return (
 <div>
-    <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+    <div className="max-w-4xl mx-auto bg-card rounded-lg shadow-md p-6">
         {
             seasonData && eventData && 
             <div>
@@ -112,7 +112,7 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
                             <Button 
                                 disabled={isPending}
                                 onClick={handleDelete} 
-                                className="flex items-center justify-center text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:ring-red-500 rounded-lg py-2 px-4 transition duration-300 ease-in-out"
+                                className="flex items-center justify-center text-white bg-primary hover:bg-primary/90 focus:ring-2 focus:ring-ring rounded-lg py-2 px-4 transition duration-300 ease-in-out"
                             >
                                 <svg 
                                     xmlns="http://www.w3.org/2000/svg" 
@@ -130,14 +130,14 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
                     }
                 <div className="mb-4 flex items-center space-x-4"> 
                     <div className="w-full"> 
-                        <label className="block text-lg font-medium text-gray-700">Season</label>
+                        <label className="block text-lg font-medium text-foreground">Season</label>
                         <select 
                             onChange={(e) => {
                                 if(!isNaN(Number(e.target.value)))
                                     setSelectedSeason(Number(e.target.value))
                             }}
                             value={selectedSeason}
-                            className="mt-2 block w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-2 block w-full border border-border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             disabled={isPending}
                         >
                             {
@@ -153,7 +153,7 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
                         </select>
                     </div>
                     <div>
-                            <label className="block text-lg font-medium text-gray-700">Required Active Events:</label>
+                            <label className="block text-lg font-medium text-foreground">Required Active Events:</label>
                             <input 
                                 disabled={isPending}
                                 type="number" 
@@ -162,14 +162,14 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
                                     if(!isNaN(Number(e.target.value)))
                                         setNRAE(Number(e.target.value))
                                 }}
-                                className="mt-2 border border-gray-300 rounded-md px-4 py-2"
+                                className="mt-2 border border-border rounded-md px-4 py-2"
                             />
                     </div>
                     {
                         selectedSeason === -1000 &&  
                         <div> 
                             <div>
-                                <label className="block text-lg font-medium text-gray-700">Year:</label>
+                                <label className="block text-lg font-medium text-foreground">Year:</label>
                                 <input 
                                     disabled={isPending}
                                     type="number" 
@@ -178,7 +178,7 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
                                         if(!isNaN(Number(e.target.value)))
                                             setNewSeason(Number(e.target.value))
                                     }}
-                                    className="mt-2 border border-gray-300 rounded-md px-4 py-2"
+                                    className="mt-2 border border-border rounded-md px-4 py-2"
                                 />
                             </div>
                         </div>
@@ -200,15 +200,15 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
                                         }))
                                     }
                                     disabled={isPending}
-                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                    className="h-4 w-4 text-blue-600 border-border rounded focus:ring-2 focus:ring-blue-500"
                                 />
-                                <label className="text-gray-700 ml-2 w-full">{event.name}</label>
+                                <label className="text-foreground ml-2 w-full">{event.name}</label>
                             </div>
                         ))
                     }
                 </div>
 
-                <Button disabled={isPending} onClick={handleSubmit} className="text-white flex w-52 mt-11 mb-2 mx-auto rounded-full bg-red-500 hover:bg-red-600 transition duration-300">Save</Button>
+                <Button disabled={isPending} onClick={handleSubmit} className="text-white flex w-52 mt-11 mb-2 mx-auto rounded-full bg-primary hover:bg-primary/90 transition duration-300">Save</Button>
                 { success ? (
                         <FormSuccess message={ success } />
                     ) : (

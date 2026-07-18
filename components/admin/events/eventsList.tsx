@@ -8,25 +8,25 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
     return (
         <div className="flex flex-col items-center">
             <div className="flex space-x-4 mb-6">
-                <Link href="/admin/events/reports" className="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
+                <Link href="/admin/events/reports" className="inline-block px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
                     Reports
                 </Link>
-                <Link href="/admin/events/seasons" className="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
+                <Link href="/admin/events/seasons" className="inline-block px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
                     Seasons
                 </Link>
-                <Link href="/admin/events/new" className="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
+                <Link href="/admin/events/new" className="inline-block px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
                     New
                 </Link>
             </div>
             <div className="w-full max-w-2xl">
-                <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
                     <thead>
-                        <tr className="bg-gray-100">
-                            <th colSpan={2} className="p-4 text-lg font-semibold text-gray-700 text-center rounded-tl-lg rounded-tr-lg">Upcoming Events</th>
+                        <tr className="bg-muted">
+                            <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Upcoming Events</th>
                         </tr>
                         <tr>
-                            <th className="p-4 text-gray-600 text-center">Event</th>
-                            <th className="p-4 text-gray-600 text-center">Next Date</th>
+                            <th className="p-4 text-muted-foreground text-center">Event</th>
+                            <th className="p-4 text-muted-foreground text-center">Next Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,9 +34,9 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                             eventsData && eventsData.filter(event => 
                                 event.events_eventshift.some(shift => shift.start_time > new Date())
                             ).map((event, key) => (
-                                <tr key={key} className="border-b hover:bg-gray-50">
+                                <tr key={key} className="border-b hover:bg-muted">
                                     <td className="p-4 text-center">
-                                        <Link href={"/admin/events/event/" + event.slug} className="text-gray-700 hover:underline">
+                                        <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
                                             {event.name}
                                         </Link>
                                     </td>
@@ -47,14 +47,14 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                     </tbody>
                 </table>
 
-                <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md mt-8">
+                <table className="min-w-full bg-card border border-border rounded-lg shadow-md mt-8">
                     <thead>
-                        <tr className="bg-gray-100">
-                            <th colSpan={2} className="p-4 text-lg font-semibold text-gray-700 text-center rounded-tl-lg rounded-tr-lg">Past Events</th>
+                        <tr className="bg-muted">
+                            <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Past Events</th>
                         </tr>
                         <tr>
-                            <th className="p-4 text-gray-600 text-center">Event</th>
-                            <th className="p-4 text-gray-600 text-center">Next Date</th>
+                            <th className="p-4 text-muted-foreground text-center">Event</th>
+                            <th className="p-4 text-muted-foreground text-center">Next Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,9 +62,9 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                             eventsData && eventsData.filter(event => 
                                 event.events_eventshift.some(shift => shift.start_time <= new Date())
                             ).map((event, key) => (
-                                <tr key={key} className="border-b hover:bg-gray-50">
+                                <tr key={key} className="border-b hover:bg-muted">
                                     <td className="p-4 text-center">
-                                        <Link href={"/admin/events/event/" + event.slug} className="text-gray-700 hover:underline">
+                                        <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
                                             {event.name}
                                         </Link>
                                     </td>
@@ -75,14 +75,14 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                     </tbody>
                 </table>
 
-                <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md mt-8">
+                <table className="min-w-full bg-card border border-border rounded-lg shadow-md mt-8">
                     <thead>
-                        <tr className="bg-gray-100">
-                            <th colSpan={2} className="p-4 text-lg font-semibold text-gray-700 text-center rounded-tl-lg rounded-tr-lg">Empty Events</th>
+                        <tr className="bg-muted">
+                            <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Empty Events</th>
                         </tr>
                         <tr>
-                            <th className="p-4 text-gray-600 text-center">Event</th>
-                            <th className="p-4 text-gray-600 text-center">Next Date</th>
+                            <th className="p-4 text-muted-foreground text-center">Event</th>
+                            <th className="p-4 text-muted-foreground text-center">Next Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,9 +90,9 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                             eventsData && eventsData.filter(event => 
                                 event.events_eventshift.length <= 0
                             ).map((event, key) => (
-                                <tr key={key} className="border-b hover:bg-gray-50">
+                                <tr key={key} className="border-b hover:bg-muted">
                                     <td className="p-4 text-center">
-                                        <Link href={"/admin/events/event/" + event.slug} className="text-gray-700 hover:underline">
+                                        <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
                                             {event.name}
                                         </Link>
                                     </td>

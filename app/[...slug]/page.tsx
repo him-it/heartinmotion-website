@@ -1,6 +1,7 @@
 "use client"
 
 import { getPageByPath } from "@/actions/pages/page";
+import { sanitizeHtml } from "@/lib/sanitize";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -14,7 +15,7 @@ const HIMPage = () => {
             .then(res => {
                 const container = document.getElementById("page-content-container")!
                 if(res) {
-                    container.innerHTML = res.content
+                    container.innerHTML = sanitizeHtml(res.content)
                 }
                 else
                     router.push('/')
@@ -24,8 +25,8 @@ const HIMPage = () => {
     }, [])
 
     return (
-        <div className="mx-auto w-4/5 mt-5">
-            <div id="page-content-container" className="prose prose-sm max-w-none"></div>
+        <div className="mx-auto w-[90%] max-w-5xl py-12">
+            <div id="page-content-container" className="prose prose-neutral max-w-none"></div>
         </div>
     )
 };

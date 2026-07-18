@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "../components/navbar";
 import { SessionProvider } from "next-auth/react";
 import { Loading } from "@/components/loading";
 
-const inter = Inter({ subsets: ["latin"] });
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Heart in Motion",
@@ -20,14 +32,24 @@ export default async function RootLayout({
 
   return (
     <SessionProvider>
-      <html lang="en">
-        <body className={inter.className}>
+      <html lang="en" className={`${jakarta.variable} ${mono.variable}`}>
+        <body className="min-h-screen flex flex-col font-sans antialiased">
             <Navbar />
             <Loading />
-          { children }
-          <footer
-            className="text-center my-5 text-gray-600 text-sm mx-auto w-4/5"
-          >Heart in Motion is a non-profit and tax-exempt 501(c)(3) organization.</footer>
+          <main className="flex-1 w-full">
+            { children }
+          </main>
+          <footer className="mt-20 border-t border-border">
+            <div className="mx-auto max-w-6xl px-5 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <img src="/assets/logo.png" alt="" className="h-6 w-auto" />
+                <span>© Heart in Motion</span>
+              </div>
+              <p className="text-sm text-muted-foreground text-center sm:text-right">
+                A non-profit, tax-exempt 501(c)(3) organization.
+              </p>
+            </div>
+          </footer>
         </body>
       </html>
     </SessionProvider>

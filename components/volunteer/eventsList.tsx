@@ -6,32 +6,42 @@ import Link from "next/link"
 
 export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseReturnType<typeof getUpcomingEvents> | undefined }) => {
     return (
-        <div className="p-5 max-w-lg mx-auto">
+        <div className="max-w-2xl mx-auto">
             {
                 eventListData?.length === 0 &&
-                <div className="text-gray-500">
+                <div className="rounded-xl border border-border bg-card shadow-xs py-16 text-center text-muted-foreground">
                     No upcoming events.
                 </div>
             }
-            {eventListData?.map((event, key) => {
-                if(!event.hidden)
-                    return (
-                        <Link href={"/volunteer/events/" + event.slug} key={key} className="block mb-6 p-4 border rounded-lg shadow-lg bg-white hover:bg-gray-100 transition duration-200">
-                            <h2 className="text-2xl font-medium text-red-500 mb-2">{event.name}</h2>
-                            {event.events_eventshift.map((shift, key) => (
-                                <div key={key} className="mb-3">
-                                    <h3 className="text-l text-red-500 font-medium">{shift.description}</h3>
-                                    <p className="text-gray-600 text-sm">
-                                        {shift.start_time.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
-                                    </p>
-                                    <p className="text-gray-600 text-sm">
-                                        {shift.start_time.toLocaleTimeString('en-US', {   hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
-                                    </p>
+            <div className="space-y-4">
+                {eventListData?.map((event, key) => {
+                    if(!event.hidden)
+                        return (
+                            <Link
+                                href={"/volunteer/events/" + event.slug}
+                                key={key}
+                                className="group block rounded-xl border border-border bg-card p-5 shadow-xs transition-all duration-150 hover:shadow-soft hover:-translate-y-0.5"
+                            >
+                                <div className="flex items-center justify-between gap-3 mb-3">
+                                    <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{event.name}</h2>
+                                    <span className="shrink-0 text-sm text-primary font-medium">View →</span>
                                 </div>
-                            ))}
-                        </Link>
-                    )
-            })}
+                                <div className="space-y-2">
+                                    {event.events_eventshift.map((shift, key) => (
+                                        <div key={key} className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 border-t border-border pt-2 first:border-t-0 first:pt-0">
+                                            <span className="text-sm font-medium text-foreground">{shift.description}</span>
+                                            <span className="text-sm text-muted-foreground">
+                                                {shift.start_time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                                                {" · "}
+                                                {shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Link>
+                        )
+                })}
+            </div>
         </div>
     )
 }

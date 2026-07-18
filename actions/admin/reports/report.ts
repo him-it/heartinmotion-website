@@ -1,8 +1,12 @@
 "use server"
 
 import { db } from "@/lib/db"
+import { requireAdmin } from "@/lib/authGuard"
 
 export const getDateRange = async (start: Date, end: Date, event_id: number) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.events_eventshift.findMany({
             where: {
@@ -61,6 +65,9 @@ export const getDateRange = async (start: Date, end: Date, event_id: number) => 
 }
 
 export const getWeeklyUpdate = async (start: Date, end: Date) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.member_member.findMany({
             where: {
@@ -111,6 +118,9 @@ export const getWeeklyUpdate = async (start: Date, end: Date) => {
 }
 
 export const getYearlyEvent = async () => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.$transaction([
             db.events_eventseason.findMany({}),
@@ -142,6 +152,9 @@ export const getYearlyEvent = async () => {
 }
 
 export const getActiveVolunteerHours = async () => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.$transaction([
             db.events_eventseason.findMany({}),
@@ -182,6 +195,9 @@ export const getActiveVolunteerHours = async () => {
 }
 
 export const getInternOfficerVolunteer = async () => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.$transaction([
             db.events_eventseason.findMany({}),
@@ -240,6 +256,9 @@ export const getInternOfficerVolunteer = async () => {
 }
 
 export const getCurrentEventData = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.events_event.findUnique({
             where: {
@@ -292,6 +311,9 @@ export const getCurrentEventData = async (id: number) => {
 }
 
 export const getPastEventData = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.events_event.findUnique({
             where: {
@@ -339,6 +361,9 @@ export const getPastEventData = async (id: number) => {
 }
 
 export const getLifetime = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const data = await db.member_member.findUnique({
             where: {

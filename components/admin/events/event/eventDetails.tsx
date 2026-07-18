@@ -46,7 +46,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                     window.location.reload()
                 })
                 .catch(() => {
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
         })
     }
@@ -60,7 +60,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 })
                 .catch(() => {
                     setSuccess(undefined)
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
         })
     }
@@ -74,7 +74,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 })
                 .catch(() => {
                     setSuccess(undefined)
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
         })
     }
@@ -87,7 +87,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                     window.location.replace("/admin/events")
                 })
                 .catch(() => {
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
             }
     }
@@ -108,23 +108,23 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
             {eventData && 
             <>
                 <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 mb-3">
-                    <Link href={"../event/" + eventData?.slug + "/edit"} className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-full hover:bg-red-700">
+                    <Link href={"../event/" + eventData?.slug + "/edit"} className="inline-block px-4 py-2 bg-primary text-center text-white rounded-full hover:bg-primary/90">
                         Edit event details
                     </Link>
                     <button 
                         onClick={() => setShowNewShiftPopup(true)} 
-                        className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-full hover:bg-red-700">
+                        className="inline-block px-4 py-2 bg-primary text-center text-white rounded-full hover:bg-primary/90">
                         New Shift
                     </button>
-                    <button onClick={() => deleteEvent()}  className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-full hover:bg-red-700">
+                    <button onClick={() => deleteEvent()}  className="inline-block px-4 py-2 bg-primary text-center text-white rounded-full hover:bg-primary/90">
                         Delete Event
                     </button>
                 </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mb-2">
-                    <button onClick={() => { currentEventDataReport(eventData.id) }} className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700">
+                    <button onClick={() => { currentEventDataReport(eventData.id) }} className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90">
                         Download current event data
                     </button>
-                    <button onClick={() => { pastEventDataReport(eventData.id) }} className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700">
+                    <button onClick={() => { pastEventDataReport(eventData.id) }} className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90">
                         Download past event data
                     </button>
                 </div>
@@ -132,7 +132,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 <label className="inline-block py-2">From</label>
                     <input
                         type="date"
-                        className="border border-gray-300 rounded p-2"
+                        className="border border-border rounded p-2"
                         onChange={(e) => {
                             if(e.target.valueAsDate)
                                 setFromTime(e.target.valueAsDate)
@@ -141,13 +141,13 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                     <label className="inline-block py-2">To</label>
                     <input
                         type="date"
-                        className="border border-gray-300 rounded p-2"
+                        className="border border-border rounded p-2"
                         onChange={(e) => {
                             if(e.target.valueAsDate)
                                 setToTime(e.target.valueAsDate)
                         }}
                     />
-                    <button className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700"
+                    <button className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
                         onClick={() => {
                             if(fromTime && toTime)
                                 dateRangeReport(fromTime, toTime, eventData.id, eventData.name)
@@ -159,30 +159,30 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
 
                 <div className="flex flex-col md:flex-row w-full max-w-7xl">
                     <div className="w-full md:w-1/3 p-4">
-                        <h2 className="text-lg font-semibold text-gray-700 mb-4">Pending Registrations</h2>
-                        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-                            <thead className="bg-gray-100">
+                        <h2 className="text-lg font-semibold text-foreground mb-4">Pending Registrations</h2>
+                        <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                            <thead className="bg-muted">
                                 <tr>
-                                    <th className="border border-gray-300 p-2 text-gray-600 max-w-28 overflow-auto whitespace-nowrap">Member</th>
-                                    <th className="border border-gray-300 p-2 text-gray-600 max-w-24 overflow-auto whitespace-nowrap">Shift</th>
-                                    <th className="border border-gray-300 p-2 text-gray-600 max-w-32 overflow-auto whitespace-nowrap">Transportation</th>
-                                    <th className="border border-gray-300 p-2 text-gray-600">Action</th>
+                                    <th className="border border-border p-2 text-muted-foreground max-w-28 overflow-auto whitespace-nowrap">Member</th>
+                                    <th className="border border-border p-2 text-muted-foreground max-w-24 overflow-auto whitespace-nowrap">Shift</th>
+                                    <th className="border border-border p-2 text-muted-foreground max-w-32 overflow-auto whitespace-nowrap">Transportation</th>
+                                    <th className="border border-border p-2 text-muted-foreground">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {eventData.events_eventsignup?.map((shiftSignup, key) => (
-                                    <tr key={key} className="border-b hover:bg-gray-50">
-                                        <td className="border border-gray-300 p-2 max-w-28 overflow-auto whitespace-nowrap">
+                                    <tr key={key} className="border-b hover:bg-muted">
+                                        <td className="border border-border p-2 max-w-28 overflow-auto whitespace-nowrap">
                                             {shiftSignup.member_member.first_name + " " + shiftSignup.member_member.last_name}
                                         </td>
-                                        <td className="border border-gray-300 p-2 max-w-24 overflow-auto whitespace-nowrap">
+                                        <td className="border border-border p-2 max-w-24 overflow-auto whitespace-nowrap">
                                             {shiftSignup.events_eventsignup_shifts[0]?.events_eventshift.description}
                                         </td>
-                                        <td className="border border-gray-300 p-2 max-w-32 overflow-auto whitespace-nowrap">{shiftSignup.transportation}</td>
-                                        <td className="border border-gray-300 p-2 text-center">
+                                        <td className="border border-border p-2 max-w-32 overflow-auto whitespace-nowrap">{shiftSignup.transportation}</td>
+                                        <td className="border border-border p-2 text-center">
                                             <button 
                                                 onClick={() => handleViewClick({...shiftSignup})} 
-                                                className="inline-block text-red-800 rounded-full hover:text-red-950 hover:underline">
+                                                className="inline-block text-primary rounded-full hover:text-primary/90 hover:underline">
                                                 View
                                             </button>
                                         </td>
@@ -194,35 +194,35 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
 
                     <div className="w-full md:w-2/3 space-y-8 p-4">
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-700 mb-4">Future Shifts</h2>
-                            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-                                <thead className="bg-gray-100">
+                            <h2 className="text-lg font-semibold text-foreground mb-4">Future Shifts</h2>
+                            <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                                <thead className="bg-muted">
                                     <tr>
-                                        <th className="border border-gray-300 p-2 text-gray-600 max-w-44 overflow-auto whitespace-nowrap">Shift</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Date</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Time</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Location</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Available</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Filled</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Total</th>
+                                        <th className="border border-border p-2 text-muted-foreground max-w-44 overflow-auto whitespace-nowrap">Shift</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Date</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Time</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Location</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Available</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Filled</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {eventData.events_eventshift?.filter(shift => shift.start_time > new Date()).reverse().map((shift, key) => (
-                                        <tr key={key} className="border-b hover:bg-gray-50">
-                                            <td className="border border-gray-300 p-2 max-w-44 overflow-auto whitespace-nowrap">
+                                        <tr key={key} className="border-b hover:bg-muted">
+                                            <td className="border border-border p-2 max-w-44 overflow-auto whitespace-nowrap">
                                                 <Link 
                                                     href={"/admin/events/event/" + eventData.slug + "/shift/" + shift.id} 
-                                                    className="text-red-800 hover:underline hover:text-red-950">
+                                                    className="text-primary hover:underline hover:text-primary/90">
                                                     {shift.description}
                                                 </Link>
                                             </td>
-                                            <td className="border border-gray-300 p-2">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                                            <td className="border border-gray-300 p-2">{shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</td>
-                                            <td className="border border-gray-300 p-2">{shift.location}</td>
-                                            <td className="border border-gray-300 p-2">{shift.spots - shift.events_eventshiftmember.length}</td>
-                                            <td className="border border-gray-300 p-2">{shift.events_eventshiftmember.length}</td>
-                                            <td className="border border-gray-300 p-2">{shift.spots}</td>
+                                            <td className="border border-border p-2">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</td>
+                                            <td className="border border-border p-2">{shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</td>
+                                            <td className="border border-border p-2">{shift.location}</td>
+                                            <td className="border border-border p-2">{shift.spots - shift.events_eventshiftmember.length}</td>
+                                            <td className="border border-border p-2">{shift.events_eventshiftmember.length}</td>
+                                            <td className="border border-border p-2">{shift.spots}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -230,35 +230,35 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                         </div>
 
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-700 mb-4">Past Shifts</h2>
-                            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-                                <thead className="bg-gray-100">
+                            <h2 className="text-lg font-semibold text-foreground mb-4">Past Shifts</h2>
+                            <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                                <thead className="bg-muted">
                                     <tr>
-                                        <th className="border border-gray-300 p-2 text-gray-600 max-w-44 overflow-auto whitespace-nowrap">Shift</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Date</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Time</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Location</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Available</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Filled</th>
-                                        <th className="border border-gray-300 p-2 text-gray-600">Total</th>
+                                        <th className="border border-border p-2 text-muted-foreground max-w-44 overflow-auto whitespace-nowrap">Shift</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Date</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Time</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Location</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Available</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Filled</th>
+                                        <th className="border border-border p-2 text-muted-foreground">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {eventData.events_eventshift?.filter(shift => shift.start_time <= new Date()).reverse().map((shift, key) => (
-                                        <tr key={key} className="border-b hover:bg-gray-50">
-                                            <td className="borderborder-gray-300 p-2 max-w-44 overflow-auto whitespace-nowrap">
+                                        <tr key={key} className="border-b hover:bg-muted">
+                                            <td className="borderborder-border p-2 max-w-44 overflow-auto whitespace-nowrap">
                                                 <Link 
                                                     href={"/admin/events/event/" + eventData.slug + "/shift/" + shift.id}
-                                                    className="text-red-800 hover:underline hover:text-red-950">
+                                                    className="text-primary hover:underline hover:text-primary/90">
                                                     {shift.description}
                                                 </Link>
                                             </td>
-                                            <td className="border border-gray-300 p-2">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                                            <td className="border border-gray-300 p-2">{shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</td>
-                                            <td className="border border-gray-300 p-2">{shift.location}</td>
-                                            <td className="border border-gray-300 p-2">{shift.spots - shift.events_eventshiftmember.length}</td>
-                                            <td className="border border-gray-300 p-2">{shift.events_eventshiftmember.length}</td>
-                                            <td className="border border-gray-300 p-2">{shift.spots}</td>
+                                            <td className="border border-border p-2">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</td>
+                                            <td className="border border-border p-2">{shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</td>
+                                            <td className="border border-border p-2">{shift.location}</td>
+                                            <td className="border border-border p-2">{shift.spots - shift.events_eventshiftmember.length}</td>
+                                            <td className="border border-border p-2">{shift.events_eventshiftmember.length}</td>
+                                            <td className="border border-border p-2">{shift.spots}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -268,7 +268,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 </div>
                 {showPopup && selectedShift && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
+                        <div className="bg-card p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
                             <h2 className="text-xl font-bold mb-4">Registration Details</h2>
                             <p className="text-lg mb-4">
                                 <strong>Member:</strong> {selectedShift.member_member.first_name} {selectedShift.member_member.last_name}
@@ -295,13 +295,13 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                 </button>
                                 <button 
                                     onClick={() => { deleteShiftSignUp(selectedShift) }} 
-                                    className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-700">
+                                    className="bg-primary text-white rounded px-4 py-2 hover:bg-primary/90">
                                     Remove
                                 </button>
                             </div>
                             <button 
                                 onClick={closePopup} 
-                                className="mt-4 bg-gray-300 text-black rounded px-4 py-2">
+                                className="mt-4 bg-muted text-black rounded px-4 py-2">
                                 Close
                             </button>
                         </div>
@@ -309,7 +309,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 )}
                 {showNewShiftPopup && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
+                        <div className="bg-card p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
                             <h2 className="text-xl font-bold mb-4">New Shift</h2>
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(handleCreateShift)}>
@@ -411,7 +411,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                     <div className="flex justify-between space-x-2">
                                         <Button 
                                             type="submit" 
-                                            className="w-full mt-4 bg-red-500 hover:bg-red-600 transition duration-300 text-white rounded-full"
+                                            className="w-full mt-4 bg-primary hover:bg-primary/90 transition duration-300 text-white rounded-full"
                                             disabled={isPending}
                                         >
                                             Create Shift
@@ -419,7 +419,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                         <Button 
                                             type="button" 
                                             onClick={closeNewShiftPopup} 
-                                            className="w-full mt-4 bg-white text-red-500 border border-red-500 hover:bg-red-600 hover:text-white transition duration-300 rounded-full"
+                                            className="w-full mt-4 bg-card text-primary border border-primary hover:bg-primary/90 hover:text-white transition duration-300 rounded-full"
                                             disabled={isPending}
                                         >
                                             Cancel

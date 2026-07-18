@@ -1,7 +1,7 @@
 "use client"
 
 import { getManagers } from "@/actions/admin/managers"
-import { getMemberNames, getMembers } from "@/actions/admin/member"
+import { getMemberNames } from "@/actions/admin/member"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import { AdminManagerList } from "@/components/admin/managers/managerList"
 import { Prisma } from "@prisma/client"
@@ -18,7 +18,7 @@ const Admin_ManagersListPage = () => {
             await getManagers()
             .then(async (res) => {
                 setManagerData(res)
-                await getMembers()
+                await getMemberNames()
                 .then(res => {
                     setMemberData(res)
                 })

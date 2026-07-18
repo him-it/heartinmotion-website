@@ -96,20 +96,20 @@ const AdminFilesList = ({ fileData }: { fileData: any[] }) => {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+      <div className="bg-card border border-border shadow-xs rounded-xl p-6 mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-foreground">
           Upload File
         </h2>
         <div className="space-y-4">
           <div>
-            <Label className="block text-sm font-medium text-gray-600">
+            <Label className="block text-sm font-medium text-muted-foreground">
               Choose a file
             </Label>
             <Input
               type="file"
               disabled={isPending}
               accept="application/pdf"
-              className="mt-2 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-2 p-2 border border-input rounded-md w-full"
               onChange={async (e) => {
                 const file = e.target.files ? e.target.files[0] : null;
                 if (file) {
@@ -119,7 +119,7 @@ const AdminFilesList = ({ fileData }: { fileData: any[] }) => {
             />
           </div>
           <Button
-            className="mt-4 px-6 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-300"
+            className="mt-4 px-6 py-2 text-white bg-primary rounded-md hover:bg-primary/90 transition duration-300"
             disabled={isPending}
             onClick={() => {
               uploadFile();
@@ -133,23 +133,23 @@ const AdminFilesList = ({ fileData }: { fileData: any[] }) => {
         {fileData &&
           fileData.map((file, key) => (
             <div key={key}>
-              <div className="max-w-xs h-96 w-full border p-4 rounded-lg shadow-lg hover:shadow-xl text-center transition-shadow duration-300 mx-auto">
+              <div className="max-w-xs h-96 w-full rounded-xl border border-border bg-card p-4 shadow-xs hover:shadow-soft text-center transition-shadow duration-300 mx-auto">
                 <div className="flex justify-center mb-4 mt-2">
                   <button
                     onClick={() => {
                       deleteFile(file.id);
                     }}
                     disabled={isPending}
-                    className="w-2/6 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-200 text-center"
+                    className="w-2/6 py-2 text-white bg-primary rounded-md hover:bg-primary/90 transition duration-200 text-center"
                   >
                     Delete
                   </button>
                 </div>
                 <Link href={`/volunteer/files/${file.name}`} className="block">
-                  <h1 className="text-xl font-semibold mb-2 text-darkred hover:underline">
+                  <h1 className="text-xl font-semibold mb-2 text-foreground hover:underline">
                     {file.dispname}
                   </h1>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="text-sm text-muted-foreground mb-4">
                     {Math.round((file.size / 1024) * 10) / 10 + " KB"}
                   </p>
                   {file.thumbnail && (
@@ -166,7 +166,7 @@ const AdminFilesList = ({ fileData }: { fileData: any[] }) => {
             </div>
           ))}
         {!fileData && (
-          <div className="flex justify-center items-center w-full h-full col-span-4 text-gray-500">
+          <div className="flex justify-center items-center w-full h-full col-span-4 text-muted-foreground">
             Loading files...
           </div>
         )}

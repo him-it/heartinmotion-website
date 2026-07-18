@@ -4,8 +4,12 @@ import * as z from 'zod'
 
 import { db } from '@/lib/db'
 import { EditPageSchema } from '@/schemas'
+import { requireAdmin } from '@/lib/authGuard'
 
 export const getPages = async () => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const pages = await db.him_page.findMany({ 
             orderBy: {
@@ -19,6 +23,9 @@ export const getPages = async () => {
 }
 
 export const getPageById = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const page = await db.him_page.findUnique({ 
             where: {
@@ -32,6 +39,9 @@ export const getPageById = async (id: number) => {
 }
 
 export const updatePage = async (data: z.infer<typeof EditPageSchema>, content: string | undefined, id: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.him_page.update({
             where: {
@@ -44,6 +54,6 @@ export const updatePage = async (data: z.infer<typeof EditPageSchema>, content: 
         })
         return { success: "Saved successfully!" }
     } catch {
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
     }
 }

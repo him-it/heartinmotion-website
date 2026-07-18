@@ -1,6 +1,6 @@
 "use client"
 
-import { getEventBySlug } from "@/actions/admin/event"
+import { getPublicEventBySlug } from "@/actions/volunteer/event"
 import { PageWrapper } from "@/components/pageWrapper"
 import { EventDetails } from "@/components/volunteer/eventDetails"
 import { useParams, useRouter } from "next/navigation"
@@ -13,13 +13,13 @@ import { getRegisteredShifts, getWaitlistedShifts } from "@/actions/account/user
 const Events = () => {
     const router = useRouter()
     const { slug } = useParams()!
-    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getEventBySlug>>({} as Prisma.PromiseReturnType<typeof getEventBySlug>)
+    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getPublicEventBySlug>>({} as Prisma.PromiseReturnType<typeof getPublicEventBySlug>)
     const [ registeredShiftData, setRegisteredShiftData ] = useState<Prisma.PromiseReturnType<typeof getRegisteredShifts>>()
     const [ waitlistedShiftData, setWaitlistedShiftData ] = useState<Prisma.PromiseReturnType<typeof getWaitlistedShifts>>()
 
     useEffect(() => {
         const fetchEvent = async () => {
-            await getEventBySlug(slug ? slug[0] as string : "")
+            await getPublicEventBySlug(slug ? slug[0] as string : "")
                 .then(async res => {
                     if(res) 
                         {

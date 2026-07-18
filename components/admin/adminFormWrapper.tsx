@@ -2,15 +2,17 @@ import Link from "next/link"
 
 export const AdminFormWrapper = ({ children, title, redirect } : { children: React.ReactNode, title?: string, redirect?: string }) => {
     return (
-        <div className='flex justify-center items-center min-h-screen rounded-full my-10'>
-            <div className='shadow-lg rounded-xl  border border-gray-100 sm:w-[80%] w-[75%] pb-5'>
-                <div className='flex right-full mt-10 sm:ml-16 ml-5'>
-                    <Link href={ redirect || '/' } className='bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition duration-300'>Back</Link>
+        <div className="flex justify-center items-start min-h-screen py-12 px-5">
+            <div className="w-full max-w-3xl rounded-xl border border-border bg-card shadow-xs pb-6">
+                <div className="p-6 border-b border-border">
+                    <Link href={ redirect || '/' } className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-full border border-border bg-card text-foreground hover:bg-muted transition-colors">
+                        ← Back
+                    </Link>
+                    <h1 className="mt-4 text-2xl font-bold tracking-tight text-foreground">{ title }</h1>
                 </div>
-                <div className='mb-8 mt-8  sm:ml-16 ml-5'>
-                    <h1 className="text-red-500 text-4xl font-bold mb-6">{ title }</h1>
+                <div className="p-6">
+                    { children }
                 </div>
-                { children }
             </div>
         </div>
     )

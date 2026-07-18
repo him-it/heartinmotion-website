@@ -100,7 +100,7 @@ export const AdminManagerList = ({ managerData, memberData } : { managerData: Pr
                     <div className="flex">
                         <Button 
                             type="submit" 
-                            className="mt-4 bg-red-500 hover:bg-red-600 transition duration-300 text-white rounded-full w-full"
+                            className="mt-4 bg-primary hover:bg-primary/90 transition duration-300 text-white rounded-full w-full"
                             disabled={isPending}
                         >
                             Add
@@ -109,21 +109,21 @@ export const AdminManagerList = ({ managerData, memberData } : { managerData: Pr
                 </form>
             </Form>
             </div>
-            <table className="min-w-full table-auto bg-white border-collapse shadow-lg">
-                <thead className="bg-gray-200">
+            <table className="min-w-full table-auto bg-card border-collapse shadow-lg">
+                <thead className="bg-muted">
                     <tr>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Type</th>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Remove</th>
+                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Name</th>
+                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Type</th>
+                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Remove</th>
                     </tr>
                 </thead>
                 <tbody>
                     {managerData && managerData.map((manager, key) => (
                         <tr key={key} className="border-b">
-                            <td className="px-4 py-2 text-sm text-gray-800">
-                                <Link className="text-red-600 hover:text-red-700 hover:underline" href={"/admin/members/member/" + manager.id}>{manager.first_name + " " + manager.last_name}</Link>
+                            <td className="px-4 py-2 text-sm text-foreground">
+                                <Link className="text-primary hover:text-primary/90 hover:underline" href={"/admin/members/member/" + manager.id}>{manager.first_name + " " + manager.last_name}</Link>
                             </td>
-                            <td className="px-4 py-2 text-sm text-gray-800">
+                            <td className="px-4 py-2 text-sm text-foreground">
                                 {manager.member_memberrestricted?.admin_level === 2 && "Member Info Only"}
                                 {manager.member_memberrestricted?.admin_level === 4 && "Basic Administrator"}
                                 {manager.member_memberrestricted?.admin_level === 10 && "Super Administrator"}
@@ -134,7 +134,7 @@ export const AdminManagerList = ({ managerData, memberData } : { managerData: Pr
                                     onClick={() => {
                                         updateAdminLevel(manager.first_name + " " + manager.last_name, manager.id, 0)
                                     }}
-                                    className="text-red-600 hover:text-red-800 text-sm font-semibold"
+                                    className="text-primary hover:text-primary/90 text-sm font-semibold"
                                 >
                                     Remove
                                 </button>

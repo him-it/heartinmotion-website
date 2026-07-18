@@ -116,13 +116,13 @@ export const EditForm = ({ user }: { user : z.infer<typeof AccountSchema> | any 
                 })
                 .catch(() => {
                     setSuccess(undefined)
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
         })
     }
 
     return (
-        <div className='shadow-lg p-8 border border-gray-100 rounded-lg'>
+        <div className='rounded-xl border border-border bg-card p-6 sm:p-8 shadow-xs'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className='space-y-4 sm:w-96 w-55'>
@@ -320,7 +320,7 @@ export const EditForm = ({ user }: { user : z.infer<typeof AccountSchema> | any 
                                     <FormLabel>School</FormLabel>
                                     <FormControl>
                                         { schoolList.includes(form.getValues("school")) ? 
-                                            <select {...field} className="border rounded p-2 mb-4 w-full" disabled={ isPending || !user }
+                                            <select {...field} className="border border-input rounded-md bg-background px-3 py-2 mb-4 w-full text-sm" disabled={ isPending || !user }
                                                 onChange={(e) => {
                                                     if(e.target.value === "Other")
                                                         form.setValue("school", "")
@@ -336,7 +336,7 @@ export const EditForm = ({ user }: { user : z.infer<typeof AccountSchema> | any 
                                                 <option value="Other">Other</option>
                                             </select> : (
                                                 <div>
-                                                    <select className="border rounded p-2 mb-4 w-full" value="Other" disabled={ isPending || !user }
+                                                    <select className="border border-input rounded-md bg-background px-3 py-2 mb-4 w-full text-sm" value="Other" disabled={ isPending || !user }
                                                         onChange={(e) => {
                                                             if(schoolList.includes(e.target.value))
                                                                 form.setValue("school", e.target.value)
@@ -406,7 +406,7 @@ export const EditForm = ({ user }: { user : z.infer<typeof AccountSchema> | any 
                                 <FormItem>
                                     <FormLabel>Shirt Size</FormLabel>
                                     <FormControl>
-                                        <select {...field} className="border rounded p-2 mb-4 w-full" disabled={ isPending || !user }>
+                                        <select {...field} className="border border-input rounded-md bg-background px-3 py-2 mb-4 w-full text-sm" disabled={ isPending || !user }>
                                             <option value="XS">XS</option>
                                             <option value="S">S</option>
                                             <option value="M">M</option>
@@ -579,7 +579,7 @@ export const EditForm = ({ user }: { user : z.infer<typeof AccountSchema> | any 
                     )}      
                     <Button
                         type="submit"
-                        className='text-white w-full mt-8 rounded-full bg-red-500 hover:bg-red-600 transition duration-300'
+                        className='w-full mt-8'
                         disabled={ isPending || !user }
                     >
                         Save

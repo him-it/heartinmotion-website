@@ -95,7 +95,7 @@ const AdminShiftDetails = ({
           window.location.reload();
         })
         .catch(() => {
-          setError("An unexpected error occured.");
+          setError("An unexpected error occurred.");
         });
     });
   };
@@ -114,7 +114,7 @@ const AdminShiftDetails = ({
             );
           })
           .catch(() => {
-            setError("An unexpected error occured.");
+            setError("An unexpected error occurred.");
           });
       }
   };
@@ -126,7 +126,7 @@ const AdminShiftDetails = ({
           window.location.reload();
         })
         .catch(() => {
-          setError("An unexpected error occured.");
+          setError("An unexpected error occurred.");
         });
     });
   };
@@ -148,7 +148,7 @@ const AdminShiftDetails = ({
           else window.location.reload();
         })
         .catch(() => {
-          setError("An unexpected error occured.");
+          setError("An unexpected error occurred.");
         });
   };
 
@@ -171,7 +171,7 @@ const AdminShiftDetails = ({
           } else window.location.reload();
         })
         .catch(() => {
-          setError("An unexpected error occured.");
+          setError("An unexpected error occurred.");
         });
     });
   };
@@ -195,7 +195,7 @@ const AdminShiftDetails = ({
           } else window.location.reload();
         })
         .catch(() => {
-          setError("An unexpected error occured.");
+          setError("An unexpected error occurred.");
         });
     });
   };
@@ -219,7 +219,7 @@ const AdminShiftDetails = ({
           } else window.location.reload();
         })
         .catch(() => {
-          setError("An unexpected error occured.");
+          setError("An unexpected error occurred.");
         });
     });
   };
@@ -231,7 +231,7 @@ const AdminShiftDetails = ({
           window.location.reload();
         })
         .catch(() => {
-          setError("An unexpected error occured.");
+          setError("An unexpected error occurred.");
         });
     });
   };
@@ -245,7 +245,7 @@ const AdminShiftDetails = ({
               window.location.reload();
             })
             .catch(() => {
-              setError("An unexpected error occured.");
+              setError("An unexpected error occurred.");
             });
       });
   };
@@ -259,7 +259,7 @@ const AdminShiftDetails = ({
               window.location.reload();
             })
             .catch(() => {
-              setError("An unexpected error occured.");
+              setError("An unexpected error occurred.");
             });
       });
   };
@@ -357,7 +357,7 @@ const AdminShiftDetails = ({
           onClick={() => {
             confirmAll();
           }}
-          className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700"
+          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
         >
           Mark All Confirmed
         </button>
@@ -365,13 +365,13 @@ const AdminShiftDetails = ({
           onClick={() => {
             completeAll();
           }}
-          className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700"
+          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
         >
           Mark All Completed
         </button>
         <button
           onClick={() => setShowEditShiftPopup(true)}
-          className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700"
+          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
         >
           Edit Shift
         </button>
@@ -379,7 +379,7 @@ const AdminShiftDetails = ({
           onClick={() => {
             deleteShift();
           }}
-          className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700"
+          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
         >
           Delete Shift
         </button>
@@ -387,13 +387,13 @@ const AdminShiftDetails = ({
           onClick={() => {
             deleteShift();
           }}
-          className="inline-block px-4 py-2 bg-red-500 text-center text-white rounded-md hover:bg-red-700"
+          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
         >
           Delete Shift
         </button>
         <div>
           <input
-            className="inline-block px-4 py-2 mt-2 border border-gray-300 rounded-md"
+            className="inline-block px-4 py-2 mt-2 border border-border rounded-md"
             placeholder="Update All Hours"
             onKeyDown={(e) => {
               if (shiftData?.id && e.key === "Enter") {
@@ -408,7 +408,7 @@ const AdminShiftDetails = ({
         <div className="w-[80%]">
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mb-3 w-full">
             <div className="flex-2 p-4">
-              <h2 className="text-lg font-semibold text-gray-700 mb-4">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Shift Details
               </h2>
               <h3>{updatedData.description}</h3>
@@ -440,7 +440,7 @@ const AdminShiftDetails = ({
               <div className="mt-5 font-bold">
                 {updatedData.events_eventshiftmember?.length >=
                 updatedData.spots ? (
-                  <div className="text-red-600">
+                  <div className="text-primary">
                     <p>SHIFT FULL!</p>
                     <p>
                       {updatedData.spots -
@@ -465,7 +465,7 @@ const AdminShiftDetails = ({
               </div>
             </div>
             <div className="flex-1 p-4">
-              <h2 className="text-lg font-semibold text-gray-700 mb-4">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Add a Member
               </h2>
               <Form {...addMemberForm}>
@@ -519,7 +519,7 @@ const AdminShiftDetails = ({
                   <div className="flex">
                     <Button
                       type="submit"
-                      className="mt-4 bg-red-500 hover:bg-red-600 transition duration-300 text-white rounded-full w-full"
+                      className="mt-4 bg-primary hover:bg-primary/90 transition duration-300 text-white rounded-full w-full"
                       disabled={isPending}
                     >
                       Add
@@ -530,14 +530,14 @@ const AdminShiftDetails = ({
             </div>
           </div>
           <div className="w-full p-4">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            <h2 className="text-lg font-semibold text-foreground mb-4">
               Members
             </h2>
-            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-              <thead className="bg-gray-100">
+            <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+              <thead className="bg-muted">
                 <tr>
                   <th
-                    className="border border-gray-300 p-2 text-gray-600 cursor-pointer"
+                    className="border border-border p-2 text-muted-foreground cursor-pointer"
                     onClick={() => requestSort("name")}
                   >
                     Name
@@ -546,7 +546,7 @@ const AdminShiftDetails = ({
   )}
                   </th>
                   <th
-                    className="border border-gray-300 p-2 text-gray-600 cursor-pointer"
+                    className="border border-border p-2 text-muted-foreground cursor-pointer"
                     onClick={() => requestSort("phone")}
                   >
                     Phone
@@ -555,7 +555,7 @@ const AdminShiftDetails = ({
   )}
                   </th>
                   <th
-                    className="border border-gray-300 p-2 text-gray-600 cursor-pointer"
+                    className="border border-border p-2 text-muted-foreground cursor-pointer"
                     onClick={() => requestSort("school")}
                   >
                     School
@@ -564,7 +564,7 @@ const AdminShiftDetails = ({
   )}
                   </th>
                   <th
-                    className="border border-gray-300 p-2 text-gray-600 cursor-pointer"
+                    className="border border-border p-2 text-muted-foreground cursor-pointer"
                     onClick={() => requestSort("graduatingYear")}
                   >
                     Graduating Year
@@ -573,7 +573,7 @@ const AdminShiftDetails = ({
   )}
                   </th>
                   <th
-                    className="border border-gray-300 p-2 text-gray-600 cursor-pointer"
+                    className="border border-border p-2 text-muted-foreground cursor-pointer"
                     onClick={() => requestSort("confirmed")}
                   >
                     Confirmed
@@ -582,7 +582,7 @@ const AdminShiftDetails = ({
   )}
                   </th>
                   <th
-                    className="border border-gray-300 p-2 text-gray-600 cursor-pointer"
+                    className="border border-border p-2 text-muted-foreground cursor-pointer"
                     onClick={() => requestSort("completed")}
                   >
                     Completed
@@ -591,7 +591,7 @@ const AdminShiftDetails = ({
   )}
                   </th>
                   <th
-                    className="border border-gray-300 p-2 text-gray-600 cursor-pointer"
+                    className="border border-border p-2 text-muted-foreground cursor-pointer"
                     onClick={() => requestSort("hours")}
                   >
                     Hours
@@ -599,7 +599,7 @@ const AdminShiftDetails = ({
     <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
   )}
                   </th>
-                  <th className="border border-gray-300 p-2 text-gray-600">
+                  <th className="border border-border p-2 text-muted-foreground">
                     Delete
                   </th>
                 </tr>
@@ -607,33 +607,33 @@ const AdminShiftDetails = ({
               <tbody>
                 {updatedData.events_eventshiftmember?.length > 0 &&
                   sortedMembers.map((member) => (
-                    <tr key={member.id} className="border-b hover:bg-gray-50">
-                      <td className="border border-gray-300 p-2">
+                    <tr key={member.id} className="border-b hover:bg-muted">
+                      <td className="border border-border p-2">
                         <Link
                           href={"/admin/members/member/" + member.member_id}
-                          className="text-red-800 hover:underline hover:text-red-950"
+                          className="text-primary hover:underline hover:text-primary/90"
                         >
                           {member.member_member.first_name +
                             " " +
                             member.member_member.last_name}
                         </Link>
                       </td>
-                      <td className="border border-gray-300 p-2">
+                      <td className="border border-border p-2">
                         {member.member_member.cell_phone}
                       </td>
-                      <td className="border border-gray-300 p-2">
+                      <td className="border border-border p-2">
                         {member.member_member.school}
                       </td>
-                      <td className="border border-gray-300 p-2">
+                      <td className="border border-border p-2">
                         {member.member_member.graduating_year}
                       </td>
-                      <td className="border border-gray-300 p-2 text-center">
+                      <td className="border border-border p-2 text-center">
                         <Button
                           disabled={isPending}
                           className={
                             (member.confirmed
                               ? "bg-green-500 hover:bg-green-600"
-                              : "bg-red-600 hover:bg-red-700") +
+                              : "bg-primary hover:bg-primary/90") +
                             " w-full text-white"
                           }
                           onClick={() => {
@@ -643,13 +643,13 @@ const AdminShiftDetails = ({
                           {member.confirmed ? "Yes" : "No"}
                         </Button>
                       </td>
-                      <td className="border border-gray-300 p-2 text-center">
+                      <td className="border border-border p-2 text-center">
                         <Button
                           disabled={isPending}
                           className={
                             (member.completed
                               ? "bg-green-500 hover:bg-green-600"
-                              : "bg-red-600 hover:bg-red-700") +
+                              : "bg-primary hover:bg-primary/90") +
                             " w-full text-white"
                           }
                           onClick={() => {
@@ -659,7 +659,7 @@ const AdminShiftDetails = ({
                           {member.completed ? "Yes" : "No"}
                         </Button>
                       </td>
-                      <td className="border border-gray-300 p-2">
+                      <td className="border border-border p-2">
                         <input
                           type="number"
                           defaultValue={member.hours}
@@ -672,7 +672,7 @@ const AdminShiftDetails = ({
                           }}
                         ></input>
                       </td>
-                      <td className="border border-gray-300 p-2 text-center">
+                      <td className="border border-border p-2 text-center">
                         <Button
                           disabled={isPending}
                           className="bg-black text-white"
@@ -695,7 +695,7 @@ const AdminShiftDetails = ({
           </div>
           {showEditShiftPopup && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
+              <div className="bg-card p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
                 <h2 className="text-xl font-bold mb-4">Edit Shift</h2>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(editShift)}>
@@ -797,7 +797,7 @@ const AdminShiftDetails = ({
                     <div className="flex justify-between space-x-2">
                       <Button
                         type="submit"
-                        className="w-full mt-4 bg-red-500 hover:bg-red-600 transition duration-300 text-white rounded-full"
+                        className="w-full mt-4 bg-primary hover:bg-primary/90 transition duration-300 text-white rounded-full"
                         disabled={isPending}
                       >
                         Save Changes
@@ -805,7 +805,7 @@ const AdminShiftDetails = ({
                       <Button
                         type="button"
                         onClick={() => setShowEditShiftPopup(false)}
-                        className="w-full mt-4 bg-white text-red-500 border border-red-500 hover:bg-red-600 hover:text-white transition duration-300 rounded-full"
+                        className="w-full mt-4 bg-card text-primary border border-primary hover:bg-primary/90 hover:text-white transition duration-300 rounded-full"
                         disabled={isPending}
                       >
                         Cancel

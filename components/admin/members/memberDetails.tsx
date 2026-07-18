@@ -96,7 +96,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                 })
                 .catch(() => {
                     setSuccess(undefined)
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
         })
     }
@@ -111,7 +111,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                     })
                     .catch(() => {
                         setSuccess(undefined)
-                        setError("An unexpected error occured.")
+                        setError("An unexpected error occurred.")
                     })
         })
     }
@@ -267,7 +267,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                 {updatedData && 
                     <div className="flex flex-col items-center w-full max-w-4xl">
                     <div className="flex justify-center gap-4 mb-4">
-                        <button className="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition"
+                        <button className="px-4 py-2 text-white bg-primary rounded-lg hover:bg-primary/90 transition"
                             disabled={!updatedData.id}
                             onClick={() => {
                                 deleteMember()
@@ -275,7 +275,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                         >
                             Delete Member
                         </button>
-                        <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+                        <button className="px-4 py-2 bg-muted rounded-lg hover:bg-muted/80 transition"
                             disabled={!updatedData.id}
                             onClick={() => {
                                 lifetimeReport(updatedData.id)
@@ -288,21 +288,21 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                     <div className="flex justify-center gap-4">
                         <button
                             onClick={() => handleTabClick('profile')}
-                            className={`px-4 py-2 rounded-tl-lg rounded-tr-lg ${activeTab === 'profile' ? 'bg-white p-8 border border-gray-200 rounded-lg border-b-0 rounded-b-none hover:bg-gray-50 transition' : 'bg-gray-200 hover:bg-gray-300 transition'}`}
+                            className={`px-4 py-2 rounded-tl-lg rounded-tr-lg ${activeTab === 'profile' ? 'bg-card p-8 border border-border rounded-lg border-b-0 rounded-b-none hover:bg-muted transition' : 'bg-muted hover:bg-muted/80 transition'}`}
                             disabled={!updatedData.id}
                         >
                             Profile
                         </button>
                         <button
                             onClick={() => handleTabClick('club')}
-                            className={`px-4 py-2 rounded-tl-lg rounded-tr-lg ${activeTab === 'club' ? 'bg-white p-8 border border-gray-200 rounded-lg border-b-0 rounded-b-none hover:bg-gray-50 transition' : 'bg-gray-200 hover:bg-gray-300 transition'}`}
+                            className={`px-4 py-2 rounded-tl-lg rounded-tr-lg ${activeTab === 'club' ? 'bg-card p-8 border border-border rounded-lg border-b-0 rounded-b-none hover:bg-muted transition' : 'bg-muted hover:bg-muted/80 transition'}`}
                             disabled={!updatedData.id}
                         >
                             Club
                         </button>
                         <button
                             onClick={() => handleTabClick('shifts')}
-                            className={`px-4 py-2 rounded-tl-lg rounded-tr-lg ${activeTab === 'shifts' ? 'bg-white p-8 border border-gray-200 rounded-lg border-b-0 rounded-b-none hover:bg-gray-50 transition' : 'bg-gray-200 hover:bg-gray-300 transition'}`}
+                            className={`px-4 py-2 rounded-tl-lg rounded-tr-lg ${activeTab === 'shifts' ? 'bg-card p-8 border border-border rounded-lg border-b-0 rounded-b-none hover:bg-muted transition' : 'bg-muted hover:bg-muted/80 transition'}`}
                             disabled={!updatedData.id}
                         >
                             Shifts
@@ -310,7 +310,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                     </div>
                     <div>
                         {activeTab === 'profile' && (
-                            <div className='shadow-lg p-8 border border-gray-100 rounded-lg'>
+                            <div className='shadow-lg p-8 border border-border rounded-lg'>
                                 <Form {...profileForm}>
                                     <form onSubmit={profileForm.handleSubmit(onProfileSubmit)}>
                                         <div className='space-y-4 sm:w-96 w-55'>
@@ -733,7 +733,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                         )}
                                         <Button
                                             type="submit"
-                                            className='w-full mt-8 rounded-full bg-red-500 hover:bg-red-600 transition duration-300 text-white'
+                                            className='w-full mt-8 rounded-full bg-primary hover:bg-primary/90 transition duration-300 text-white'
                                             disabled={ isPending || !updatedData.id }
                                         >
                                             Save
@@ -744,7 +744,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                         )}
                         
                         {activeTab === 'club' && (
-                            <div className='shadow-lg p-8 border border-gray-100 rounded-lg'>
+                            <div className='shadow-lg p-8 border border-border rounded-lg'>
                                 <Form {...clubForm}>
                                     <form onSubmit={clubForm.handleSubmit(onClubSubmit)}>
                                         <div className='space-y-4 sm:w-96 w-55'>
@@ -996,7 +996,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                         )}
                                         <Button
                                             type="submit"
-                                            className='w-full mt-8 rounded-full bg-red-500 hover:bg-red-600 transition duration-300 text-white'
+                                            className='w-full mt-8 rounded-full bg-primary hover:bg-primary/90 transition duration-300 text-white'
                                             disabled={ isPending || !updatedData.id }
                                         >
                                             Save
@@ -1006,7 +1006,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                             </div>
                         )}
                         {activeTab === 'shifts' && (
-                            <div className='shadow-lg p-8 border border-gray-100 rounded-lg'>
+                            <div className='shadow-lg p-8 border border-border rounded-lg'>
                                 <div className='space-y-6 sm:w-full w-full'>
                                     <div className='space-y-2'>
                                         <div>
@@ -1061,35 +1061,35 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                         </div>
                                     </div>
                                     <div>
-                                        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md sm:w-full overflow-x-auto">
-                                            <thead className="bg-gray-100">
+                                        <table className="min-w-full bg-card border border-border rounded-lg shadow-md sm:w-full overflow-x-auto">
+                                            <thead className="bg-muted">
                                                 <tr>
-                                                    <th className="p-3 text-left text-gray-600 border-b border-gray-300">Date</th>
-                                                    <th className="p-3 text-left text-gray-600 border-b border-gray-300">Event/Shift</th>
-                                                    <th className="p-3 text-left text-gray-600 border-b border-gray-300">Transportation</th>
-                                                    <th className="p-3 text-left text-gray-600 border-b border-gray-300">Confirmed</th>
-                                                    <th className="p-3 text-left text-gray-600 border-b border-gray-300">Completed</th>
-                                                    <th className="p-3 text-left text-gray-600 border-b border-gray-300">Hours</th>
-                                                    <th className="p-3 text-center text-gray-600 border-b border-gray-300">Delete</th>
+                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Date</th>
+                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Event/Shift</th>
+                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Transportation</th>
+                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Confirmed</th>
+                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Completed</th>
+                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Hours</th>
+                                                    <th className="p-3 text-center text-muted-foreground border-b border-border">Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
                                                     updatedData.events_eventshiftmember.map((shift, key) => (
-                                                        <tr key={key} className="hover:bg-gray-50 border-solid border-2 border-gray-100">
-                                                            <td className="p-3 text-gray-700">
+                                                        <tr key={key} className="hover:bg-muted border-solid border-2 border-border">
+                                                            <td className="p-3 text-foreground">
                                                                 {shift.events_eventshift.start_time.toLocaleDateString('en-US', { timeZone:'UTC', day: '2-digit', month: '2-digit', year: 'numeric' }) + " (" + shift.events_eventshift.start_time.toLocaleString('en-US', { timeZone:'UTC',  weekday: 'short' }) + ")"}
                                                             </td>
-                                                            <td className="p-3 text-gray-700">
-                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug} className="text-red-800 hover:text-amber-950 hover:underline">{shift.events_eventshift.events_event.name}</Link>
+                                                            <td className="p-3 text-foreground">
+                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug} className="text-primary hover:text-amber-950 hover:underline">{shift.events_eventshift.events_event.name}</Link>
                                                                 <br/>
-                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug + "/shift/" + shift.events_eventshift.id} className="text-red-800 hover:text-amber-950 hover:underline">{"(" + shift.events_eventshift.description + ")"}</Link>
+                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug + "/shift/" + shift.events_eventshift.id} className="text-primary hover:text-amber-950 hover:underline">{"(" + shift.events_eventshift.description + ")"}</Link>
                                                             </td>
-                                                            <td className="p-3 text-gray-700">{shift.transportation}</td>
+                                                            <td className="p-3 text-foreground">{shift.transportation}</td>
                                                             <td className="p-3 text-center">
                                                                 <Button
                                                                     disabled={isPending}
-                                                                    className={`${shift.confirmed ? "bg-green-500 hover:bg-green-600" : "bg-red-600 hover:bg-red-700"} text-white w-full`}
+                                                                    className={`${shift.confirmed ? "bg-green-500 hover:bg-green-600" : "bg-primary hover:bg-primary/90"} text-white w-full`}
                                                                     onClick={() => { changeConfirmed(shift.id, !shift.confirmed) }}
                                                                 >
                                                                     {shift.confirmed ? "Yes" : "No"}
@@ -1098,7 +1098,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                             <td className="p-3 text-center">
                                                                 <Button
                                                                     disabled={isPending}
-                                                                    className={`${shift.completed ? "bg-green-500 hover:bg-green-600" : "bg-red-600 hover:bg-red-700"} text-white w-full`}
+                                                                    className={`${shift.completed ? "bg-green-500 hover:bg-green-600" : "bg-primary hover:bg-primary/90"} text-white w-full`}
                                                                     onClick={() => { changeCompleted(shift.id, !shift.completed) }}
                                                                 >
                                                                     {shift.completed ? "Yes" : "No"}
@@ -1109,7 +1109,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                                     type="number"
                                                                     defaultValue={shift.hours}
                                                                     disabled={isPending}
-                                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                                    className="w-full p-2 border border-border rounded-md"
                                                                     onKeyDown={(e) => {
                                                                         if (e.key === 'Enter') {
                                                                             const target = e.target as HTMLInputElement;

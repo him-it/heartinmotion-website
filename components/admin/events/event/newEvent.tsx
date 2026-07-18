@@ -45,7 +45,7 @@ const AdminNewEvent = () => {
                     window.location.replace("/admin/events")
             })
             .catch(() => {
-                setError("An unexpected error occured.")
+                setError("An unexpected error occurred.")
             })
         })
     }
@@ -151,7 +151,7 @@ const AdminNewEvent = () => {
                                         )} 
                                     <Button
                                         type="submit"
-                                        className='flex w-52 my-8 mx-auto rounded-full text-white bg-red-500 hover:bg-red-600 transition duration-300'
+                                        className='flex w-52 my-8 mx-auto rounded-full text-white bg-primary hover:bg-primary/90 transition duration-300'
                                         disabled={ isPending }
                                         >
                                             Create

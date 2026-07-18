@@ -2,7 +2,7 @@
 
 import * as z from 'zod'
 import { useEffect, useState, useTransition } from "react"
-import { getEventBySlug } from "@/actions/admin/event"
+import { getPublicEventBySlug } from "@/actions/volunteer/event"
 import { Prisma } from "@prisma/client"
 import { Button } from "../ui/button"
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -17,8 +17,9 @@ import Link from 'next/link'
 import { getRegisteredShifts, getWaitlistedShifts } from '@/actions/account/user'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 import { getFriends } from '@/actions/admin/member'
+import { sanitizeHtml } from '@/lib/sanitize'
 
-export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedShiftData } : { eventDetailData: Prisma.PromiseReturnType<typeof getEventBySlug>, registeredShiftData: Prisma.PromiseReturnType<typeof getRegisteredShifts>, waitlistedShiftData: Prisma.PromiseReturnType<typeof getWaitlistedShifts>}) => {
+export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedShiftData } : { eventDetailData: Prisma.PromiseReturnType<typeof getPublicEventBySlug>, registeredShiftData: Prisma.PromiseReturnType<typeof getRegisteredShifts>, waitlistedShiftData: Prisma.PromiseReturnType<typeof getWaitlistedShifts>}) => {
     const [showRegistration, setShowRegistration] = useState(false);
     const [selectedShift, setSelectedShift] = useState<{description: string, id: number} | null>(null);
 
@@ -36,8 +37,8 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
         const renderPage = () => {
             const container = document.getElementById("page-content-container")!
             if (eventDetailData?.content)
-                container.innerHTML = eventDetailData.content
-            else 
+                container.innerHTML = sanitizeHtml(eventDetailData.content)
+            else
                 container.innerHTML = "Loading..."
         }
         renderPage()
@@ -79,15 +80,15 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
                     window.location.reload()
                 })
                 .catch(() => {
-                    setError("An unexpected error occured.")
+                    setError("An unexpected error occurred.")
                 })
             else
-                setError("An unexpected error occured.")
+                setError("An unexpected error occurred.")
         })
     }
 
     return (
-        <div className="p-5 mx-auto flex flex-col md:flex-row shadow-lg rounded-lg">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6 rounded-xl border border-border bg-card p-5 shadow-xs">
             <div className="flex-1 flex items-start">
                 <div className='p-5'>
                     <div id="page-content-container" className="prose prose-md max-w-none text-start"></div>
@@ -95,56 +96,56 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
             </div>
             <div className="w-full md:w-1/3 flex flex-col items-center justify-start p-4">
                 <div className="w-full">
-                    <h1 className="text-2xl font-bold text-center mb-6 text-red-600">Upcoming Shifts</h1>
+                    <h1 className="text-2xl font-bold text-center mb-6 text-primary">Upcoming Shifts</h1>
                     {eventDetailData && eventDetailData.events_eventshift && eventDetailData.events_eventshift.filter(shift => shift.start_time > new Date()).map((shift, key) => (
-                            <div key={key} className="mb-4 border rounded-lg shadow-md p-4 bg-white">
-                                <h3 className="text-red-600 font-semibold text-lg">{shift.description}</h3>
-                                <div className="mt-1 text-gray-700">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
-                                <div className="mt-1 text-gray-600">{ shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div>
-                                <div className="mt-1 text-gray-600">{shift.location}</div>
-                                <div className="mt-1 text-gray-600"><span className="font-bold">{(shift.spots - shift.events_eventshiftmember.length >= 0) ? (shift.spots - shift.events_eventshiftmember.length) : 0}</span><span> spots left</span></div>
+                            <div key={key} className="mb-4 rounded-xl border border-border shadow-xs p-4 bg-card">
+                                <h3 className="text-foreground font-semibold text-lg">{shift.description}</h3>
+                                <div className="mt-1 text-sm text-muted-foreground">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                                <div className="mt-1 text-sm text-muted-foreground">{ shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div>
+                                <div className="mt-1 text-sm text-muted-foreground">{shift.location}</div>
+                                <div className="mt-2 inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground"><span className="font-semibold mr-1">{(shift.spots - shift._count.events_eventshiftmember >= 0) ? (shift.spots - shift._count.events_eventshiftmember) : 0}</span><span>spots left</span></div>
                                 { registeredShiftData && waitlistedShiftData && session.data?.user.admin_level !== undefined &&
                                     <div>
-                                        { registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && (shift.spots - shift.events_eventshiftmember.length) > 0 &&
+                                        { registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && (shift.spots - shift._count.events_eventshiftmember) > 0 &&
                                             <Button
                                                 type="button"
                                                 onClick={() => handleRegisterClick({description: shift.description, id: shift.id})}
-                                                className='flex w-full mt-4 rounded-full bg-red-500 hover:bg-red-600 transition duration-300 text-white'
+                                                className='flex w-full mt-4'
                                                 >
                                                 Register
-                                            </Button>                          
+                                            </Button>
                                         }
                                         { registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length > 0 &&
-                                            <div className='mt-3 text-white bg-green-500'>You are registered.</div>                       
+                                            <div className='mt-3 rounded-md bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 text-sm font-medium text-emerald-700'>You are registered.</div>
                                         }
                                         { waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length > 0 && registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 &&
-                                            <div className='mt-3 text-gray-600 bg-yellow-300'>You are on the waitlist.</div>                       
+                                            <div className='mt-3 rounded-md bg-amber-500/10 border border-amber-500/20 px-3 py-2 text-sm font-medium text-amber-700'>You are on the waitlist.</div>
                                         }
                                         {
-                                            registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && (shift.spots - shift.events_eventshiftmember.length) <= 0 &&
-                                            <div className='mt-3 text-gray-600'>There are no available spots in this shift.</div>       
+                                            registeredShiftData?.filter(registeredShift => registeredShift.shift_id === shift.id).length === 0 && waitlistedShiftData?.filter(waitlistedShift => waitlistedShift.eventshift_id === shift.id).length === 0 && (shift.spots - shift._count.events_eventshiftmember) <= 0 &&
+                                            <div className='mt-3 text-sm text-muted-foreground'>There are no available spots in this shift.</div>
                                         }
                                     </div>
                                 }
                                 {
-                                    session.data?.user.admin_level === undefined && 
+                                    session.data?.user.admin_level === undefined &&
                                     <div>
-                                        <div className='mt-3 text-gray-600'><Link href={"/account/register"} onClick={() => {
+                                        <div className='mt-3 text-sm text-muted-foreground'><Link href={"/account/register"} onClick={() => {
                                             if(!session.data || !session.data.user.email)
                                                 signIn("google", {
                                                     callbackUrl: DEFAULT_LOGIN_REDIRECT
                                                 })
-                                        }} className='text-red-500'>Become a member</Link> to register.</div>                       
+                                        }} className='text-primary font-medium'>Become a member</Link> to register.</div>
                                     </div>
                                 }
-                                
+
                             </div>
                     ))}
                 </div>
             </div>
             {showRegistration && selectedShift && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]"> {/* Adjusted width here */}
+                <div className="fixed inset-0 flex items-center justify-center bg-foreground/40 backdrop-blur-sm">
+                    <div className="bg-card p-6 rounded-xl shadow-lift border border-border w-[90%] md:w-[60%]"> {/* Adjusted width here */}
                         <h2 className="text-xl font-bold mb-4">Register for Shift</h2>
                         <p className="text-lg mb-4">{selectedShift.description}</p>
                         <Form {...form}>
@@ -195,21 +196,22 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
                                 { error &&
                                     <FormError message={ error } />
                                 } 
-                                <Button 
-                                    type="submit" 
-                                    className="w-full mt-4 bg-red-500 hover:bg-red-600 transition duration-300 text-white rounded-full"
+                                <Button
+                                    type="submit"
+                                    className="w-full mt-4"
                                     disabled={isPending}
                                 >
                                     Register
                                 </Button>
-                                <Button 
-                                    type="button" 
-                                    onClick={() => setShowRegistration(false)} 
-                                    className="w-full mt-2 bg-white text-red-500 border border-red-500 hover:bg-red-600 hover:text-white transition duration-300 rounded-full"
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => setShowRegistration(false)}
+                                    className="w-full mt-2"
                                     disabled={isPending}
                                 >
                                     Cancel
-                                </Button>  
+                                </Button>
                             </form>
                         </Form>
                     </div>

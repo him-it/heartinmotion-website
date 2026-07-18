@@ -5,24 +5,39 @@ import * as z from 'zod'
 import { db } from "@/lib/db"
 import { AddMemberSchema, EventSchema, ShiftSchema } from '@/schemas'
 import { events_eventshift } from '@prisma/client'
+import { requireAdmin } from '@/lib/authGuard'
+import { slugify } from '@/lib/slug'
 
 export const getEventBySlug = async (slug: string) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const event = await db.events_event.findUnique({ 
             where: { 
                 slug
              },
              include: {
-                events_eventshift: 
+                events_eventshift:
                 {
                     orderBy: {
                         start_time: 'asc'
                     },
                     include: {
-                        events_eventshiftmember: true
+                        // Detail page only reads the per-shift registrant count.
+                        events_eventshiftmember: {
+                            select: {
+                                id: true
+                            }
+                        }
                     }
                 },
-                events_eventshiftmember: true,
+                // Top-level list is only used to count registrants per shift id.
+                events_eventshiftmember: {
+                    select: {
+                        shift_id: true
+                    }
+                },
                 events_eventsignup: {
                     select: {
                         id: true,
@@ -53,15 +68,16 @@ export const getEventBySlug = async (slug: string) => {
 }
 
 export const updateEvent = async (data: z.infer<typeof EventSchema>, content: string | undefined, id: number | undefined) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     const validatedFields = EventSchema.safeParse(data)
 
     if(!validatedFields.success)
         return { error: "Invalid fields!" }
 
-    console.log(id)
-
     if(!id)
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
 
     await db.events_event.update({
         where: {
@@ -77,6 +93,9 @@ export const updateEvent = async (data: z.infer<typeof EventSchema>, content: st
 }
 
 export const getSeasons = async () => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const seasons = await db.events_eventseason.findMany({
             select: {
@@ -105,6 +124,9 @@ export const getSeasons = async () => {
 }
 
 export const getEvents = async () => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const events = await db.events_event.findMany({
             select: {
@@ -126,6 +148,9 @@ export const getEvents = async () => {
 
 
 export const registerShiftSignup = async (data: any) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.$transaction([
             db.events_eventsignup_shifts.delete({
@@ -161,11 +186,14 @@ export const registerShiftSignup = async (data: any) => {
         ])
         return { success: "Saved successfully!" }
     } catch {
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
     }
 }
 
 export const deleteShiftSignup = async (data: any) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.$transaction([
             db.events_eventsignup_shifts.delete({
@@ -180,11 +208,14 @@ export const deleteShiftSignup = async (data: any) => {
             })
         ])
     } catch {
-        return { error: "An unexpected error occured." }
+        return { error: "An unexpected error occurred." }
     }
 }
 
 export const getShiftById = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return null
+
     try {
         const shift = await db.events_eventshift.findUnique({
             where: {
@@ -207,6 +238,9 @@ export const getShiftById = async (id: number) => {
 }
 
 export const createShift = async (data: z.infer<typeof ShiftSchema>) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshift.create({
             data: {
@@ -221,11 +255,14 @@ export const createShift = async (data: z.infer<typeof ShiftSchema>) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const updateShift = async (data: z.infer<typeof ShiftSchema>, id: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshift.update({
             where: {
@@ -240,11 +277,14 @@ export const updateShift = async (data: z.infer<typeof ShiftSchema>, id: number)
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const shiftAddMember = async (data: z.infer<typeof AddMemberSchema>, shiftData: events_eventshift ) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.create({
             data: {
@@ -268,11 +308,14 @@ export const shiftAddMember = async (data: z.infer<typeof AddMemberSchema>, shif
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const shiftDeleteMember = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.delete({
             where: {
@@ -280,11 +323,14 @@ export const shiftDeleteMember = async (id: number) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const updateShiftConfirmed = async (id: number, value: boolean) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.update({
             where: {
@@ -295,11 +341,14 @@ export const updateShiftConfirmed = async (id: number, value: boolean) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const updateShiftCompleted = async (id: number, value: boolean) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.update({
             where: {
@@ -310,11 +359,14 @@ export const updateShiftCompleted = async (id: number, value: boolean) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const updateShiftHours = async (id: number, value: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.update({
             where: {
@@ -325,11 +377,14 @@ export const updateShiftHours = async (id: number, value: number) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const updateShiftHoursAll = async (shift_id: number, value: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.updateMany({
             where: {
@@ -340,11 +395,14 @@ export const updateShiftHoursAll = async (shift_id: number, value: number) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const deleteShiftData = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.$transaction([
             db.events_eventshiftmember.deleteMany({
@@ -373,11 +431,14 @@ export const deleteShiftData = async (id: number) => {
             })
         ])
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const deleteEventData = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.$transaction([
             db.events_eventsignup_shifts.deleteMany({
@@ -414,11 +475,14 @@ export const deleteEventData = async (id: number) => {
             })
         ])
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const confirmAllMembers = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.updateMany({
             where: {
@@ -429,11 +493,14 @@ export const confirmAllMembers = async (id: number) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const completeAllMembers = async (id: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventshiftmember.updateMany({
             where: {
@@ -444,19 +511,24 @@ export const completeAllMembers = async (id: number) => {
             }
         })
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const createEvent = async (data: z.infer<typeof EventSchema>, content: string) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     const validatedFields = EventSchema.safeParse(data)
 
     if(!validatedFields.success)
         return { error: "Invalid fields!" }
 
+    const slug = slugify(data.name)
+
     const checkEvent = await db.events_event.findUnique({
         where: {
-            slug: data.name.toLocaleLowerCase().trim().replace(/[\s]+/g, '-').replace(/[^\w\-]+/g, '').replace(/--+/g, '-').replace(/^-+|-+$/g, '')
+            slug
         }
     })
 
@@ -467,7 +539,7 @@ export const createEvent = async (data: z.infer<typeof EventSchema>, content: st
         data: {
             ...data,
             content,
-            slug: data.name.toLocaleLowerCase().trim().replace(/[\s]+/g, '-').replace(/[^\w\-]+/g, '').replace(/--+/g, '-').replace(/^-+|-+$/g, '')
+            slug
         }
     })
 
@@ -475,6 +547,9 @@ export const createEvent = async (data: z.infer<typeof EventSchema>, content: st
 }
 
 export const updateActiveSeasonEvents = async (createActive : {event_id: number, eventseason_id: number}[], deleteActive: number[], season: number, n_required_active_events?: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.$transaction([
             db.events_eventseason.update({
@@ -500,11 +575,14 @@ export const updateActiveSeasonEvents = async (createActive : {event_id: number,
         ])
         return { success: "Saved!" }
     } catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const createSeason = async (season: number, n_required_active_events: number, createActive : {event_id: number, eventseason_id: number}[]) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.events_eventseason.create({
             data: {
@@ -523,11 +601,14 @@ export const createSeason = async (season: number, n_required_active_events: num
         return { success: "Saved!" }
     }
     catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }
 
 export const deleteSeason = async (season: number) => {
+    if (!(await requireAdmin(4)))
+        return { error: "Unauthorized." }
+
     try {
         await db.$transaction([
             db.events_eventseason_active_events.deleteMany({
@@ -544,6 +625,6 @@ export const deleteSeason = async (season: number) => {
         return { success: "Deleted!" }
     }
     catch {
-        return {error: "An unexpected error occured."}
+        return {error: "An unexpected error occurred."}
     }
 }

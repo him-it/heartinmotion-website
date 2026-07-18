@@ -14,7 +14,7 @@ const Admin_AdminPage = () => {
                     <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
                     <Link
                         href="/admin/members"
-                        className="block text-lg font-semibold text-gray-600 hover:text-gray-800 py-3 px-6 rounded-md hover:bg-gray-100 transition duration-200"
+                        className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
                     >
                         Members
                     </Link>
@@ -26,7 +26,7 @@ const Admin_AdminPage = () => {
                             <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
                             <Link
                                 href="/admin/events"
-                                className="block text-lg font-semibold text-gray-600 hover:text-gray-800 py-3 px-6 rounded-md hover:bg-gray-100 transition duration-200"
+                                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
                             >
                                 Events
                             </Link>
@@ -36,7 +36,7 @@ const Admin_AdminPage = () => {
                             <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
                             <Link
                                 href="/admin/files"
-                                className="block text-lg font-semibold text-gray-600 hover:text-gray-800 py-3 px-6 rounded-md hover:bg-gray-100 transition duration-200"
+                                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
                             >
                                 Files
                             </Link>
@@ -46,7 +46,7 @@ const Admin_AdminPage = () => {
                             <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
                             <Link
                                 href="/admin/pages"
-                                className="block text-lg font-semibold text-gray-600 hover:text-gray-800 py-3 px-6 rounded-md hover:bg-gray-100 transition duration-200"
+                                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
                             >
                                 Pages
                             </Link>
@@ -58,7 +58,7 @@ const Admin_AdminPage = () => {
                                 <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
                                 <Link
                                     href="/admin/managers"
-                                    className="block text-lg font-semibold text-gray-600 hover:text-gray-800 py-3 px-6 rounded-md hover:bg-gray-100 transition duration-200"
+                                    className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
                                 >
                                     Managers
                                 </Link>

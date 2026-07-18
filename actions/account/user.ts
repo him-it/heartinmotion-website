@@ -1,28 +1,15 @@
 "use server"
 
 import { db } from "@/lib/db"
-
-export const getUserByEmail = async (email: string) => {
-    try {
-        const user = await db.member_member.findUnique({ 
-            where: { 
-                email
-             },
-            include: {
-                member_memberrestricted: true,
-                member_memberprivate:true
-            }
-         })
-        return user
-    } catch {
-        return null
-    }
-}
+import { requireSelfOrAdmin } from "@/lib/authGuard"
 
 export const getUserById = async (id: number) => {
+    if (!(await requireSelfOrAdmin(id)))
+        return null
+
     try {
-        const user = await db.member_member.findUnique({ 
-            where: { 
+        const user = await db.member_member.findUnique({
+            where: {
                 id
              },
             include: {
@@ -38,9 +25,12 @@ export const getUserById = async (id: number) => {
 }
 
 export const getRegisteredShifts = async ( member_id: number) => {
+    if (!(await requireSelfOrAdmin(member_id)))
+        return null
+
     try {
-        const user = await db.events_eventshiftmember.findMany({ 
-            where: { 
+        const user = await db.events_eventshiftmember.findMany({
+            where: {
                 member_id
              },
              include: {
@@ -66,9 +56,12 @@ export const getRegisteredShifts = async ( member_id: number) => {
 }
 
 export const getWaitlistedShifts = async ( member_id: number) => {
+    if (!(await requireSelfOrAdmin(member_id)))
+        return null
+
     try {
-        const user = await db.events_eventsignup_shifts.findMany({ 
-            where: { 
+        const user = await db.events_eventsignup_shifts.findMany({
+            where: {
                 events_eventsignup: {
                     member_id
                 }
@@ -89,6 +82,9 @@ export const getWaitlistedShifts = async ( member_id: number) => {
 }
 
 export const getHours = async ( member_id: number ) => {
+    if (!(await requireSelfOrAdmin(member_id)))
+        return null
+
     try {
         const hours = await db.events_eventshiftmember.findMany({
             where: {

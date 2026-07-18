@@ -53,7 +53,7 @@ const AdminEditPage = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeo
                     })
                     .catch(() => {
                         setSuccess(undefined)
-                        setError("An unexpected error occured.")
+                        setError("An unexpected error occurred.")
                     })
         })
     }
@@ -68,7 +68,7 @@ const AdminEditPage = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeo
                     })
                     .catch(() => {
                         setSuccess(undefined)
-                        setError("An unexpected error occured.")
+                        setError("An unexpected error occurred.")
                     })
         })
     }
@@ -156,7 +156,7 @@ const AdminEditPage = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeo
                                         )} 
                                     <Button
                                         type="submit"
-                                        className='text-white flex w-52 my-8 mx-auto rounded-full bg-red-500 hover:bg-red-600 transition duration-300'
+                                        className='text-white flex w-52 my-8 mx-auto rounded-full bg-primary hover:bg-primary/90 transition duration-300'
                                         disabled={ isPending }
                                         >
                                             Save
@@ -209,7 +209,7 @@ const AdminEditPage = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeo
                                         )} 
                                     <Button
                                         type="submit"
-                                        className='text-white flex w-52 my-8 mx-auto rounded-full bg-red-500 hover:bg-red-600 transition duration-300'
+                                        className='text-white flex w-52 my-8 mx-auto rounded-full bg-primary hover:bg-primary/90 transition duration-300'
                                         disabled={ isPending }
                                         >
                                             Save
