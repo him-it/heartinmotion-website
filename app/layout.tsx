@@ -40,15 +40,9 @@ export default async function RootLayout({
             { children }
           </main>
           <footer className="mt-20 border-t border-border">
-            <div className="mx-auto max-w-6xl px-5 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <img src="/assets/logo.png" alt="" className="h-6 w-auto" />
-                <span>© Heart in Motion</span>
-              </div>
-              <p className="text-sm text-muted-foreground text-center sm:text-right">
-                A non-profit, tax-exempt 501(c)(3) organization.
-              </p>
-            </div>
+            <p className="mx-auto w-4/5 py-6 text-center text-sm text-muted-foreground">
+              Heart in Motion is a non-profit and tax-exempt 501(c)(3) organization.
+            </p>
           </footer>
         </body>
       </html>
