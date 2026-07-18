@@ -1,17 +1,12 @@
 "use client"
 
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
-import dynamic from "next/dynamic"
-
-const DynamicForm = dynamic(
-    () => import("@/components/admin/spotlights/spotlightForm").then(m => m.SpotlightForm),
-    { ssr: false }
-)
+import { SpotlightForm } from "@/components/admin/spotlights/spotlightForm"
 
 const Admin_NewSpotlightPage = () => {
     return (
         <AdminPageWrapper title="New Spotlight" redirect="/admin/spotlights">
-            <DynamicForm />
+            <SpotlightForm />
         </AdminPageWrapper>
     )
 }

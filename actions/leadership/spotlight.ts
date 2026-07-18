@@ -3,8 +3,9 @@
 import * as z from "zod"
 
 import { db } from "@/lib/db"
-import { SpotlightSchema } from "@/schemas"
+import { SpotlightSchema, SpotlightContentSchema } from "@/schemas"
 import { requireAdmin } from "@/lib/authGuard"
+import { parseSpotlightContent, serializeSpotlightContent, type SpotlightContent } from "@/lib/spotlightContent"
 
 export const getSpotlights = async () => {
     try {
@@ -45,7 +46,10 @@ export const getSpotlightById = async (id: number) => {
                 post_date: true
             }
         })
-        return spotlight
+        if (!spotlight)
+            return null
+
+        return { ...spotlight, content: parseSpotlightContent(spotlight.content) }
     } catch {
         return null
     }
@@ -111,10 +115,12 @@ export const getSpotlightByIdAdmin = async (id: number) => {
             return null
 
         // Hand the image to the client as a data URL so the edit form can
-        // preview the current photo (the public image route 404s hidden rows).
-        const { image, image_mime, ...rest } = spotlight
+        // preview the current photo (the public image route 404s hidden rows),
+        // and the content as structured details + Q&A for the editor.
+        const { image, image_mime, content, ...rest } = spotlight
         return {
             ...rest,
+            content: parseSpotlightContent(content),
             image: image && image_mime
                 ? `data:${image_mime};base64,${Buffer.from(image).toString('base64')}`
                 : null
@@ -126,7 +132,7 @@ export const getSpotlightByIdAdmin = async (id: number) => {
 
 export const createSpotlight = async (
     data: z.infer<typeof SpotlightSchema>,
-    content: string,
+    content: SpotlightContent,
     image?: { data: string, mime: string }
 ) => {
     if (!(await requireAdmin(4)))
@@ -136,6 +142,10 @@ export const createSpotlight = async (
     if (!validatedFields.success)
         return { error: "Invalid fields!" }
 
+    const validatedContent = SpotlightContentSchema.safeParse(content)
+    if (!validatedContent.success)
+        return { error: "Invalid fields!" }
+
     try {
         const created = await db.him_spotlight.create({
             data: {
@@ -143,7 +153,7 @@ export const createSpotlight = async (
                 category: data.category,
                 post_date: data.post_date,
                 hidden: data.hidden,
-                content,
+                content: serializeSpotlightContent(validatedContent.data),
                 image: image ? Buffer.from(image.data, 'base64') : null,
                 image_mime: image ? image.mime : null
             },
@@ -158,7 +168,7 @@ export const createSpotlight = async (
 export const updateSpotlight = async (
     id: number,
     data: z.infer<typeof SpotlightSchema>,
-    content: string,
+    content: SpotlightContent,
     image?: { data: string, mime: string },
     removeImage?: boolean
 ) => {
@@ -169,6 +179,10 @@ export const updateSpotlight = async (
     if (!validatedFields.success)
         return { error: "Invalid fields!" }
 
+    const validatedContent = SpotlightContentSchema.safeParse(content)
+    if (!validatedContent.success)
+        return { error: "Invalid fields!" }
+
     try {
         await db.him_spotlight.update({
             where: { id },
@@ -177,7 +191,7 @@ export const updateSpotlight = async (
                 category: data.category,
                 post_date: data.post_date,
                 hidden: data.hidden,
-                content,
+                content: serializeSpotlightContent(validatedContent.data),
                 // Only touch the image columns when the caller intends to:
                 // a new upload replaces, an explicit removal clears, otherwise
                 // the existing photo is left untouched.

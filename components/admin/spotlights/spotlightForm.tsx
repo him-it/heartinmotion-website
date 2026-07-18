@@ -11,11 +11,8 @@ import { Label } from "@/components/ui/label"
 import { FormError } from "@/components/ui/formError"
 import { FormSuccess } from "@/components/ui/formSuccess"
 import { Prisma } from "@prisma/client"
-import SunEditor from "suneditor-react"
-import SunEditorCore from "suneditor/src/lib/core"
-import "suneditor/dist/css/suneditor.min.css"
 import { useRouter } from "next/navigation"
-import { useRef, useState, useTransition } from "react"
+import { useState, useTransition } from "react"
 
 const CATEGORIES = ["Officer", "Intern", "Volunteer"] as const
 
@@ -32,12 +29,17 @@ type SpotlightData = NonNullable<Prisma.PromiseReturnType<typeof getSpotlightByI
 export const SpotlightForm = ({ spotlight }: { spotlight?: SpotlightData }) => {
     const router = useRouter()
     const [isPending, startTransition] = useTransition()
-    const editor = useRef<SunEditorCore>()
 
     const [name, setName] = useState(spotlight?.name ?? "")
     const [category, setCategory] = useState<string>(spotlight?.category ?? "Officer")
     const [postDate, setPostDate] = useState(toDateInput(spotlight?.post_date))
     const [hidden, setHidden] = useState(spotlight?.hidden ?? false)
+
+    // Structured content: free-text detail lines + { question, answer } pairs.
+    const [details, setDetails] = useState<string[]>(spotlight?.content.details ?? [])
+    const [questions, setQuestions] = useState<{ question: string, answer: string }[]>(
+        spotlight?.content.questions ?? []
+    )
 
     // Image state: `preview` is what we show; `upload` holds the pending base64
     // for a newly chosen file; `removeImage` clears an existing photo on save.
@@ -47,6 +49,29 @@ export const SpotlightForm = ({ spotlight }: { spotlight?: SpotlightData }) => {
 
     const [error, setError] = useState<string | undefined>()
     const [success, setSuccess] = useState<string | undefined>()
+
+    // ── Detail line helpers ────────────────────────────────────────────────
+    const addDetail = () => setDetails(d => [...d, ""])
+    const updateDetail = (i: number, value: string) =>
+        setDetails(d => d.map((v, idx) => idx === i ? value : v))
+    const removeDetail = (i: number) =>
+        setDetails(d => d.filter((_, idx) => idx !== i))
+
+    // ── Q&A helpers ────────────────────────────────────────────────────────
+    const addQuestion = () => setQuestions(q => [...q, { question: "", answer: "" }])
+    const updateQuestion = (i: number, field: "question" | "answer", value: string) =>
+        setQuestions(q => q.map((item, idx) => idx === i ? { ...item, [field]: value } : item))
+    const removeQuestion = (i: number) =>
+        setQuestions(q => q.filter((_, idx) => idx !== i))
+    const moveQuestion = (i: number, dir: -1 | 1) =>
+        setQuestions(q => {
+            const j = i + dir
+            if (j < 0 || j >= q.length)
+                return q
+            const next = [...q]
+            ;[next[i], next[j]] = [next[j], next[i]]
+            return next
+        })
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(undefined)
@@ -92,7 +117,14 @@ export const SpotlightForm = ({ spotlight }: { spotlight?: SpotlightData }) => {
             post_date: new Date(postDate),
             hidden
         }
-        const content = editor.current?.getContents(true) ?? spotlight?.content ?? ""
+        // Empty lines / blank pairs are dropped server-side, but trim here too so
+        // what we send matches what the admin sees.
+        const content = {
+            details: details.map(d => d.trim()).filter(Boolean),
+            questions: questions
+                .map(q => ({ question: q.question.trim(), answer: q.answer.trim() }))
+                .filter(q => q.question || q.answer)
+        }
         const imageArg = upload ?? undefined
 
         startTransition(() => {
@@ -115,7 +147,7 @@ export const SpotlightForm = ({ spotlight }: { spotlight?: SpotlightData }) => {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             <div className="grid gap-5 sm:grid-cols-2">
                 <div className="space-y-2">
                     <Label>Name</Label>
@@ -198,31 +230,117 @@ export const SpotlightForm = ({ spotlight }: { spotlight?: SpotlightData }) => {
                 </div>
             </div>
 
-            <div className="space-y-2">
-                <Label>Content</Label>
-                <SunEditor
-                    getSunEditorInstance={(instance: SunEditorCore) => { editor.current = instance }}
-                    height="500px"
-                    disable={isPending}
-                    lang="en"
-                    defaultValue={spotlight?.content ?? ""}
-                    setOptions={{
-                        mode: "classic",
-                        rtl: false,
-                        imageSizeOnlyPercentage: true,
-                        buttonList: [
-                            [
-                                "undo", "redo", "font", "fontSize", "formatBlock",
-                                "paragraphStyle", "blockquote", "bold", "underline",
-                                "italic", "strike", "subscript", "superscript",
-                                "fontColor", "hiliteColor", "textStyle", "removeFormat",
-                                "outdent", "indent", "align", "horizontalRule", "list",
-                                "lineHeight", "table", "link", "image", "video",
-                                "fullScreen", "showBlocks", "codeView", "preview"
-                            ]
-                        ]
-                    }}
-                />
+            {/* ── Details ──────────────────────────────────────────────────── */}
+            <div className="space-y-3">
+                <div>
+                    <Label>Details</Label>
+                    <p className="text-xs text-muted-foreground mt-1">
+                        Short description lines — e.g. role, school, class year.
+                    </p>
+                </div>
+                <div className="space-y-2">
+                    {details.map((value, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                            <Input
+                                type="text"
+                                value={value}
+                                onChange={e => updateDetail(i, e.target.value)}
+                                disabled={isPending}
+                                placeholder="e.g. Events Acting Program Manager"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => removeDetail(i)}
+                                disabled={isPending}
+                                className="shrink-0 text-sm text-destructive hover:text-destructive/80 font-medium disabled:opacity-50 px-2"
+                                aria-label="Remove detail"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    ))}
+                    {details.length === 0 && (
+                        <p className="text-sm text-muted-foreground">No details yet.</p>
+                    )}
+                </div>
+                <button
+                    type="button"
+                    onClick={addDetail}
+                    disabled={isPending}
+                    className="text-sm text-primary hover:text-primary/90 font-semibold disabled:opacity-50"
+                >
+                    + Add detail
+                </button>
+            </div>
+
+            {/* ── Questions & Answers ──────────────────────────────────────── */}
+            <div className="space-y-3">
+                <Label>Questions &amp; Answers</Label>
+                <div className="space-y-4">
+                    {questions.map((qa, i) => (
+                        <div key={i} className="rounded-xl border border-border bg-card p-4 space-y-3">
+                            <div className="flex items-center justify-between gap-2">
+                                <span className="text-xs font-medium text-muted-foreground">
+                                    Question {i + 1}
+                                </span>
+                                <div className="flex items-center gap-1 text-sm">
+                                    <button
+                                        type="button"
+                                        onClick={() => moveQuestion(i, -1)}
+                                        disabled={isPending || i === 0}
+                                        className="px-2 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                                        aria-label="Move up"
+                                    >
+                                        ↑
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => moveQuestion(i, 1)}
+                                        disabled={isPending || i === questions.length - 1}
+                                        className="px-2 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                                        aria-label="Move down"
+                                    >
+                                        ↓
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeQuestion(i)}
+                                        disabled={isPending}
+                                        className="ml-1 px-2 text-destructive hover:text-destructive/80 font-medium disabled:opacity-50"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                            <Input
+                                type="text"
+                                value={qa.question}
+                                onChange={e => updateQuestion(i, "question", e.target.value)}
+                                disabled={isPending}
+                                placeholder="Question"
+                            />
+                            <textarea
+                                value={qa.answer}
+                                onChange={e => updateQuestion(i, "answer", e.target.value)}
+                                disabled={isPending}
+                                placeholder="Answer"
+                                rows={4}
+                                className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-50"
+                            />
+                        </div>
+                    ))}
+                    {questions.length === 0 && (
+                        <p className="text-sm text-muted-foreground">No questions yet.</p>
+                    )}
+                </div>
+                <button
+                    type="button"
+                    onClick={addQuestion}
+                    disabled={isPending}
+                    className="text-sm text-primary hover:text-primary/90 font-semibold disabled:opacity-50"
+                >
+                    + Add question
+                </button>
             </div>
 
             {success ? <FormSuccess message={success} /> : <FormError message={error} />}

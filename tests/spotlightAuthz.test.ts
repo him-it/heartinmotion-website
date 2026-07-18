@@ -44,6 +44,11 @@ const validData = {
     hidden: false,
 }
 
+const validContent = {
+    details: ["Program Manager", "Some School", "Class of 2025"],
+    questions: [{ question: "Why HIM?", answer: "Because." }],
+}
+
 beforeEach(() => {
     currentUser.mockReset()
     for (const fn of Object.values(db.him_spotlight))
@@ -84,8 +89,8 @@ describe.each(adminReads)("%s — admin-only read", (_name, action, query) => {
 })
 
 const adminWrites: Array<[string, () => Promise<{ error?: string }>, () => ReturnType<typeof vi.fn>]> = [
-    ["createSpotlight", () => createSpotlight(validData, "<p>hi</p>"), () => db.him_spotlight.create],
-    ["updateSpotlight", () => updateSpotlight(1, validData, "<p>hi</p>"), () => db.him_spotlight.update],
+    ["createSpotlight", () => createSpotlight(validData, validContent), () => db.him_spotlight.create],
+    ["updateSpotlight", () => updateSpotlight(1, validData, validContent), () => db.him_spotlight.update],
     ["deleteSpotlight", () => deleteSpotlight(1), () => db.him_spotlight.delete],
 ]
 
@@ -117,15 +122,25 @@ describe("admin actions run for a level-4 admin", () => {
         currentUser.mockResolvedValue(user(4))
         db.him_spotlight.create.mockResolvedValue({ id: 42 })
 
-        const res = await createSpotlight(validData, "<p>hi</p>")
+        const res = await createSpotlight(validData, validContent)
         expect(res).toMatchObject({ id: 42 })
         expect(db.him_spotlight.create).toHaveBeenCalledOnce()
+    })
+
+    it("createSpotlight serializes structured content to a JSON string", async () => {
+        currentUser.mockResolvedValue(user(4))
+        db.him_spotlight.create.mockResolvedValue({ id: 42 })
+
+        await createSpotlight(validData, validContent)
+        const arg = db.him_spotlight.create.mock.calls[0][0]
+        expect(typeof arg.data.content).toBe("string")
+        expect(JSON.parse(arg.data.content)).toEqual(validContent)
     })
 
     it("createSpotlight rejects invalid fields without querying", async () => {
         currentUser.mockResolvedValue(user(4))
 
-        const res = await createSpotlight({ ...validData, category: "Nope" as never }, "<p>hi</p>")
+        const res = await createSpotlight({ ...validData, category: "Nope" as never }, validContent)
         expect(res.error).toBeTruthy()
         expect(db.him_spotlight.create).not.toHaveBeenCalled()
     })

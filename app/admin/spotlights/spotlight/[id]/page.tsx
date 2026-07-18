@@ -2,15 +2,10 @@
 
 import { getSpotlightByIdAdmin } from "@/actions/leadership/spotlight"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
+import { SpotlightForm } from "@/components/admin/spotlights/spotlightForm"
 import { Prisma } from "@prisma/client"
-import dynamic from "next/dynamic"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-
-const DynamicForm = dynamic(
-    () => import("@/components/admin/spotlights/spotlightForm").then(m => m.SpotlightForm),
-    { ssr: false }
-)
 
 const Admin_EditSpotlightPage = () => {
     const router = useRouter()
@@ -33,7 +28,7 @@ const Admin_EditSpotlightPage = () => {
 
     return (
         <AdminPageWrapper title={spotlight ? spotlight.name : "Loading…"} redirect="/admin/spotlights">
-            {spotlight && <DynamicForm spotlight={spotlight} />}
+            {spotlight && <SpotlightForm spotlight={spotlight} />}
         </AdminPageWrapper>
     )
 }

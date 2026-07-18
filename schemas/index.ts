@@ -176,3 +176,11 @@ export const SpotlightSchema = z.object({
     }),
     hidden: z.boolean()
 })
+
+export const SpotlightContentSchema = z.object({
+    details: z.array(z.string()),
+    questions: z.array(z.object({
+        question: z.string(),
+        answer: z.string()
+    }))
+})
