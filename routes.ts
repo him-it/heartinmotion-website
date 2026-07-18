@@ -35,7 +35,9 @@ export const juniorAdminRoutes = [
 export const basicAdminRoutes = [
     "/admin/files",
     "/admin/events",
-    "/admin/pages"
+    "/admin/pages",
+    "/admin/spotlights",
+    "/admin/spotlights/new"
 ]
 
 export const superAdminRoutes = [

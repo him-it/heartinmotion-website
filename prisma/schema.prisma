@@ -133,6 +133,20 @@ model him_page {
   content       String  @db.LongText
 }
 
+model him_spotlight {
+  id         Int      @id @default(autoincrement())
+  wp_post_id Int?     @unique(map: "him_spotlight_wp_post_id_uniq")
+  name       String   @db.VarChar(100)
+  category   String   @db.VarChar(20)
+  image      Bytes?
+  image_mime String?  @db.VarChar(50)
+  content    String   @db.LongText
+  post_date  DateTime @db.DateTime(0)
+  hidden     Boolean  @default(false)
+
+  @@index([post_date], map: "him_spotlight_post_date")
+}
+
 model member_member {
   id                      Int                       @id @default(autoincrement())
   email                   String                    @unique(map: "member_member_email_uniq") @db.VarChar(254)

@@ -63,7 +63,7 @@ export default auth((req) => {
     }
 
     if(!isLoggedIn && !isPublicRoute)
-        if(!nextUrl.pathname.includes('/volunteer/events'))
+        if(!nextUrl.pathname.includes('/volunteer/events') && !nextUrl.pathname.startsWith('/leadership/spotlight'))
             return Response.redirect(new URL("/", nextUrl))
 
     return

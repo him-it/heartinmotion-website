@@ -161,3 +161,18 @@ export const AddManagerSchema = z.object({
         message: 'This field is required.'
     })
 })
+
+export const SpotlightSchema = z.object({
+    name: z.string().min(1, {
+        message: 'This field is required.'
+    }).max(100, {
+        message: 'Name must be 100 characters or fewer.'
+    }),
+    category: z.enum(["Officer", "Intern", "Volunteer"], {
+        message: 'Please select a category.'
+    }),
+    post_date: z.coerce.date({
+        message: 'This field is required.'
+    }),
+    hidden: z.boolean()
+})
