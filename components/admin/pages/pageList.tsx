@@ -5,7 +5,7 @@ import Link from "next/link";
 export const AdminPageList = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeof getPages> }) => {
     return (
         <div className="overflow-x-auto p-4">
-            <table className="min-w-full table-auto bg-card border-collapse shadow-lg">
+            <table className="min-w-full table-auto bg-card border-collapse">
                 <thead className="bg-muted">
                     <tr>
                         <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Title</th>

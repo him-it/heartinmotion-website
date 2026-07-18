@@ -102,7 +102,7 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
 
     return (
 <div>
-    <div className="max-w-4xl mx-auto bg-card rounded-lg shadow-md p-6">
+    <div className="max-w-4xl mx-auto bg-card rounded-lg shadow-xs p-6">
         {
             seasonData && eventData && 
             <div>

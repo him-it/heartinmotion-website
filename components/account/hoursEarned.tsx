@@ -7,7 +7,7 @@ const HoursEarned = ({shiftData} : {shiftData: Prisma.PromiseReturnType<typeof g
         <div className="flex flex-col items-center">
             {shiftData &&
                 <div className="overflow-x-auto md:w-full w-[80%]">
-                    <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                    <table className="min-w-full bg-card border border-border">
                         <thead className="bg-muted">
                             <tr>
                                 <th className="border border-border p-2 text-muted-foreground text-sm md:text-base">Date</th>

@@ -152,7 +152,7 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                     </div>
                 </div>
                 <div className="overflow-x-auto md:w-full w-[80%]">
-                    <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                    <table className="min-w-full bg-card border border-border">
                         <thead className="bg-muted">
                             <tr>
                                 <th className="sticky left-0 border border-border p-2 text-muted-foreground text-sm md:text-base bg-muted z-10">Name</th>

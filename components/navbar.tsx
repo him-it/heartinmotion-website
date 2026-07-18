@@ -51,25 +51,25 @@ export const Navbar = () => {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </button>
-                                    <div className={`absolute left-1/2 -translate-x-1/2 mt-3 w-52 rounded-2xl border border-border bg-popover shadow-md p-1.5 ${activeDropdown === section.toLowerCase() ? 'block' : 'hidden'}`}>
+                                    <div className={`absolute left-1/2 -translate-x-1/2 mt-3 w-52 rounded-xl border border-border bg-popover shadow-md p-1.5 ${activeDropdown === section.toLowerCase() ? 'block' : 'hidden'}`}>
                                         {section === 'Volunteer' && (
                                             <>
-                                                <Link href="/volunteer/events" onClick={()=>setActiveDropdown('')} className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Events</Link>
-                                                <Link href="/volunteer/files" onClick={()=>setActiveDropdown('')} className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Files</Link>
+                                                <Link href="/volunteer/events" onClick={()=>setActiveDropdown('')} className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Events</Link>
+                                                <Link href="/volunteer/files" onClick={()=>setActiveDropdown('')} className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Files</Link>
                                             </>
                                         )}
                                         {section === 'Leadership' && (
                                             <>
-                                                <Link href="/leadership/spotlight" onClick={()=>setActiveDropdown('')} className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Spotlight</Link>
-                                                <Link href="/leadership/internship" onClick={()=>setActiveDropdown('')} className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Internship</Link>
+                                                <Link href="/leadership/spotlight" onClick={()=>setActiveDropdown('')} className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Spotlight</Link>
+                                                <Link href="/leadership/internship" onClick={()=>setActiveDropdown('')} className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Internship</Link>
                                             </>
                                         )}
                                         {section === 'About' && (
                                             <>
-                                                <Link onClick={()=>setActiveDropdown('')} href="/about" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">About</Link>
-                                                <Link onClick={()=>setActiveDropdown('')} href="/about/donate" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Donate</Link>
-                                                <Link onClick={()=>setActiveDropdown('')} href="/about/pvsa" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">PVSA</Link>
-                                                <Link onClick={()=>setActiveDropdown('')} href="/about/faqs" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">FAQs</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">About</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about/donate" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Donate</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about/pvsa" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">PVSA</Link>
+                                                <Link onClick={()=>setActiveDropdown('')} href="/about/faqs" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">FAQs</Link>
                                             </>
                                         )}
                                     </div>
@@ -105,24 +105,24 @@ export const Navbar = () => {
                                         
                                         
                                     </button>
-                                    <div className={`absolute z-50 right-0 mt-3 w-56 rounded-2xl border border-border bg-popover shadow-md p-1.5 ${activeDropdown === 'account' ? 'block' : 'hidden'}`}>
+                                    <div className={`absolute z-50 right-0 mt-3 w-56 rounded-xl border border-border bg-popover shadow-md p-1.5 ${activeDropdown === 'account' ? 'block' : 'hidden'}`}>
                                         {
                                             session.data.user.admin_level >= 0 ? (
                                                 <>
                                                     {
                                                         session.data.user.admin_level > 0 &&
-                                                        <Link onClick={()=>setActiveDropdown('')} href="/admin" className="block rounded-xl px-3 py-2 mb-1 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 text-center transition-colors">Admin Panel</Link>
+                                                        <Link onClick={()=>setActiveDropdown('')} href="/admin" className="block rounded-lg px-3 py-2 mb-1 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 text-center transition-colors">Admin Panel</Link>
                                                     }
-                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/shifts" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Registered Shifts</Link>
-                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/hours" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Hours Earned</Link>
-                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/edit" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Edit Info</Link>
+                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/shifts" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Registered Shifts</Link>
+                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/hours" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Hours Earned</Link>
+                                                    <Link onClick={()=>setActiveDropdown('')} href="/account/edit" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Edit Info</Link>
                                                 </>
                                             ) : (
-                                                <Link href="/account/register" className="block rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Become a Member</Link>
+                                                <Link href="/account/register" className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Become a Member</Link>
                                             )
                                         }
                                         <div className="my-1 h-px bg-border" />
-                                        <AuthButton action="Log Out" styles='block w-full rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground text-left transition-colors' status={ session.status }/>
+                                        <AuthButton action="Log Out" styles='block w-full rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground text-left transition-colors' status={ session.status }/>
                                     </div>
                                 </div>
                             ) : (

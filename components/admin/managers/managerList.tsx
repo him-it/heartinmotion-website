@@ -109,7 +109,7 @@ export const AdminManagerList = ({ managerData, memberData } : { managerData: Pr
                 </form>
             </Form>
             </div>
-            <table className="min-w-full table-auto bg-card border-collapse shadow-lg">
+            <table className="min-w-full table-auto bg-card border-collapse">
                 <thead className="bg-muted">
                     <tr>
                         <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Name</th>

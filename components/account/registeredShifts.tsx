@@ -23,7 +23,7 @@ const RegisteredShifts = ({shiftData} : {shiftData: Prisma.PromiseReturnType<typ
         <div>
             {shiftData && 
                 <div className="overflow-x-auto w-full">
-                    <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                    <table className="min-w-full bg-card border border-border">
                         <thead className="bg-muted">
                             <tr>
                                 <th className="border border-border p-2 text-muted-foreground text-sm md:text-base">Event</th>

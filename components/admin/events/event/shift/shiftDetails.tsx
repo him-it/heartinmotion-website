@@ -533,7 +533,7 @@ const AdminShiftDetails = ({
             <h2 className="text-lg font-semibold text-foreground mb-4">
               Members
             </h2>
-            <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+            <table className="min-w-full bg-card border border-border">
               <thead className="bg-muted">
                 <tr>
                   <th
@@ -695,7 +695,7 @@ const AdminShiftDetails = ({
           </div>
           {showEditShiftPopup && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-card p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
+              <div className="bg-card p-6 rounded-lg shadow-xs w-[90%] md:w-[60%]">
                 <h2 className="text-xl font-bold mb-4">Edit Shift</h2>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(editShift)}>

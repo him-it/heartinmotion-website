@@ -160,7 +160,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 <div className="flex flex-col md:flex-row w-full max-w-7xl">
                     <div className="w-full md:w-1/3 p-4">
                         <h2 className="text-lg font-semibold text-foreground mb-4">Pending Registrations</h2>
-                        <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                        <table className="min-w-full bg-card border border-border">
                             <thead className="bg-muted">
                                 <tr>
                                     <th className="border border-border p-2 text-muted-foreground max-w-28 overflow-auto whitespace-nowrap">Member</th>
@@ -195,7 +195,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                     <div className="w-full md:w-2/3 space-y-8 p-4">
                         <div>
                             <h2 className="text-lg font-semibold text-foreground mb-4">Future Shifts</h2>
-                            <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                            <table className="min-w-full bg-card border border-border">
                                 <thead className="bg-muted">
                                     <tr>
                                         <th className="border border-border p-2 text-muted-foreground max-w-44 overflow-auto whitespace-nowrap">Shift</th>
@@ -231,7 +231,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
 
                         <div>
                             <h2 className="text-lg font-semibold text-foreground mb-4">Past Shifts</h2>
-                            <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                            <table className="min-w-full bg-card border border-border">
                                 <thead className="bg-muted">
                                     <tr>
                                         <th className="border border-border p-2 text-muted-foreground max-w-44 overflow-auto whitespace-nowrap">Shift</th>
@@ -268,7 +268,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 </div>
                 {showPopup && selectedShift && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-card p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
+                        <div className="bg-card p-6 rounded-lg shadow-xs w-[90%] md:w-[60%]">
                             <h2 className="text-xl font-bold mb-4">Registration Details</h2>
                             <p className="text-lg mb-4">
                                 <strong>Member:</strong> {selectedShift.member_member.first_name} {selectedShift.member_member.last_name}
@@ -309,7 +309,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 )}
                 {showNewShiftPopup && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-card p-6 rounded-lg shadow-lg w-[90%] md:w-[60%]">
+                        <div className="bg-card p-6 rounded-lg shadow-xs w-[90%] md:w-[60%]">
                             <h2 className="text-xl font-bold mb-4">New Shift</h2>
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(handleCreateShift)}>

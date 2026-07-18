@@ -19,7 +19,7 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                 </Link>
             </div>
             <div className="w-full max-w-2xl">
-                <table className="min-w-full bg-card border border-border rounded-lg shadow-md">
+                <table className="min-w-full bg-card border border-border">
                     <thead>
                         <tr className="bg-muted">
                             <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Upcoming Events</th>
@@ -47,7 +47,7 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                     </tbody>
                 </table>
 
-                <table className="min-w-full bg-card border border-border rounded-lg shadow-md mt-8">
+                <table className="min-w-full bg-card border border-border mt-8">
                     <thead>
                         <tr className="bg-muted">
                             <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Past Events</th>
@@ -75,7 +75,7 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                     </tbody>
                 </table>
 
-                <table className="min-w-full bg-card border border-border rounded-lg shadow-md mt-8">
+                <table className="min-w-full bg-card border border-border mt-8">
                     <thead>
                         <tr className="bg-muted">
                             <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Empty Events</th>
