@@ -1,27 +1,17 @@
-"use client"
-
 import { getUpcomingEvents } from "@/actions/volunteer/event"
 import { PageWrapper } from "@/components/pageWrapper"
 import { EventsList } from "@/components/volunteer/eventsList"
-import { Prisma } from "@prisma/client"
-import { useEffect, useState } from "react"
 
-const Events = () => {
-    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getUpcomingEvents>>()
+// Public page with no cookie/header usage — force dynamic rendering so the
+// event list is fetched per-request instead of frozen at build time.
+export const dynamic = "force-dynamic"
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            await getUpcomingEvents()
-            .then(res => {
-                if(res)
-                    setEventData(res)
-            })
-        }
-        fetchEvents()
-    }, [])
+const Events = async () => {
+    const eventData = await getUpcomingEvents()
+
     return (
         <PageWrapper title="Upcoming Events">
-            <EventsList eventListData={ eventData }></EventsList>
+            <EventsList eventListData={eventData ?? undefined} />
         </PageWrapper>
     )
 }

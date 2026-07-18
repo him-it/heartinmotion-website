@@ -1,5 +1,3 @@
-"use server"
-
 import { getSpotlightsAdmin } from "@/actions/leadership/spotlight"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import { SpotlightAdminList } from "@/components/admin/spotlights/spotlightList"

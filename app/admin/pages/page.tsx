@@ -1,5 +1,3 @@
-"use server"
-
 import { getPages } from "@/actions/admin/pages/page"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import { AdminPageList } from "@/components/admin/pages/pageList"

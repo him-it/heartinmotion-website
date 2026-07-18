@@ -1,50 +1,37 @@
-"use client"
-
+import { getRegisteredShifts, getWaitlistedShifts } from "@/actions/account/user"
 import { getPublicEventBySlug } from "@/actions/volunteer/event"
+import { auth } from "@/auth"
 import { PageWrapper } from "@/components/pageWrapper"
 import { EventDetails } from "@/components/volunteer/eventDetails"
-import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { Prisma } from '@prisma/client';
-import { getSession } from "next-auth/react"
-import { getRegisteredShifts, getWaitlistedShifts } from "@/actions/account/user"
+import { redirect } from "next/navigation"
 
+const Events = async ({ params }: { params: Promise<{ slug: string[] }> }) => {
+    const { slug } = await params
+    const eventData = await getPublicEventBySlug(slug?.[0] ?? '')
 
-const Events = () => {
-    const router = useRouter()
-    const { slug } = useParams()!
-    const [ eventData, setEventData ] = useState<Prisma.PromiseReturnType<typeof getPublicEventBySlug>>({} as Prisma.PromiseReturnType<typeof getPublicEventBySlug>)
-    const [ registeredShiftData, setRegisteredShiftData ] = useState<Prisma.PromiseReturnType<typeof getRegisteredShifts>>()
-    const [ waitlistedShiftData, setWaitlistedShiftData ] = useState<Prisma.PromiseReturnType<typeof getWaitlistedShifts>>()
+    if (!eventData)
+        redirect('/')
 
-    useEffect(() => {
-        const fetchEvent = async () => {
-            await getPublicEventBySlug(slug ? slug[0] as string : "")
-                .then(async res => {
-                    if(res) 
-                        {
-                            setEventData(res);
-                            await getSession().then(async sessionRes => {
-                                if (sessionRes) {
-                                    const registeredShiftsRes = await getRegisteredShifts(sessionRes.user.member_id);
-                                    setRegisteredShiftData(registeredShiftsRes)
+    // Registered/waitlisted shifts are only meaningful for a logged-in member;
+    // fetched here so the shift buttons render in their correct state on first
+    // paint instead of flipping after a client-side fetch.
+    const session = await auth()
+    const memberId = session?.user?.member_id
 
-                                    const waitlistedShiftsRes = await getWaitlistedShifts(sessionRes.user.member_id);
-                                    setWaitlistedShiftData(waitlistedShiftsRes)
-                                }
-                            });
-                        }
-                    else
-                        router.push('/')
-                })
-        }
-
-        fetchEvent()
-    }, [])
+    const [registeredShiftData, waitlistedShiftData] = memberId
+        ? await Promise.all([
+            getRegisteredShifts(memberId),
+            getWaitlistedShifts(memberId)
+        ])
+        : [null, null]
 
     return (
-        <PageWrapper title={ eventData?.name ? eventData.name : "Loading..." }>
-            <EventDetails eventDetailData={ eventData! } registeredShiftData={registeredShiftData!} waitlistedShiftData={waitlistedShiftData!}></EventDetails>
+        <PageWrapper title={eventData.name}>
+            <EventDetails
+                eventDetailData={eventData}
+                registeredShiftData={registeredShiftData}
+                waitlistedShiftData={waitlistedShiftData}
+            />
         </PageWrapper>
     )
 }

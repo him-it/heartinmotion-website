@@ -1,34 +1,20 @@
-"use client"
-
 import { getFileBySlug } from "@/actions/volunteer/file"
 import { PageWrapper } from "@/components/pageWrapper"
 import { FileDetails } from "@/components/volunteer/fileDetails"
-import { Prisma } from "@prisma/client"
-import { useRouter, useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { redirect } from "next/navigation"
 
-const FilePage = () => {
-    const {slug} = useParams() 
-    const router = useRouter()
-    const [fileData, setFileData] = useState<Prisma.PromiseReturnType<typeof getFileBySlug>>()
+export const dynamic = "force-dynamic"
 
-    useEffect(() => {
-        const fetchFile = async () => {
-            await getFileBySlug(slug ? slug[0] as string : '')
-            .then((res) => {
-                if(res)
-                    setFileData(res)
-                else
-                    router.push('/volunteer/files')
-            })
-        }
+const FilePage = async ({ params }: { params: Promise<{ slug: string[] }> }) => {
+    const { slug } = await params
+    const fileData = await getFileBySlug(slug?.[0] ?? '')
 
-        fetchFile()
-    }, [])
+    if (!fileData)
+        redirect('/volunteer/files')
 
     return (
-        <PageWrapper title={fileData ? fileData.name : "Loading..."}>
-            <FileDetails fileData={fileData}></FileDetails>
+        <PageWrapper title={fileData.name}>
+            <FileDetails fileData={fileData} />
         </PageWrapper>
     )
 }

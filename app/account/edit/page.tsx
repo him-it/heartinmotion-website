@@ -1,32 +1,20 @@
-"use client"
-
-import { PageWrapper } from "@/components/pageWrapper"
-
+import { getUserById } from "@/actions/account/user"
+import { auth } from "@/auth"
 import { EditForm } from "@/components/account/editForm"
-import { getUserById } from "@/actions/account/user";
-import { useSession } from "next-auth/react";
-import { Prisma } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { PageWrapper } from "@/components/pageWrapper"
+import { redirect } from "next/navigation"
 
-const EditPage = () => {
-    const session = useSession();
-    const  [ user, setUser ] = useState<Prisma.PromiseReturnType<typeof getUserById>>(null)
+const EditPage = async () => {
+    const session = await auth()
 
-    useEffect(() => {
-        const fetchShifts = async () => {
-            if(session.data?.user.member_id)
-                await getUserById(session.data.user.member_id)
-                .then(res => {
-                    setUser(res)
-                })
-        }
+    if (!session?.user?.member_id)
+        redirect('/')
 
-        fetchShifts()
-    }, [session])
+    const user = await getUserById(session.user.member_id)
 
     return (
         <PageWrapper title="Edit">
-            <EditForm user={ user } />
+            <EditForm user={user} />
         </PageWrapper>
     )
 }

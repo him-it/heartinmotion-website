@@ -1,31 +1,20 @@
-"use client"
+import { getHours } from "@/actions/account/user"
+import { auth } from "@/auth"
+import HoursEarned from "@/components/account/hoursEarned"
+import { PageWrapper } from "@/components/pageWrapper"
+import { redirect } from "next/navigation"
 
-import { getHours } from "@/actions/account/user";
-import HoursEarned from "@/components/account/hoursEarned";
-import { PageWrapper } from "@/components/pageWrapper";
-import { Prisma } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+const HoursPage = async () => {
+    const session = await auth()
 
-const HoursPage = () => {
-    const session = useSession();
-    const  [ shiftData, setShiftData ] = useState<Prisma.PromiseReturnType<typeof getHours>>(null)
+    if (!session?.user?.member_id)
+        redirect('/')
 
-  useEffect(() => {
-    const fetchShifts = async () => {
-        if(session.data?.user.member_id)
-            await getHours(session.data.user.member_id)
-            .then(res => {
-                setShiftData(res)
-            })
-    }
-
-    fetchShifts()
-  }, [session])
+    const shiftData = await getHours(session.user.member_id)
 
     return (
         <PageWrapper title="Hours Earned">
-            <HoursEarned shiftData={shiftData}></HoursEarned>
+            <HoursEarned shiftData={shiftData} />
         </PageWrapper>
     )
 }

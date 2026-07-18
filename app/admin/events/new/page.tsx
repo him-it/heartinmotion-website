@@ -1,12 +1,8 @@
-"use client"
-
-import dynamic from "next/dynamic"
+import AdminNewEventDynamic from "@/components/admin/events/event/newEventDynamic"
 
 const Admin_NewEventPage = () => {
-    const DynamicEditor = dynamic(() => import("@/components/admin/events/event/newEvent"), { ssr: false });
-    
     return (
-        <DynamicEditor />
+        <AdminNewEventDynamic />
     )
 }
 

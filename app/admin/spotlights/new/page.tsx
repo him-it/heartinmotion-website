@@ -1,5 +1,3 @@
-"use client"
-
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import { SpotlightForm } from "@/components/admin/spotlights/spotlightForm"
 

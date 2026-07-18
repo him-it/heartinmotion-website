@@ -1,34 +1,23 @@
-"use client"
-
 import { getSpotlightByIdAdmin } from "@/actions/leadership/spotlight"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import { SpotlightForm } from "@/components/admin/spotlights/spotlightForm"
-import { Prisma } from "@prisma/client"
-import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { redirect } from "next/navigation"
 
-const Admin_EditSpotlightPage = () => {
-    const router = useRouter()
-    const { id } = useParams()!
-    const [spotlight, setSpotlight] = useState<Prisma.PromiseReturnType<typeof getSpotlightByIdAdmin>>()
+const Admin_EditSpotlightPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+    const { id } = await params
+    const numId = Number(id)
 
-    useEffect(() => {
-        const numId = Number(id)
-        if (!Number.isInteger(numId) || numId <= 0) {
-            router.replace("/admin/spotlights")
-            return
-        }
-        getSpotlightByIdAdmin(numId).then(res => {
-            if (res)
-                setSpotlight(res)
-            else
-                router.replace("/admin/spotlights")
-        })
-    }, [])
+    if (!Number.isInteger(numId) || numId <= 0)
+        redirect("/admin/spotlights")
+
+    const spotlight = await getSpotlightByIdAdmin(numId)
+
+    if (!spotlight)
+        redirect("/admin/spotlights")
 
     return (
-        <AdminPageWrapper title={spotlight ? spotlight.name : "Loading…"} redirect="/admin/spotlights">
-            {spotlight && <SpotlightForm spotlight={spotlight} />}
+        <AdminPageWrapper title={spotlight.name} redirect="/admin/spotlights">
+            <SpotlightForm spotlight={spotlight} />
         </AdminPageWrapper>
     )
 }

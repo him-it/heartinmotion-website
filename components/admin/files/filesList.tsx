@@ -4,6 +4,7 @@ import { createFile, deleteFilePermanent } from "@/actions/admin/file";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingState } from "@/components/ui/loadingState";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
@@ -13,7 +14,7 @@ import "@ungap/with-resolvers";
 GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-const AdminFilesList = ({ fileData }: { fileData: any[] }) => {
+const AdminFilesList = ({ fileData }: { fileData: any[] | undefined }) => {
   const [isPending, startTransition] = useTransition();
   const [fileUpload, setFileUpload] = useState<File>();
 
@@ -166,8 +167,8 @@ const AdminFilesList = ({ fileData }: { fileData: any[] }) => {
             </div>
           ))}
         {!fileData && (
-          <div className="flex justify-center items-center w-full h-full col-span-4 text-muted-foreground">
-            Loading files...
+          <div className="col-span-full">
+            <LoadingState label="Loading files…" />
           </div>
         )}
       </ul>

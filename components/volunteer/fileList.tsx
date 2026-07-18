@@ -3,6 +3,7 @@
 import { getFiles } from "@/actions/volunteer/file"
 import { Prisma } from "@prisma/client"
 import Link from "next/link"
+import { LoadingState } from "@/components/ui/loadingState"
 
 export const FileList = ({fileData} : {fileData: Prisma.PromiseReturnType<typeof getFiles>}) => {
 
@@ -49,9 +50,9 @@ export const FileList = ({fileData} : {fileData: Prisma.PromiseReturnType<typeof
                     ))
                 }
                 {
-                    !fileData && 
-                    <div className="flex justify-center items-center w-full h-full col-span-4 text-muted-foreground">
-                        Loading files...
+                    !fileData &&
+                    <div className="col-span-full">
+                        <LoadingState label="Loading files…" />
                     </div>
                 }
             </ul>

@@ -14,12 +14,10 @@ export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseRe
                 </div>
             }
             <div className="space-y-4">
-                {eventListData?.map((event, key) => {
-                    if(!event.hidden)
-                        return (
+                {eventListData?.filter(event => !event.hidden).map(event => (
                             <Link
                                 href={"/volunteer/events/" + event.slug}
-                                key={key}
+                                key={event.slug}
                                 className="group block rounded-xl border border-border bg-card p-5 shadow-xs transition-all duration-150 hover:shadow-soft hover:-translate-y-0.5"
                             >
                                 <div className="flex items-center justify-between gap-3 mb-3">
@@ -39,8 +37,7 @@ export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseRe
                                     ))}
                                 </div>
                             </Link>
-                        )
-                })}
+                ))}
             </div>
         </div>
     )

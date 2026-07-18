@@ -1,82 +1,41 @@
-"use client"
-
+import { auth } from "@/auth"
 import { PageWrapper } from "@/components/pageWrapper"
-import { useSession } from "next-auth/react"
 import Link from "next/link"
 
-const Admin_AdminPage = () => {
-    const session = useSession()
+const cardShadow = { boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }
+
+const AdminLink = ({ href, label }: { href: string, label: string }) => (
+    <li>
+        <div className="rounded-md overflow-hidden max-w-xs mx-auto" style={cardShadow}>
+            <Link
+                href={href}
+                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
+            >
+                {label}
+            </Link>
+        </div>
+    </li>
+)
+
+// Server component: the session is read server-side so the link list renders
+// complete on first paint — no pop-in as the client session resolves.
+const Admin_AdminPage = async () => {
+    const session = await auth()
+    const adminLevel = session?.user?.admin_level ?? 0
 
     return (
         <PageWrapper title="Admin">
             <ul className="space-y-6 list-none">
-                <li>
-                    <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
-                    <Link
-                        href="/admin/members"
-                        className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
-                    >
-                        Members
-                    </Link>
-                    </div>
-                </li>
-                { session && session.data && session.data.user.admin_level > 2 &&
+                <AdminLink href="/admin/members" label="Members" />
+                {adminLevel > 2 && (
                     <>
-                        <li>
-                            <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
-                            <Link
-                                href="/admin/events"
-                                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
-                            >
-                                Events
-                            </Link>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
-                            <Link
-                                href="/admin/files"
-                                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
-                            >
-                                Files
-                            </Link>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
-                            <Link
-                                href="/admin/pages"
-                                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
-                            >
-                                Pages
-                            </Link>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
-                            <Link
-                                href="/admin/spotlights"
-                                className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
-                            >
-                                Spotlights
-                            </Link>
-                            </div>
-                        </li>
-                        {
-                            session.data.user.admin_level > 4 &&
-                            <li>
-                                <div className="rounded-md overflow-hidden max-w-xs mx-auto"  style={{ boxShadow: '0 4px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.05)' }}>
-                                <Link
-                                    href="/admin/managers"
-                                    className="block text-lg font-semibold text-muted-foreground hover:text-foreground py-3 px-6 rounded-md hover:bg-muted transition duration-200"
-                                >
-                                    Managers
-                                </Link>
-                                </div>
-                            </li>
-                        }
-                    </>  
-                }
+                        <AdminLink href="/admin/events" label="Events" />
+                        <AdminLink href="/admin/files" label="Files" />
+                        <AdminLink href="/admin/pages" label="Pages" />
+                        <AdminLink href="/admin/spotlights" label="Spotlights" />
+                        {adminLevel > 4 && <AdminLink href="/admin/managers" label="Managers" />}
+                    </>
+                )}
             </ul>
         </PageWrapper>
     )

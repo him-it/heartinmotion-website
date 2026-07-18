@@ -56,7 +56,9 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
         }
 
         fetchFriends()
-    }, [session])
+    // Depend on the member id, not the session object — the session object gets
+    // a new identity on every auth refresh, which would refetch friends each time.
+    }, [session.data?.user.member_id])
 
     const handleRegisterClick = (shift: {description: string, id: number}) => {
         setSelectedShift(shift);

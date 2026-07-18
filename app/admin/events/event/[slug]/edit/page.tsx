@@ -1,34 +1,16 @@
-"use client"
-
 import { getEventBySlug } from "@/actions/admin/event"
-import { events_event } from "@prisma/client"
-import dynamic from "next/dynamic"
-import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import AdminEditEventDynamic from "@/components/admin/events/event/editEventDynamic"
+import { redirect } from "next/navigation"
 
-const Admin_EventDetailsEditPage = () => {
-    const DynamicEditor = dynamic(() => import("@/components/admin/events/event/editEvent"), { ssr: false });
-    
-    const router = useRouter()
-    const { slug } = useParams()!
-    const [ eventData, setEventData ] = useState<events_event>({} as events_event) 
+const Admin_EventDetailsEditPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+    const { slug } = await params
+    const eventData = await getEventBySlug(slug)
 
-    useEffect(() => {
-        const fetchEvent = async () => {
-            await getEventBySlug(slug as string)
-                .then(res => {
-                    if(res)
-                        setEventData(res)
-                    else
-                        router.push('/')
-                })
-        }
-
-        fetchEvent()
-    }, [])
+    if (!eventData)
+        redirect('/')
 
     return (
-        <DynamicEditor eventData={ eventData }/>
+        <AdminEditEventDynamic eventData={eventData} />
     )
 }
 

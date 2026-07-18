@@ -1,35 +1,17 @@
-"use client"
-
 import { getManagers } from "@/actions/admin/managers"
 import { getMemberNames } from "@/actions/admin/member"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import { AdminManagerList } from "@/components/admin/managers/managerList"
-import { Prisma } from "@prisma/client"
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
 
-const Admin_ManagersListPage = () => {
-    const [memberData, setMemberData] = useState<Prisma.PromiseReturnType<typeof getMemberNames>>()
-    const [managerData, setManagerData] = useState<Prisma.PromiseReturnType<typeof getManagers>>()
-    const session = useSession();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await getManagers()
-            .then(async (res) => {
-                setManagerData(res)
-                await getMemberNames()
-                .then(res => {
-                    setMemberData(res)
-                })
-            })
-        }
-        fetchData()
-    }, [session])
+const Admin_ManagersListPage = async () => {
+    const [managerData, memberData] = await Promise.all([
+        getManagers(),
+        getMemberNames()
+    ])
 
     return (
         <AdminPageWrapper title="Managers" redirect="/admin">
-            <AdminManagerList managerData={managerData} memberData={memberData} />
+            <AdminManagerList managerData={managerData ?? undefined} memberData={memberData ?? undefined} />
         </AdminPageWrapper>
     )
 }

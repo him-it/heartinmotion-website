@@ -4,6 +4,7 @@ import { getMembers } from "@/actions/admin/member";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { LoadingState } from "@/components/ui/loadingState";
 import { weeklyUpdateReport } from "../events/reports/generateReports";
 
 const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnType<typeof getMembers> | undefined}) => {
@@ -256,9 +257,9 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
             </>
         )}
         {
-                    !memberData && 
-                    <div className="flex justify-center items-center w-full h-full col-span-4 text-muted-foreground">
-                        Loading members...
+                    !memberData &&
+                    <div className="w-full">
+                        <LoadingState label="Loading members…" />
                     </div>
                 }
         </div>

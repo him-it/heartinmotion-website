@@ -1,34 +1,18 @@
-"use client"
-
 import { getMemberById } from "@/actions/admin/member"
 import { AdminPageWrapper } from "@/components/admin/adminPageWrapper"
 import AdminMemberDetails from "@/components/admin/members/memberDetails"
-import { Prisma } from "@prisma/client"
-import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { redirect } from "next/navigation"
 
-const Admin_MemberDetailsPage = () => {
-    const router = useRouter()
-    const { id } = useParams()!
-    const [ memberData, setMemberData ] = useState<Prisma.PromiseReturnType<typeof getMemberById>>()
+const Admin_MemberDetailsPage = async ({ params }: { params: Promise<{ id: string[] }> }) => {
+    const { id } = await params
+    const memberData = await getMemberById(Number(id?.[0]))
 
-    useEffect(() => {
-        const fetchMember = async () => {
-            await getMemberById(Number(id))
-                .then(res => {
-                    if(res)
-                        setMemberData(res)
-                    else
-                        router.push('/')
-                })
-        }
-
-        fetchMember()
-    }, [])
+    if (!memberData)
+        redirect('/admin/members')
 
     return (
-        <AdminPageWrapper title={memberData ? memberData.first_name + " " + memberData.last_name : "Loading..."} redirect="/admin/members">
-            <AdminMemberDetails memberData={memberData ? memberData : {} as Prisma.PromiseReturnType<typeof getMemberById>}></AdminMemberDetails>
+        <AdminPageWrapper title={memberData.first_name + " " + memberData.last_name} redirect="/admin/members">
+            <AdminMemberDetails memberData={memberData} />
         </AdminPageWrapper>
     )
 }

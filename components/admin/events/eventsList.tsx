@@ -3,8 +3,23 @@
 import { getEvents } from "@/actions/admin/event";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
+import { useMemo } from "react";
 
 const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<typeof getEvents> | undefined }) => {
+    // Group once per data change with a single time reference, instead of
+    // filtering three times with a fresh Date per comparison on every render.
+    // An event with both past and future shifts appears in Upcoming and Past,
+    // matching the original behavior.
+    const { upcoming, past, empty } = useMemo(() => {
+        const now = new Date()
+        const data = eventsData ?? []
+        return {
+            upcoming: data.filter(event => event.events_eventshift.some(shift => shift.start_time > now)),
+            past: data.filter(event => event.events_eventshift.some(shift => shift.start_time <= now)),
+            empty: data.filter(event => event.events_eventshift.length <= 0)
+        }
+    }, [eventsData])
+
     return (
         <div className="flex flex-col items-center">
             <div className="flex space-x-4 mb-6">
@@ -31,10 +46,8 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                     </thead>
                     <tbody>
                         {
-                            eventsData && eventsData.filter(event => 
-                                event.events_eventshift.some(shift => shift.start_time > new Date())
-                            ).map((event, key) => (
-                                <tr key={key} className="border-b hover:bg-muted">
+                            upcoming.map(event => (
+                                <tr key={event.id} className="border-b hover:bg-muted">
                                     <td className="p-4 text-center">
                                         <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
                                             {event.name}
@@ -59,10 +72,8 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                     </thead>
                     <tbody>
                         {
-                            eventsData && eventsData.filter(event => 
-                                event.events_eventshift.some(shift => shift.start_time <= new Date())
-                            ).map((event, key) => (
-                                <tr key={key} className="border-b hover:bg-muted">
+                            past.map(event => (
+                                <tr key={event.id} className="border-b hover:bg-muted">
                                     <td className="p-4 text-center">
                                         <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
                                             {event.name}
@@ -87,10 +98,8 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
                     </thead>
                     <tbody>
                         {
-                            eventsData && eventsData.filter(event => 
-                                event.events_eventshift.length <= 0
-                            ).map((event, key) => (
-                                <tr key={key} className="border-b hover:bg-muted">
+                            empty.map(event => (
+                                <tr key={event.id} className="border-b hover:bg-muted">
                                     <td className="p-4 text-center">
                                         <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
                                             {event.name}
