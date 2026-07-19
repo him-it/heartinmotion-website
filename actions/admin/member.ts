@@ -3,7 +3,7 @@
 import * as z from 'zod'
 
 import { db } from "@/lib/db"
-import { MemberClubSchema } from "@/schemas"
+import { MemberClubSchema, AccountSchema } from "@/schemas"
 import { requireAdmin, requireSelfOrAdmin } from "@/lib/authGuard"
 
 export const getMemberNames = async () => {
@@ -195,6 +195,37 @@ export const deleteMemberPermanent = async (member_id: number) => {
         ])
 
         return { success: "Successfully deleted member." }
+    } catch {
+        return { error: "An unexpected error occurred." }
+    }
+}
+
+export const editMember = async (member_id: number, data: z.infer<typeof AccountSchema>) => {
+    if (!(await requireAdmin(2)))
+        return { error: "Unauthorized." }
+
+    const validatedFields = AccountSchema.safeParse(data)
+    if(!validatedFields.success)
+        return { error: "Invalid fields!" }
+
+    try {
+        const { graduating_year } = data
+
+        // Email is the identity key — admins edit it through member management,
+        // not by overwriting it from the profile form payload.
+        const { email: _email, ...rest } = data
+
+        await db.member_member.update({
+            where: {
+                id: member_id
+            },
+            data: {
+                ...rest,
+                graduating_year: Number(graduating_year)
+            }
+        })
+
+        return { success: "Saved successfully!" }
     } catch {
         return { error: "An unexpected error occurred." }
     }

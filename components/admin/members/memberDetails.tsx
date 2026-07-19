@@ -3,7 +3,7 @@
 import * as z from 'zod'
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { deleteMemberPermanent, editClub, getMemberById, updateExtraHours } from "@/actions/admin/member"
+import { deleteMemberPermanent, editClub, editMember, getMemberById, updateExtraHours } from "@/actions/admin/member"
 import { AccountSchema, MemberClubSchema } from "@/schemas"
 import { Prisma } from "@prisma/client"
 import { useEffect, useState, useTransition } from "react"
@@ -21,7 +21,6 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { FormSuccess } from '@/components/ui/formSuccess'
 import { FormError } from '@/components/ui/formError'
-import { edit } from '@/actions/account/edit'
 import Link from 'next/link'
 import { shiftDeleteMember, updateShiftCompleted, updateShiftConfirmed, updateShiftHours } from '@/actions/admin/event'
 import { lifetimeReport } from '../events/reports/generateReports'
@@ -42,7 +41,6 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
     
     useEffect(() => {
         if(memberData) {
-            profileForm.setValue("id", memberData.id)
             profileForm.setValue("email", memberData.email)
             profileForm.setValue("first_name", memberData.first_name)
             profileForm.setValue("last_name", memberData.last_name)
@@ -89,15 +87,16 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
 
     const onProfileSubmit: SubmitHandler<z.infer<typeof AccountSchema>> = (data) => {
         startTransition(() => {
-            edit(data)
-                .then((res) => {
-                    setError(res.error)
-                    setSuccess(res.success)
-                })
-                .catch(() => {
-                    setSuccess(undefined)
-                    setError("An unexpected error occurred.")
-                })
+            if(updatedData)
+                editMember(updatedData.id, data)
+                    .then((res) => {
+                        setError(res.error)
+                        setSuccess(res.success)
+                    })
+                    .catch(() => {
+                        setSuccess(undefined)
+                        setError("An unexpected error occurred.")
+                    })
         })
     }
 
@@ -119,7 +118,6 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
     const profileForm = useForm<z.infer<typeof AccountSchema>>({
         resolver: zodResolver(AccountSchema),
         defaultValues: {
-            id: 0,
             email: '',
             first_name: '',
             last_name: '',

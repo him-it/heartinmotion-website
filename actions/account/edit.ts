@@ -19,9 +19,10 @@ export const edit = async (data: z.infer<typeof AccountSchema>) => {
 
     const { graduating_year } = data
 
-    // Always edit the caller's own record — ignore any client-supplied id, and
-    // never allow the email (the identity key) to be changed here.
-    const { id: _id, email: _email, ...rest } = data
+    // Self-service only: always edits the caller's own record. For admin edits
+    // of another member, use editMember in actions/admin/member.ts instead.
+    // Email (the identity key) can never be changed here.
+    const { email: _email, ...rest } = data
 
     await db.member_member.update({
         where: {
