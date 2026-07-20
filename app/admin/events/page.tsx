@@ -6,7 +6,7 @@ const Admin_EventsListPage = async () => {
     const eventData = await getEvents()
 
     return (
-        <AdminPageWrapper title="Events" redirect="/admin">
+        <AdminPageWrapper title="Events" redirect="/admin" width="max-w-3xl">
            <AdminEventsList eventsData={eventData ?? undefined} />
         </AdminPageWrapper>
     )

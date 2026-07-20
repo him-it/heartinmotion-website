@@ -110,7 +110,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
     const pendingCount = eventData?.events_eventsignup?.length ?? 0
 
     return (
-        <div className="w-full max-w-5xl mx-auto">
+        <div className="w-full">
             {eventData &&
             <>
                 <Toolbar>

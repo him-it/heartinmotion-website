@@ -11,7 +11,7 @@ const REPORTS: { label: string, description: string, onClick: (e: React.MouseEve
 
 const AdminEventReports = () => {
     return (
-        <div className="w-full max-w-2xl mx-auto">
+        <div className="w-full">
             <div className="rounded-xl border border-border bg-card divide-y divide-border overflow-hidden">
                 {REPORTS.map(report => (
                     <button

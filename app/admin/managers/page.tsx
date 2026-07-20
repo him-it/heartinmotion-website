@@ -10,7 +10,7 @@ const Admin_ManagersListPage = async () => {
     ])
 
     return (
-        <AdminPageWrapper title="Managers" redirect="/admin">
+        <AdminPageWrapper title="Managers" redirect="/admin" width="max-w-3xl">
             <AdminManagerList managerData={managerData ?? undefined} memberData={memberData ?? undefined} />
         </AdminPageWrapper>
     )

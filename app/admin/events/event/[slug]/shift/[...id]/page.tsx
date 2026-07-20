@@ -15,7 +15,7 @@ const Admin_EventShiftPage = async ({ params }: { params: Promise<{ slug: string
         redirect('/')
 
     return (
-        <AdminPageWrapper title={shiftData.events_event.name} redirect={"/admin/events/event/" + shiftData.events_event.slug}>
+        <AdminPageWrapper title={shiftData.events_event.name} redirect={"/admin/events/event/" + shiftData.events_event.slug} width="max-w-5xl">
             <AdminShiftDetails shiftData={shiftData} memberData={memberData} />
         </AdminPageWrapper>
     )

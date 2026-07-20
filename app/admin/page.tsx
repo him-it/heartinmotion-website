@@ -26,8 +26,8 @@ const Admin_AdminPage = async () => {
     const adminLevel = session?.user?.admin_level ?? 0
 
     return (
-        <PageWrapper title="Admin">
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+        <PageWrapper title="Admin" width="max-w-3xl">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <AdminLink href="/admin/members" label="Members" description="Search, view, and edit member records." />
                 {adminLevel > 2 && (
                     <>

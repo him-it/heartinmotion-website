@@ -9,7 +9,7 @@ const Admin_SeasonsListPage = async () => {
     ])
 
     return (
-        <AdminPageWrapper title="Seasons" redirect="/admin/events">
+        <AdminPageWrapper title="Seasons" redirect="/admin/events" width="max-w-4xl">
             <AdminSeasonList eventData={eventData ?? undefined} seasonData={seasonData ?? undefined} />
         </AdminPageWrapper>
     )

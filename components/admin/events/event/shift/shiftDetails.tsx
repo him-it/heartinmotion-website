@@ -352,7 +352,7 @@ const AdminShiftDetails = ({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full">
       <Toolbar>
         <Button size="sm" variant="outline" disabled={isPending} onClick={() => { confirmAll(); }}>
           Mark All Confirmed

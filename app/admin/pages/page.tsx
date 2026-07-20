@@ -6,7 +6,7 @@ const Admin_PagesPage = async () => {
     const pageData = await getPages()
 
     return (
-        <AdminPageWrapper title="Pages" redirect="/admin">
+        <AdminPageWrapper title="Pages" redirect="/admin" width="max-w-3xl">
             <AdminPageList pageData={pageData}></AdminPageList>
         </AdminPageWrapper>
     )

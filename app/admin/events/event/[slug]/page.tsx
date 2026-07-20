@@ -11,7 +11,7 @@ const Admin_EventDetailsPage = async ({ params }: { params: Promise<{ slug: stri
         redirect('/')
 
     return (
-        <AdminPageWrapper title={eventData.name} redirect="/admin/events">
+        <AdminPageWrapper title={eventData.name} redirect="/admin/events" width="max-w-5xl">
             <AdminEventDetails eventData={eventData} />
         </AdminPageWrapper>
     )

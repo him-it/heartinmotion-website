@@ -5,7 +5,7 @@ import { TableShell, tdClass, thClass } from "@/components/admin/workbench";
 
 export const AdminPageList = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeof getPages> }) => {
     return (
-        <div className="w-full max-w-3xl mx-auto">
+        <div className="w-full">
             <TableShell>
                 <table className="min-w-full table-auto border-collapse">
                     <thead className="bg-muted">
