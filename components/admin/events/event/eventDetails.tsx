@@ -160,6 +160,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                 <div className="flex flex-col md:flex-row w-full max-w-7xl">
                     <div className="w-full md:w-1/3 p-4">
                         <h2 className="text-lg font-semibold text-foreground mb-4">Pending Registrations</h2>
+                        <div className="overflow-x-auto">
                         <table className="min-w-full bg-card border border-border">
                             <thead className="bg-muted">
                                 <tr>
@@ -190,11 +191,13 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                 ))}
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
                     <div className="w-full md:w-2/3 space-y-8 p-4">
                         <div>
                             <h2 className="text-lg font-semibold text-foreground mb-4">Future Shifts</h2>
+                            <div className="overflow-x-auto">
                             <table className="min-w-full bg-card border border-border">
                                 <thead className="bg-muted">
                                     <tr>
@@ -227,10 +230,12 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                     ))}
                                 </tbody>
                             </table>
+                            </div>
                         </div>
 
                         <div>
                             <h2 className="text-lg font-semibold text-foreground mb-4">Past Shifts</h2>
+                            <div className="overflow-x-auto">
                             <table className="min-w-full bg-card border border-border">
                                 <thead className="bg-muted">
                                     <tr>
@@ -263,6 +268,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                     ))}
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
