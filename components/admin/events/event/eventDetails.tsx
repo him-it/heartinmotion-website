@@ -17,6 +17,7 @@ import { currentEventDataReport, dateRangeReport, pastEventDataReport } from "..
 const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<typeof getEventBySlug> | undefined }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [showNewShiftPopup, setShowNewShiftPopup] = useState(false);
+    const [showPendingPopup, setShowPendingPopup] = useState(false);
     const [selectedShift, setSelectedShift] = useState<any | null>(null);
     const [error, setError] = useState<string | undefined>(undefined)
     const [success, setSuccess] = useState<string | undefined>(undefined)
@@ -157,44 +158,16 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                     </button>
                 </div>
 
-                <div className="flex flex-col md:flex-row w-full max-w-7xl">
-                    <div className="w-full md:w-1/3 p-4">
-                        <h2 className="text-lg font-semibold text-foreground mb-4">Pending Registrations</h2>
-                        <div className="overflow-x-auto">
-                        <table className="min-w-full bg-card border border-border">
-                            <thead className="bg-muted">
-                                <tr>
-                                    <th className="border border-border p-2 text-muted-foreground max-w-28 overflow-auto whitespace-nowrap">Member</th>
-                                    <th className="border border-border p-2 text-muted-foreground max-w-24 overflow-auto whitespace-nowrap">Shift</th>
-                                    <th className="border border-border p-2 text-muted-foreground max-w-32 overflow-auto whitespace-nowrap">Transportation</th>
-                                    <th className="border border-border p-2 text-muted-foreground">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {eventData.events_eventsignup?.map((shiftSignup, key) => (
-                                    <tr key={key} className="border-b hover:bg-muted">
-                                        <td className="border border-border p-2 max-w-28 overflow-auto whitespace-nowrap">
-                                            {shiftSignup.member_member.first_name + " " + shiftSignup.member_member.last_name}
-                                        </td>
-                                        <td className="border border-border p-2 max-w-24 overflow-auto whitespace-nowrap">
-                                            {shiftSignup.events_eventsignup_shifts[0]?.events_eventshift.description}
-                                        </td>
-                                        <td className="border border-border p-2 max-w-32 overflow-auto whitespace-nowrap">{shiftSignup.transportation}</td>
-                                        <td className="border border-border p-2 text-center">
-                                            <button 
-                                                onClick={() => handleViewClick({...shiftSignup})} 
-                                                className="inline-block text-primary rounded-full hover:text-primary/90 hover:underline">
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        </div>
-                    </div>
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mb-2">
+                    <button
+                        onClick={() => setShowPendingPopup(true)}
+                        className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90">
+                        Pending Registrations ({eventData.events_eventsignup?.length ?? 0})
+                    </button>
+                </div>
 
-                    <div className="w-full md:w-2/3 space-y-8 p-4">
+                <div className="w-full max-w-7xl">
+                    <div className="w-full space-y-8 p-4">
                         <div>
                             <h2 className="text-lg font-semibold text-foreground mb-4">Future Shifts</h2>
                             <div className="overflow-x-auto">
@@ -272,6 +245,54 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                         </div>
                     </div>
                 </div>
+                {showPendingPopup && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-card p-6 rounded-lg shadow-xs w-[90%] md:w-[60%]">
+                            <h2 className="text-xl font-bold mb-4">Pending Registrations</h2>
+                            {eventData.events_eventsignup?.length ? (
+                                <div className="overflow-x-auto max-h-[70vh] overflow-y-auto">
+                                    <table className="min-w-full bg-card border border-border">
+                                        <thead className="bg-muted">
+                                            <tr>
+                                                <th className="border border-border p-2 text-muted-foreground">Member</th>
+                                                <th className="border border-border p-2 text-muted-foreground">Shift</th>
+                                                <th className="border border-border p-2 text-muted-foreground">Transportation</th>
+                                                <th className="border border-border p-2 text-muted-foreground">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {eventData.events_eventsignup?.map((shiftSignup, key) => (
+                                                <tr key={key} className="border-b hover:bg-muted">
+                                                    <td className="border border-border p-2">
+                                                        {shiftSignup.member_member.first_name + " " + shiftSignup.member_member.last_name}
+                                                    </td>
+                                                    <td className="border border-border p-2">
+                                                        {shiftSignup.events_eventsignup_shifts[0]?.events_eventshift.description}
+                                                    </td>
+                                                    <td className="border border-border p-2">{shiftSignup.transportation}</td>
+                                                    <td className="border border-border p-2 text-center">
+                                                        <button
+                                                            onClick={() => handleViewClick({...shiftSignup})}
+                                                            className="inline-block text-primary rounded-full hover:text-primary/90 hover:underline">
+                                                            View
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <p className="text-muted-foreground">No pending registrations.</p>
+                            )}
+                            <button
+                                onClick={() => setShowPendingPopup(false)}
+                                className="mt-4 bg-muted text-black rounded px-4 py-2">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
                 {showPopup && selectedShift && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-card p-6 rounded-lg shadow-xs w-[90%] md:w-[60%]">
