@@ -110,7 +110,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
     const pendingCount = eventData?.events_eventsignup?.length ?? 0
 
     return (
-        <div className="w-full">
+        <div className="w-full max-w-5xl mx-auto">
             {eventData &&
             <>
                 <Toolbar>
@@ -142,7 +142,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                     </Button>
                 </Toolbar>
 
-                <div className="rounded-xl border border-border bg-card p-4 mb-8">
+                <div className="rounded-xl border border-border bg-card p-5 mb-8">
                     <h2 className="text-sm font-semibold text-foreground mb-3">Reports</h2>
                     <div className="flex flex-wrap items-center gap-2">
                         <Button size="sm" variant="outline" onClick={() => { currentEventDataReport(eventData.id) }}>

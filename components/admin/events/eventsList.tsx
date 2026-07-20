@@ -66,7 +66,7 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
     }, [eventsData])
 
     return (
-        <div className="w-full max-w-3xl">
+        <div className="w-full max-w-3xl mx-auto">
             <Toolbar>
                 <Button size="sm" asChild>
                     <Link href="/admin/events/new">New Event</Link>

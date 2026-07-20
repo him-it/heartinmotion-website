@@ -352,7 +352,7 @@ const AdminShiftDetails = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-5xl mx-auto">
       <Toolbar>
         <Button size="sm" variant="outline" disabled={isPending} onClick={() => { confirmAll(); }}>
           Mark All Confirmed
@@ -385,9 +385,9 @@ const AdminShiftDetails = ({
       </Toolbar>
       {updatedData && (
         <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div className="rounded-xl border border-border bg-card p-5">
-              <h2 className="text-sm font-semibold text-foreground mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+            <div className="rounded-xl border border-border bg-card p-6">
+              <h2 className="text-sm font-semibold text-foreground mb-4">
                 Shift Details
               </h2>
               <h3 className="text-lg font-semibold text-foreground">{updatedData.description}</h3>
@@ -443,12 +443,12 @@ const AdminShiftDetails = ({
                 )}
               </div>
             </div>
-            <div className="rounded-xl border border-border bg-card p-5">
-              <h2 className="text-sm font-semibold text-foreground mb-3">
+            <div className="rounded-xl border border-border bg-card p-6">
+              <h2 className="text-sm font-semibold text-foreground mb-4">
                 Add a Member
               </h2>
               <Form {...addMemberForm}>
-                <form onSubmit={addMemberForm.handleSubmit(addMember)}>
+                <form onSubmit={addMemberForm.handleSubmit(addMember)} className="space-y-5">
                   <FormField
                     control={addMemberForm.control}
                     name="id"
@@ -459,7 +459,7 @@ const AdminShiftDetails = ({
                           <select
                             {...field}
                             disabled={isPending}
-                            className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring mb-4"
+                            className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           >
                             <option></option>
                             {memberData &&
@@ -487,7 +487,6 @@ const AdminShiftDetails = ({
                             type="text"
                             placeholder=""
                             disabled={isPending}
-                            className="mb-4"
                           />
                         </FormControl>
                         <FormMessage />
@@ -495,7 +494,7 @@ const AdminShiftDetails = ({
                     )}
                   />
                   {addMemberError && <FormError message={addMemberError} />}
-                  <div className="flex justify-end">
+                  <div className="flex justify-end pt-1">
                     <Button
                       type="submit"
                       size="sm"
@@ -509,7 +508,7 @@ const AdminShiftDetails = ({
             </div>
           </div>
           <div className="w-full">
-            <h2 className="text-lg font-semibold text-foreground mb-3">
+            <h2 className="text-lg font-semibold text-foreground mb-4">
               Members
             </h2>
             <TableShell>

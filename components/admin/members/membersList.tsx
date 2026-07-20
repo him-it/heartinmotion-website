@@ -52,8 +52,9 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
     <div className="flex flex-col items-center">
         {memberData && loadedData && (
             <>
-                <div className="w-full mb-4 flex flex-wrap items-center gap-x-6 gap-y-3">
-                    <div className="flex items-center gap-1.5">
+                <div className="w-full mb-4 space-y-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                         <button
                             onClick={() => setPage(1)}
                             aria-label="First page"
@@ -119,7 +120,21 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                         </select>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                        <div className="grow" />
+                        <input
+                            type="text"
+                            placeholder="Search members…  ⏎"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    const target = e.target as HTMLInputElement;
+                                    setSearch(target.value);
+                                }
+                            }}
+                            className={dateInputClass + " w-64 placeholder:text-muted-foreground"}
+                        />
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
                         <label className="text-sm text-muted-foreground">From</label>
                         <input
                             type="date"
@@ -149,20 +164,6 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                         >
                             Generate Report
                         </Button>
-                    </div>
-
-                    <div className="flex items-center gap-2 grow justify-end">
-                        <input
-                            type="text"
-                            placeholder="Search members…  ⏎"
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    const target = e.target as HTMLInputElement;
-                                    setSearch(target.value);
-                                }
-                            }}
-                            className={dateInputClass + " w-56 placeholder:text-muted-foreground"}
-                        />
                     </div>
                 </div>
                 <div className="overflow-x-auto w-full rounded-xl border border-border">

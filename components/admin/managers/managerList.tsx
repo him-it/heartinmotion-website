@@ -49,8 +49,8 @@ export const AdminManagerList = ({ managerData, memberData } : { managerData: Pr
     }
 
     return (
-        <div className="w-full max-w-3xl">
-            <div className="rounded-xl border border-border bg-card p-5 mb-8">
+        <div className="w-full max-w-3xl mx-auto">
+            <div className="rounded-xl border border-border bg-card p-6 mb-8">
                 <h2 className="text-sm font-semibold text-foreground mb-4">Add Manager</h2>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(addManager)}>

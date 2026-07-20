@@ -21,8 +21,8 @@ export const TableShell = ({ children, className }: { children: React.ReactNode,
     </div>
 )
 
-export const thClass = "px-4 py-2.5 text-left text-sm font-semibold text-foreground whitespace-nowrap"
-export const tdClass = "px-4 py-2.5 text-sm text-foreground"
+export const thClass = "px-4 py-3 text-left text-sm font-semibold text-foreground whitespace-nowrap"
+export const tdClass = "px-4 py-3 text-sm text-foreground"
 
 export const Modal = ({
     title,

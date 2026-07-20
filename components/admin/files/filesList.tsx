@@ -97,7 +97,7 @@ const AdminFilesList = ({ fileData }: { fileData: any[] | undefined }) => {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <div className="bg-card border border-border rounded-xl p-5 mb-8">
+      <div className="bg-card border border-border rounded-xl p-6 mb-8">
         <h2 className="text-sm font-semibold mb-4 text-foreground">
           Upload File
         </h2>
