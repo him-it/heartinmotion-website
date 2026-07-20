@@ -350,7 +350,7 @@ export const SpotlightForm = ({ spotlight }: { spotlight?: SpotlightData }) => {
                     type="button"
                     onClick={onSubmit}
                     disabled={isPending}
-                    className="text-white rounded-full bg-primary hover:bg-primary/90 transition duration-300 px-8"
+                    className="px-8"
                 >
                     {spotlight ? "Save" : "Create"}
                 </Button>

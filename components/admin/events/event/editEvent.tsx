@@ -152,7 +152,7 @@ const AdminEditEvent = ({ eventData }: { eventData: events_event | undefined }) 
                                         )} 
                                     <Button
                                         type="submit"
-                                        className='text-white flex w-52 my-8 mx-auto rounded-full bg-primary hover:bg-primary/90 transition duration-300'
+                                        className='flex my-8 ml-auto px-10'
                                         disabled={ isPending }
                                         >
                                             Save

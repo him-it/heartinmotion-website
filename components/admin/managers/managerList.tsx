@@ -8,15 +8,18 @@ import { useState, useTransition } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { FormError } from "@/components/ui/formError";
 import { Button } from "@/components/ui/button";
+import { TableShell, tdClass, thClass } from "@/components/admin/workbench";
 import { AddManagerSchema } from "@/schemas";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod";
 
+const selectClass = "h-10 w-full rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+
 export const AdminManagerList = ({ managerData, memberData } : { managerData: Prisma.PromiseReturnType<typeof getManagers> | undefined, memberData: Prisma.PromiseReturnType<typeof getMemberNames> | undefined}) => {
-    const [isPending, startTransition] = useTransition() 
+    const [isPending, startTransition] = useTransition()
     const [addMemberError, setAddMemberError] = useState<string | undefined>(undefined)
-    
+
     const updateAdminLevel = (name: string, member_id: number, admin_level: number) => {
         if(confirm("Are you sure you want you remove " + name + " as a manager?")) {
             startTransition(() => {
@@ -46,103 +49,108 @@ export const AdminManagerList = ({ managerData, memberData } : { managerData: Pr
     }
 
     return (
-        <div className="overflow-x-auto p-4">
-            <div className="mb-8">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(addManager)}>
-                    <FormField 
-                        control={form.control}
-                        name="id"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Member Name:</FormLabel>
-                                <FormControl>
-                                    <select
-                                        {...field}
-                                        disabled={isPending}
-                                        className="border rounded p-2 mb-4 w-full"
-                                    >
-                                    <option></option>
-                                    {memberData && memberData.length > 0 && memberData.map(member => (
-                                        <option key={member.id} value={member.id}>
-                                            {member.first_name + " " + member.last_name}    
-                                        </option>
-                                    ))}
-                                    </select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField 
-                        control={form.control}
-                        name="admin_level"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Admin Level:</FormLabel>
-                                <FormControl>
-                                <select
-                                        {...field}
-                                        disabled={isPending}
-                                        className="border rounded p-2 mb-4 w-full"
-                                    >
-                                    <option></option>
-                                    <option value="2">Member Info Only</option>
-                                    <option value="4">Basic Administrator</option>
-                                    <option value="10">Super Administrator</option>
-                                </select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    {addMemberError && <FormError message={addMemberError} />} 
-                    <div className="flex">
-                        <Button 
-                            type="submit" 
-                            className="mt-4 bg-primary hover:bg-primary/90 transition duration-300 text-white rounded-full w-full"
-                            disabled={isPending}
-                        >
-                            Add
-                        </Button>
-                    </div>
-                </form>
-            </Form>
+        <div className="w-full max-w-3xl">
+            <div className="rounded-xl border border-border bg-card p-5 mb-8">
+                <h2 className="text-sm font-semibold text-foreground mb-4">Add Manager</h2>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(addManager)}>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <FormField
+                                control={form.control}
+                                name="id"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Member Name:</FormLabel>
+                                        <FormControl>
+                                            <select
+                                                {...field}
+                                                disabled={isPending}
+                                                className={selectClass}
+                                            >
+                                            <option></option>
+                                            {memberData && memberData.length > 0 && memberData.map(member => (
+                                                <option key={member.id} value={member.id}>
+                                                    {member.first_name + " " + member.last_name}
+                                                </option>
+                                            ))}
+                                            </select>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="admin_level"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Admin Level:</FormLabel>
+                                        <FormControl>
+                                        <select
+                                                {...field}
+                                                disabled={isPending}
+                                                className={selectClass}
+                                            >
+                                            <option></option>
+                                            <option value="2">Member Info Only</option>
+                                            <option value="4">Basic Administrator</option>
+                                            <option value="10">Super Administrator</option>
+                                        </select>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        {addMemberError && <FormError message={addMemberError} />}
+                        <div className="flex justify-end mt-4">
+                            <Button
+                                type="submit"
+                                size="sm"
+                                disabled={isPending}
+                            >
+                                Add Manager
+                            </Button>
+                        </div>
+                    </form>
+                </Form>
             </div>
-            <table className="min-w-full table-auto bg-card border-collapse">
-                <thead className="bg-muted">
-                    <tr>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Name</th>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Type</th>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {managerData && managerData.map((manager, key) => (
-                        <tr key={key} className="border-b">
-                            <td className="px-4 py-2 text-sm text-foreground">
-                                <Link className="text-primary hover:text-primary/90 hover:underline" href={"/admin/members/member/" + manager.id}>{manager.first_name + " " + manager.last_name}</Link>
-                            </td>
-                            <td className="px-4 py-2 text-sm text-foreground">
-                                {manager.member_memberrestricted?.admin_level === 2 && "Member Info Only"}
-                                {manager.member_memberrestricted?.admin_level === 4 && "Basic Administrator"}
-                                {manager.member_memberrestricted?.admin_level === 10 && "Super Administrator"}
-                            </td>
-                            <td className="px-4 py-2">
-                                <button 
-                                    disabled={isPending}
-                                    onClick={() => {
-                                        updateAdminLevel(manager.first_name + " " + manager.last_name, manager.id, 0)
-                                    }}
-                                    className="text-primary hover:text-primary/90 text-sm font-semibold"
-                                >
-                                    Remove
-                                </button>
-                            </td>
+            <TableShell>
+                <table className="min-w-full table-auto border-collapse">
+                    <thead className="bg-muted">
+                        <tr>
+                            <th className={thClass}>Name</th>
+                            <th className={thClass}>Type</th>
+                            <th className={thClass + " text-right"}>Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {managerData && managerData.map((manager, key) => (
+                            <tr key={key} className="border-b border-border last:border-0 hover:bg-muted/60 transition-colors">
+                                <td className={tdClass + " font-medium"}>
+                                    <Link className="text-primary hover:text-primary/90 hover:underline" href={"/admin/members/member/" + manager.id}>{manager.first_name + " " + manager.last_name}</Link>
+                                </td>
+                                <td className={tdClass + " text-muted-foreground"}>
+                                    {manager.member_memberrestricted?.admin_level === 2 && "Member Info Only"}
+                                    {manager.member_memberrestricted?.admin_level === 4 && "Basic Administrator"}
+                                    {manager.member_memberrestricted?.admin_level === 10 && "Super Administrator"}
+                                </td>
+                                <td className={tdClass + " text-right"}>
+                                    <button
+                                        disabled={isPending}
+                                        onClick={() => {
+                                            updateAdminLevel(manager.first_name + " " + manager.last_name, manager.id, 0)
+                                        }}
+                                        className="text-destructive hover:text-destructive/80 text-sm font-semibold disabled:opacity-50"
+                                    >
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </TableShell>
         </div>
      )
 }

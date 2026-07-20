@@ -5,7 +5,12 @@ import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingState } from "@/components/ui/loadingState";
+import { Button } from "@/components/ui/button";
 import { weeklyUpdateReport } from "../events/reports/generateReports";
+
+const pagerBtnClass = "inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+const selectClass = "h-9 rounded-md border border-input bg-card px-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+const dateInputClass = "h-9 rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 
 const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnType<typeof getMembers> | undefined}) => {
 
@@ -47,13 +52,14 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
     <div className="flex flex-col items-center">
         {memberData && loadedData && (
             <>
-                <div className="mb-4">
-                    <div className="flex items-center space-x-2">
+                <div className="w-full mb-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <div className="flex items-center gap-1.5">
                         <button
                             onClick={() => setPage(1)}
-                            className="p-2 bg-muted rounded hover:bg-muted/80 transition"
+                            aria-label="First page"
+                            className={pagerBtnClass}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
                             </svg>
                         </button>
@@ -61,16 +67,17 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                             onClick={() => {
                                 if (page > 1) setPage(page - 1);
                             }}
-                            className="p-2 bg-muted rounded hover:bg-muted/80 transition"
+                            aria-label="Previous page"
+                            className={pagerBtnClass}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>
                         </button>
                         <select
                             onChange={(e) => setPage(Number(e.target.value))}
                             value={page}
-                            className="border border-border rounded p-2"
+                            className={selectClass}
                         >
                             {Array.from({ length: Math.ceil(maxPages) }, (_, i) => (
                                 <option key={i} value={i + 1}>
@@ -82,24 +89,27 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                             onClick={() => {
                                 if (page < Math.ceil(maxPages)) setPage(page + 1);
                             }}
-                            className="p-2 bg-muted rounded hover:bg-muted/80 transition"
+                            aria-label="Next page"
+                            className={pagerBtnClass}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         </button>
                         <button
                             onClick={() => setPage(Math.ceil(memberData.length / pageLength))}
-                            className="p-2 bg-muted rounded hover:bg-muted/80 transition"
+                            aria-label="Last page"
+                            className={pagerBtnClass}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                             </svg>
                         </button>
                         <select
                             onChange={(e) => setPageLength(Number(e.target.value))}
                             defaultValue={100}
-                            className="border border-border rounded p-2"
+                            className={selectClass}
+                            aria-label="Rows per page"
                         >
                             <option value={10}>10</option>
                             <option value={20}>20</option>
@@ -107,52 +117,55 @@ const AdminMembersList = ({ memberData } : { memberData : Prisma.PromiseReturnTy
                             <option value={100}>100</option>
                             <option value={1000}>1000</option>
                         </select>
+                    </div>
 
-                        <div className="pl-[100px] space-x-3">
-                            <label>From</label>
-                            <input
-                                type="date"
-                                className="border border-border rounded p-2"
-                                onChange={(e) => {
-                                    if(e.target.valueAsDate)
-                                        setFromTime(e.target.valueAsDate)
-                                }}
-                            />
-                            <label>To</label>
-                            <input
-                                type="date"
-                                className="border border-border rounded p-2"
-                                onChange={(e) => {
-                                    if(e.target.valueAsDate)
-                                        setToTime(e.target.valueAsDate)
-                                }}
-                            />
-                            <button className="p-2 bg-muted rounded hover:bg-muted/80 transition"
-                                onClick={ () => {
-                                    if(fromTime && toTime)
-                                        weeklyUpdateReport(fromTime, toTime)
-                                }}
-                            >
-                                Generate Report
-                            </button>
-                        </div>
+                    <div className="flex items-center gap-2">
+                        <label className="text-sm text-muted-foreground">From</label>
+                        <input
+                            type="date"
+                            className={dateInputClass}
+                            onChange={(e) => {
+                                if(e.target.valueAsDate)
+                                    setFromTime(e.target.valueAsDate)
+                            }}
+                        />
+                        <label className="text-sm text-muted-foreground">To</label>
+                        <input
+                            type="date"
+                            className={dateInputClass}
+                            onChange={(e) => {
+                                if(e.target.valueAsDate)
+                                    setToTime(e.target.valueAsDate)
+                            }}
+                        />
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={!fromTime || !toTime}
+                            onClick={ () => {
+                                if(fromTime && toTime)
+                                    weeklyUpdateReport(fromTime, toTime)
+                            }}
+                        >
+                            Generate Report
+                        </Button>
+                    </div>
 
-                        <div className="pl-[100px] space-x-3">
-                            <label>Search:</label>
-                            <input
-                                type="text"
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        const target = e.target as HTMLInputElement;
-                                        setSearch(target.value);
-                                    }
-                                }}
-                                className="border border-border rounded p-2"
-                            />
-                        </div>
+                    <div className="flex items-center gap-2 grow justify-end">
+                        <input
+                            type="text"
+                            placeholder="Search members…  ⏎"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    const target = e.target as HTMLInputElement;
+                                    setSearch(target.value);
+                                }
+                            }}
+                            className={dateInputClass + " w-56 placeholder:text-muted-foreground"}
+                        />
                     </div>
                 </div>
-                <div className="overflow-x-auto md:w-full w-[80%]">
+                <div className="overflow-x-auto w-full rounded-xl border border-border">
                     <table className="min-w-full bg-card border border-border">
                         <thead className="bg-muted">
                             <tr>

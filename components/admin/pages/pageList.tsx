@@ -1,32 +1,35 @@
 import { getPages } from "@/actions/admin/pages/page";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
+import { TableShell, tdClass, thClass } from "@/components/admin/workbench";
 
 export const AdminPageList = ({ pageData } : { pageData: Prisma.PromiseReturnType<typeof getPages> }) => {
     return (
-        <div className="overflow-x-auto p-4">
-            <table className="min-w-full table-auto bg-card border-collapse">
-                <thead className="bg-muted">
-                    <tr>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Title</th>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Path</th>
-                        <th className="px-4 py-2 text-left text-sm font-semibold text-foreground">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pageData && pageData.map((page, key) => (
-                        <tr key={key} className="border-b">
-                            <td className="px-4 py-2 text-sm text-foreground">{page.title}</td>
-                            <td className="px-4 py-2 text-sm text-foreground">{page.path}</td>
-                            <td className="px-4 py-2">
-                                <Link href={"/admin/pages/page/" + page.id} className="text-primary hover:text-primary/90 text-sm font-semibold">
-                                    Edit
-                                </Link>
-                            </td>
+        <div className="w-full max-w-3xl">
+            <TableShell>
+                <table className="min-w-full table-auto border-collapse">
+                    <thead className="bg-muted">
+                        <tr>
+                            <th className={thClass}>Title</th>
+                            <th className={thClass}>Path</th>
+                            <th className={thClass + " text-right"}>Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {pageData && pageData.map((page, key) => (
+                            <tr key={key} className="border-b border-border last:border-0 hover:bg-muted/60 transition-colors">
+                                <td className={tdClass + " font-medium"}>{page.title}</td>
+                                <td className={tdClass + " text-muted-foreground"}>{page.path}</td>
+                                <td className={tdClass + " text-right"}>
+                                    <Link href={"/admin/pages/page/" + page.id} className="text-primary hover:text-primary/90 text-sm font-semibold">
+                                        Edit
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </TableShell>
         </div>
     )
 }

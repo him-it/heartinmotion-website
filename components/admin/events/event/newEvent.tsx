@@ -151,7 +151,7 @@ const AdminNewEvent = () => {
                                         )} 
                                     <Button
                                         type="submit"
-                                        className='flex w-52 my-8 mx-auto rounded-full text-white bg-primary hover:bg-primary/90 transition duration-300'
+                                        className='flex my-8 ml-auto px-10'
                                         disabled={ isPending }
                                         >
                                             Create

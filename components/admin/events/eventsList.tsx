@@ -4,6 +4,51 @@ import { getEvents } from "@/actions/admin/event";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { TableShell, Toolbar, ToolbarSpacer, tdClass, thClass } from "@/components/admin/workbench";
+
+const EventsTable = ({ title, events, showDate }: {
+    title: string,
+    events: NonNullable<Prisma.PromiseReturnType<typeof getEvents>>,
+    showDate?: boolean
+}) => (
+    <div>
+        <h2 className="text-lg font-semibold text-foreground mb-3">{title}</h2>
+        <TableShell>
+            <table className="min-w-full table-auto border-collapse">
+                <thead className="bg-muted">
+                    <tr>
+                        <th className={thClass}>Event</th>
+                        <th className={thClass}>Next Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {events.map(event => (
+                        <tr key={event.id} className="border-b border-border last:border-0 hover:bg-muted/60 transition-colors">
+                            <td className={tdClass + " font-medium"}>
+                                <Link href={"/admin/events/event/" + event.slug} className="text-primary hover:underline hover:text-primary/90">
+                                    {event.name}
+                                </Link>
+                            </td>
+                            <td className={tdClass + " text-muted-foreground whitespace-nowrap"}>
+                                {showDate
+                                    ? (event.events_eventshift[0]?.start_time ? event.events_eventshift[0].start_time.toDateString() : "Error")
+                                    : "—"}
+                            </td>
+                        </tr>
+                    ))}
+                    {events.length === 0 && (
+                        <tr>
+                            <td colSpan={2} className="px-4 py-8 text-center text-sm text-muted-foreground">
+                                No events.
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </TableShell>
+    </div>
+)
 
 const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<typeof getEvents> | undefined }) => {
     // Group once per data change with a single time reference, instead of
@@ -21,96 +66,24 @@ const AdminEventsList = ({ eventsData }: { eventsData: Prisma.PromiseReturnType<
     }, [eventsData])
 
     return (
-        <div className="flex flex-col items-center">
-            <div className="flex space-x-4 mb-6">
-                <Link href="/admin/events/reports" className="inline-block px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
-                    Reports
-                </Link>
-                <Link href="/admin/events/seasons" className="inline-block px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
-                    Seasons
-                </Link>
-                <Link href="/admin/events/new" className="inline-block px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
-                    New
-                </Link>
-            </div>
-            <div className="w-full max-w-2xl">
-                <table className="min-w-full bg-card border border-border">
-                    <thead>
-                        <tr className="bg-muted">
-                            <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Upcoming Events</th>
-                        </tr>
-                        <tr>
-                            <th className="p-4 text-muted-foreground text-center">Event</th>
-                            <th className="p-4 text-muted-foreground text-center">Next Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            upcoming.map(event => (
-                                <tr key={event.id} className="border-b hover:bg-muted">
-                                    <td className="p-4 text-center">
-                                        <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
-                                            {event.name}
-                                        </Link>
-                                    </td>
-                                    <td className="p-4 text-center">{event.events_eventshift[0].start_time ? event.events_eventshift[0].start_time.toDateString() : "Error"}</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+        <div className="w-full max-w-3xl">
+            <Toolbar>
+                <Button size="sm" asChild>
+                    <Link href="/admin/events/new">New Event</Link>
+                </Button>
+                <ToolbarSpacer />
+                <Button size="sm" variant="outline" asChild>
+                    <Link href="/admin/events/reports">Reports</Link>
+                </Button>
+                <Button size="sm" variant="outline" asChild>
+                    <Link href="/admin/events/seasons">Seasons</Link>
+                </Button>
+            </Toolbar>
 
-                <table className="min-w-full bg-card border border-border mt-8">
-                    <thead>
-                        <tr className="bg-muted">
-                            <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Past Events</th>
-                        </tr>
-                        <tr>
-                            <th className="p-4 text-muted-foreground text-center">Event</th>
-                            <th className="p-4 text-muted-foreground text-center">Next Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            past.map(event => (
-                                <tr key={event.id} className="border-b hover:bg-muted">
-                                    <td className="p-4 text-center">
-                                        <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
-                                            {event.name}
-                                        </Link>
-                                    </td>
-                                    <td className="p-4 text-center">--------</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
-
-                <table className="min-w-full bg-card border border-border mt-8">
-                    <thead>
-                        <tr className="bg-muted">
-                            <th colSpan={2} className="p-4 text-lg font-semibold text-foreground text-center rounded-tl-lg rounded-tr-lg">Empty Events</th>
-                        </tr>
-                        <tr>
-                            <th className="p-4 text-muted-foreground text-center">Event</th>
-                            <th className="p-4 text-muted-foreground text-center">Next Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            empty.map(event => (
-                                <tr key={event.id} className="border-b hover:bg-muted">
-                                    <td className="p-4 text-center">
-                                        <Link href={"/admin/events/event/" + event.slug} className="text-foreground hover:underline">
-                                            {event.name}
-                                        </Link>
-                                    </td>
-                                    <td className="p-4 text-center">--------</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+            <div className="space-y-8">
+                <EventsTable title="Upcoming Events" events={upcoming} showDate />
+                <EventsTable title="Past Events" events={past} />
+                <EventsTable title="Empty Events" events={empty} />
             </div>
         </div>
     );

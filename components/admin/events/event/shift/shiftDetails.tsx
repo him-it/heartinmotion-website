@@ -32,6 +32,7 @@ import { FormError } from "@/components/ui/formError";
 import { getMemberNames } from "@/actions/admin/member";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Modal, TableShell, Toolbar, ToolbarSpacer, tdClass, thClass } from "@/components/admin/workbench";
 
 const AdminShiftDetails = ({
   shiftData,
@@ -351,68 +352,46 @@ const AdminShiftDetails = ({
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex justify-center space-x-4 mb-8">
-        <button
-          onClick={() => {
-            confirmAll();
-          }}
-          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
-        >
+    <div className="w-full">
+      <Toolbar>
+        <Button size="sm" variant="outline" disabled={isPending} onClick={() => { confirmAll(); }}>
           Mark All Confirmed
-        </button>
-        <button
-          onClick={() => {
-            completeAll();
-          }}
-          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
-        >
+        </Button>
+        <Button size="sm" variant="outline" disabled={isPending} onClick={() => { completeAll(); }}>
           Mark All Completed
-        </button>
-        <button
-          onClick={() => setShowEditShiftPopup(true)}
-          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
-        >
+        </Button>
+        <input
+          className="h-9 w-44 rounded-md border border-input bg-card px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          placeholder="Set all hours  ⏎"
+          onKeyDown={(e) => {
+            if (shiftData?.id && e.key === "Enter") {
+              const target = e.target as HTMLInputElement;
+              changeHoursAll(shiftData.id, Number(target.value));
+            }
+          }}
+        ></input>
+        <ToolbarSpacer />
+        <Button size="sm" variant="outline" onClick={() => setShowEditShiftPopup(true)}>
           Edit Shift
-        </button>
-        <button
-          onClick={() => {
-            deleteShift();
-          }}
-          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => { deleteShift(); }}
+          className="text-destructive hover:text-destructive hover:bg-destructive/10"
         >
           Delete Shift
-        </button>
-        <button
-          onClick={() => {
-            deleteShift();
-          }}
-          className="inline-block px-4 py-2 bg-primary text-center text-white rounded-md hover:bg-primary/90"
-        >
-          Delete Shift
-        </button>
-        <div>
-          <input
-            className="inline-block px-4 py-2 mt-2 border border-border rounded-md"
-            placeholder="Update All Hours"
-            onKeyDown={(e) => {
-              if (shiftData?.id && e.key === "Enter") {
-                const target = e.target as HTMLInputElement;
-                changeHoursAll(shiftData.id, Number(target.value));
-              }
-            }}
-          ></input>
-        </div>
-      </div>
+        </Button>
+      </Toolbar>
       {updatedData && (
-        <div className="w-[80%]">
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mb-3 w-full">
-            <div className="flex-2 p-4">
-              <h2 className="text-lg font-semibold text-foreground mb-4">
+        <div className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div className="rounded-xl border border-border bg-card p-5">
+              <h2 className="text-sm font-semibold text-foreground mb-3">
                 Shift Details
               </h2>
-              <h3>{updatedData.description}</h3>
-              <p>
+              <h3 className="text-lg font-semibold text-foreground">{updatedData.description}</h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 {updatedData.start_time &&
                   updatedData.start_time.toLocaleDateString("en", {
                     weekday: "long",
@@ -421,7 +400,7 @@ const AdminShiftDetails = ({
                     year: "numeric",
                   })}
               </p>
-              <p>
+              <p className="text-sm text-muted-foreground">
                 {updatedData.start_time &&
                   updatedData.start_time.toLocaleTimeString("en-US", {
                     hour: "numeric",
@@ -436,8 +415,8 @@ const AdminShiftDetails = ({
                     hour12: true,
                   })}
               </p>
-              <p>{updatedData.location}</p>
-              <div className="mt-5 font-bold">
+              <p className="text-sm text-muted-foreground">{updatedData.location}</p>
+              <div className="mt-5 font-semibold text-sm">
                 {updatedData.events_eventshiftmember?.length >=
                 updatedData.spots ? (
                   <div className="text-primary">
@@ -452,7 +431,7 @@ const AdminShiftDetails = ({
                     </p>
                   </div>
                 ) : (
-                  <p>
+                  <p className="text-foreground">
                     {updatedData.spots -
                       updatedData.events_eventshiftmember?.length +
                       " available + " +
@@ -464,8 +443,8 @@ const AdminShiftDetails = ({
                 )}
               </div>
             </div>
-            <div className="flex-1 p-4">
-              <h2 className="text-lg font-semibold text-foreground mb-4">
+            <div className="rounded-xl border border-border bg-card p-5">
+              <h2 className="text-sm font-semibold text-foreground mb-3">
                 Add a Member
               </h2>
               <Form {...addMemberForm}>
@@ -480,7 +459,7 @@ const AdminShiftDetails = ({
                           <select
                             {...field}
                             disabled={isPending}
-                            className="border rounded p-2 mb-4 w-full"
+                            className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring mb-4"
                           >
                             <option></option>
                             {memberData &&
@@ -508,7 +487,7 @@ const AdminShiftDetails = ({
                             type="text"
                             placeholder=""
                             disabled={isPending}
-                            className="border rounded p-2 mb-4 w-full"
+                            className="mb-4"
                           />
                         </FormControl>
                         <FormMessage />
@@ -516,99 +495,100 @@ const AdminShiftDetails = ({
                     )}
                   />
                   {addMemberError && <FormError message={addMemberError} />}
-                  <div className="flex">
+                  <div className="flex justify-end">
                     <Button
                       type="submit"
-                      className="mt-4 bg-primary hover:bg-primary/90 transition duration-300 text-white rounded-full w-full"
+                      size="sm"
                       disabled={isPending}
                     >
-                      Add
+                      Add Member
                     </Button>
                   </div>
                 </form>
               </Form>
             </div>
           </div>
-          <div className="w-full p-4">
-            <h2 className="text-lg font-semibold text-foreground mb-4">
+          <div className="w-full">
+            <h2 className="text-lg font-semibold text-foreground mb-3">
               Members
             </h2>
-            <table className="min-w-full bg-card border border-border">
+            <TableShell>
+            <table className="min-w-full table-auto border-collapse">
               <thead className="bg-muted">
                 <tr>
                   <th
-                    className="border border-border p-2 text-muted-foreground cursor-pointer"
+                    className={thClass + " cursor-pointer select-none"}
                     onClick={() => requestSort("name")}
                   >
                     Name
                     {sortConfig?.key === "name" && (
-    <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
+    <span className="text-muted-foreground">{sortConfig.direction === "asc" ? " ↑" : " ↓"}</span>
   )}
                   </th>
                   <th
-                    className="border border-border p-2 text-muted-foreground cursor-pointer"
+                    className={thClass + " cursor-pointer select-none"}
                     onClick={() => requestSort("phone")}
                   >
                     Phone
                     {sortConfig?.key === "phone" && (
-    <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
+    <span className="text-muted-foreground">{sortConfig.direction === "asc" ? " ↑" : " ↓"}</span>
   )}
                   </th>
                   <th
-                    className="border border-border p-2 text-muted-foreground cursor-pointer"
+                    className={thClass + " cursor-pointer select-none"}
                     onClick={() => requestSort("school")}
                   >
                     School
                     {sortConfig?.key === "school" && (
-    <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
+    <span className="text-muted-foreground">{sortConfig.direction === "asc" ? " ↑" : " ↓"}</span>
   )}
                   </th>
                   <th
-                    className="border border-border p-2 text-muted-foreground cursor-pointer"
+                    className={thClass + " cursor-pointer select-none"}
                     onClick={() => requestSort("graduatingYear")}
                   >
                     Graduating Year
                     {sortConfig?.key === "graduatingYear" && (
-    <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
+    <span className="text-muted-foreground">{sortConfig.direction === "asc" ? " ↑" : " ↓"}</span>
   )}
                   </th>
                   <th
-                    className="border border-border p-2 text-muted-foreground cursor-pointer"
+                    className={thClass + " cursor-pointer select-none text-center"}
                     onClick={() => requestSort("confirmed")}
                   >
                     Confirmed
                     {sortConfig?.key === "confirmed" && (
-    <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
+    <span className="text-muted-foreground">{sortConfig.direction === "asc" ? " ↑" : " ↓"}</span>
   )}
                   </th>
                   <th
-                    className="border border-border p-2 text-muted-foreground cursor-pointer"
+                    className={thClass + " cursor-pointer select-none text-center"}
                     onClick={() => requestSort("completed")}
                   >
                     Completed
                     {sortConfig?.key === "completed" && (
-    <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
+    <span className="text-muted-foreground">{sortConfig.direction === "asc" ? " ↑" : " ↓"}</span>
   )}
                   </th>
                   <th
-                    className="border border-border p-2 text-muted-foreground cursor-pointer"
+                    className={thClass + " cursor-pointer select-none"}
                     onClick={() => requestSort("hours")}
                   >
                     Hours
                     {sortConfig?.key === "hours" && (
-    <span>{sortConfig.direction === "asc" ? " 🔼" : " 🔽"}</span>
+    <span className="text-muted-foreground">{sortConfig.direction === "asc" ? " ↑" : " ↓"}</span>
   )}
                   </th>
-                  <th className="border border-border p-2 text-muted-foreground">
-                    Delete
+                  <th className={thClass + " text-right"}>
+                    Action
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {updatedData.events_eventshiftmember?.length > 0 &&
                   sortedMembers.map((member) => (
-                    <tr key={member.id} className="border-b hover:bg-muted">
-                      <td className="border border-border p-2">
+                    <tr key={member.id} className="border-b border-border last:border-0 hover:bg-muted/60 transition-colors">
+                      <td className={tdClass + " font-medium"}>
                         <Link
                           href={"/admin/members/member/" + member.member_id}
                           className="text-primary hover:underline hover:text-primary/90"
@@ -618,52 +598,53 @@ const AdminShiftDetails = ({
                             member.member_member.last_name}
                         </Link>
                       </td>
-                      <td className="border border-border p-2">
+                      <td className={tdClass + " text-muted-foreground whitespace-nowrap"}>
                         {member.member_member.cell_phone}
                       </td>
-                      <td className="border border-border p-2">
+                      <td className={tdClass + " text-muted-foreground"}>
                         {member.member_member.school}
                       </td>
-                      <td className="border border-border p-2">
+                      <td className={tdClass + " text-muted-foreground"}>
                         {member.member_member.graduating_year}
                       </td>
-                      <td className="border border-border p-2 text-center">
-                        <Button
+                      <td className={tdClass + " text-center"}>
+                        <button
                           disabled={isPending}
                           className={
                             (member.confirmed
-                              ? "bg-green-500 hover:bg-green-600"
-                              : "bg-primary hover:bg-primary/90") +
-                            " w-full text-white"
+                              ? "bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20"
+                              : "bg-muted text-muted-foreground hover:bg-muted/70 hover:text-foreground") +
+                            " inline-flex rounded-full px-3 py-0.5 text-xs font-semibold transition-colors disabled:opacity-50"
                           }
                           onClick={() => {
                             changeConfirmed(member.id, !member.confirmed);
                           }}
                         >
                           {member.confirmed ? "Yes" : "No"}
-                        </Button>
+                        </button>
                       </td>
-                      <td className="border border-border p-2 text-center">
-                        <Button
+                      <td className={tdClass + " text-center"}>
+                        <button
                           disabled={isPending}
                           className={
                             (member.completed
-                              ? "bg-green-500 hover:bg-green-600"
-                              : "bg-primary hover:bg-primary/90") +
-                            " w-full text-white"
+                              ? "bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20"
+                              : "bg-muted text-muted-foreground hover:bg-muted/70 hover:text-foreground") +
+                            " inline-flex rounded-full px-3 py-0.5 text-xs font-semibold transition-colors disabled:opacity-50"
                           }
                           onClick={() => {
                             changeCompleted(member.id, !member.completed);
                           }}
                         >
                           {member.completed ? "Yes" : "No"}
-                        </Button>
+                        </button>
                       </td>
-                      <td className="border border-border p-2">
+                      <td className={tdClass}>
                         <input
                           type="number"
                           defaultValue={member.hours}
                           disabled={isPending}
+                          className="h-8 w-20 rounded-md border border-input bg-card px-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               const target = e.target as HTMLInputElement;
@@ -672,10 +653,10 @@ const AdminShiftDetails = ({
                           }}
                         ></input>
                       </td>
-                      <td className="border border-border p-2 text-center">
-                        <Button
+                      <td className={tdClass + " text-right"}>
+                        <button
                           disabled={isPending}
-                          className="bg-black text-white"
+                          className="text-destructive hover:text-destructive/80 text-sm font-semibold disabled:opacity-50"
                           onClick={() => {
                             deleteMember(
                               member.id,
@@ -686,19 +667,18 @@ const AdminShiftDetails = ({
                           }}
                         >
                           Delete
-                        </Button>
+                        </button>
                       </td>
                     </tr>
                   ))}
               </tbody>
             </table>
+            </TableShell>
           </div>
           {showEditShiftPopup && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-card p-6 rounded-lg shadow-xs w-[90%] md:w-[60%]">
-                <h2 className="text-xl font-bold mb-4">Edit Shift</h2>
+            <Modal title="Edit Shift" onClose={() => setShowEditShiftPopup(false)}>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(editShift)}>
+                  <form onSubmit={form.handleSubmit(editShift)} className="space-y-4">
                     <FormField
                       control={form.control}
                       name="description"
@@ -794,27 +774,27 @@ const AdminShiftDetails = ({
                       )}
                     />
                     {error && <FormError message={error} />}
-                    <div className="flex justify-between space-x-2">
-                      <Button
-                        type="submit"
-                        className="w-full mt-4 bg-primary hover:bg-primary/90 transition duration-300 text-white rounded-full"
-                        disabled={isPending}
-                      >
-                        Save Changes
-                      </Button>
+                    <div className="flex items-center justify-end gap-2 pt-2">
                       <Button
                         type="button"
+                        variant="ghost"
+                        size="sm"
                         onClick={() => setShowEditShiftPopup(false)}
-                        className="w-full mt-4 bg-card text-primary border border-primary hover:bg-primary/90 hover:text-white transition duration-300 rounded-full"
                         disabled={isPending}
                       >
                         Cancel
                       </Button>
+                      <Button
+                        type="submit"
+                        size="sm"
+                        disabled={isPending}
+                      >
+                        Save Changes
+                      </Button>
                     </div>
                   </form>
                 </Form>
-              </div>
-            </div>
+            </Modal>
           )}
         </div>
       )}

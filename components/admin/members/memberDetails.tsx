@@ -264,22 +264,22 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
             <div className="flex flex-col items-center gap-8 pb-16">
                 {updatedData &&
                     <div className="flex flex-col items-center w-full max-w-4xl">
-                    <div className="flex justify-center gap-4 mb-6">
-                        <button className="px-4 py-2 text-primary-foreground bg-primary rounded-full hover:bg-primary/90 transition-colors text-sm font-medium"
-                            disabled={!updatedData.id}
-                            onClick={() => {
-                                deleteMember()
-                            }}
-                        >
-                            Delete Member
-                        </button>
-                        <button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/70 transition-colors text-sm font-medium"
+                    <div className="flex justify-center gap-2 mb-6">
+                        <button className="px-4 py-2 rounded-full border border-input bg-card text-sm font-medium text-foreground hover:bg-muted transition-colors disabled:opacity-50"
                             disabled={!updatedData.id}
                             onClick={() => {
                                 lifetimeReport(updatedData.id)
                             }}
                         >
                             Lifetime Report
+                        </button>
+                        <button className="px-4 py-2 rounded-full text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors disabled:opacity-50"
+                            disabled={!updatedData.id}
+                            onClick={() => {
+                                deleteMember()
+                            }}
+                        >
+                            Delete Member
                         </button>
                     </div>
 
@@ -731,7 +731,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                         )}
                                         <Button
                                             type="submit"
-                                            className='w-full mt-8 rounded-full bg-primary hover:bg-primary/90 transition duration-300 text-white'
+                                            className='w-full mt-8'
                                             disabled={ isPending || !updatedData.id }
                                         >
                                             Save
@@ -979,7 +979,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                             {...field} 
                                                             disabled={ isPending || !updatedData.id }
                                                             rows={4}
-                                                            className="w-full p-2 border rounded-lg resize-none"
+                                                            className="w-full rounded-md border border-input bg-card p-3 text-sm text-foreground resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
                                                         />
                                                         </FormControl>
                                                         <FormMessage />
@@ -994,7 +994,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                         )}
                                         <Button
                                             type="submit"
-                                            className='w-full mt-8 rounded-full bg-primary hover:bg-primary/90 transition duration-300 text-white'
+                                            className='w-full mt-8'
                                             disabled={ isPending || !updatedData.id }
                                         >
                                             Save
@@ -1058,56 +1058,56 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                             />
                                         </div>
                                     </div>
-                                    <div>
-                                        <table className="min-w-full bg-card sm:w-full">
+                                    <div className="overflow-x-auto rounded-xl border border-border bg-card">
+                                        <table className="min-w-full table-auto border-collapse">
                                             <thead className="bg-muted">
                                                 <tr>
-                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Date</th>
-                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Event/Shift</th>
-                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Transportation</th>
-                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Confirmed</th>
-                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Completed</th>
-                                                    <th className="p-3 text-left text-muted-foreground border-b border-border">Hours</th>
-                                                    <th className="p-3 text-center text-muted-foreground border-b border-border">Delete</th>
+                                                    <th className="px-4 py-2.5 text-left text-sm font-semibold text-foreground whitespace-nowrap">Date</th>
+                                                    <th className="px-4 py-2.5 text-left text-sm font-semibold text-foreground">Event/Shift</th>
+                                                    <th className="px-4 py-2.5 text-left text-sm font-semibold text-foreground">Transportation</th>
+                                                    <th className="px-4 py-2.5 text-center text-sm font-semibold text-foreground">Confirmed</th>
+                                                    <th className="px-4 py-2.5 text-center text-sm font-semibold text-foreground">Completed</th>
+                                                    <th className="px-4 py-2.5 text-left text-sm font-semibold text-foreground">Hours</th>
+                                                    <th className="px-4 py-2.5 text-right text-sm font-semibold text-foreground">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
                                                     updatedData.events_eventshiftmember.map((shift, key) => (
-                                                        <tr key={key} className="hover:bg-muted border-b border-border">
-                                                            <td className="p-3 text-foreground">
+                                                        <tr key={key} className="border-b border-border last:border-0 hover:bg-muted/60 transition-colors">
+                                                            <td className="px-4 py-2.5 text-sm text-foreground whitespace-nowrap">
                                                                 {shift.events_eventshift.start_time.toLocaleDateString('en-US', { timeZone:'UTC', day: '2-digit', month: '2-digit', year: 'numeric' }) + " (" + shift.events_eventshift.start_time.toLocaleString('en-US', { timeZone:'UTC',  weekday: 'short' }) + ")"}
                                                             </td>
-                                                            <td className="p-3 text-foreground">
-                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug} className="text-primary hover:text-amber-950 hover:underline">{shift.events_eventshift.events_event.name}</Link>
+                                                            <td className="px-4 py-2.5 text-sm text-foreground">
+                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug} className="text-primary hover:text-primary/90 hover:underline font-medium">{shift.events_eventshift.events_event.name}</Link>
                                                                 <br/>
-                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug + "/shift/" + shift.events_eventshift.id} className="text-primary hover:text-amber-950 hover:underline">{"(" + shift.events_eventshift.description + ")"}</Link>
+                                                                <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug + "/shift/" + shift.events_eventshift.id} className="text-primary hover:text-primary/90 hover:underline">{"(" + shift.events_eventshift.description + ")"}</Link>
                                                             </td>
-                                                            <td className="p-3 text-foreground">{shift.transportation}</td>
-                                                            <td className="p-3 text-center">
-                                                                <Button
+                                                            <td className="px-4 py-2.5 text-sm text-muted-foreground">{shift.transportation}</td>
+                                                            <td className="px-4 py-2.5 text-center">
+                                                                <button
                                                                     disabled={isPending}
-                                                                    className={`${shift.confirmed ? "bg-green-500 hover:bg-green-600" : "bg-primary hover:bg-primary/90"} text-white w-full`}
+                                                                    className={`${shift.confirmed ? "bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20" : "bg-muted text-muted-foreground hover:bg-muted/70 hover:text-foreground"} inline-flex rounded-full px-3 py-0.5 text-xs font-semibold transition-colors disabled:opacity-50`}
                                                                     onClick={() => { changeConfirmed(shift.id, !shift.confirmed) }}
                                                                 >
                                                                     {shift.confirmed ? "Yes" : "No"}
-                                                                </Button>
+                                                                </button>
                                                             </td>
-                                                            <td className="p-3 text-center">
-                                                                <Button
+                                                            <td className="px-4 py-2.5 text-center">
+                                                                <button
                                                                     disabled={isPending}
-                                                                    className={`${shift.completed ? "bg-green-500 hover:bg-green-600" : "bg-primary hover:bg-primary/90"} text-white w-full`}
+                                                                    className={`${shift.completed ? "bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20" : "bg-muted text-muted-foreground hover:bg-muted/70 hover:text-foreground"} inline-flex rounded-full px-3 py-0.5 text-xs font-semibold transition-colors disabled:opacity-50`}
                                                                     onClick={() => { changeCompleted(shift.id, !shift.completed) }}
                                                                 >
                                                                     {shift.completed ? "Yes" : "No"}
-                                                                </Button>
+                                                                </button>
                                                             </td>
-                                                            <td className="p-3 text-center">
+                                                            <td className="px-4 py-2.5">
                                                                 <input
                                                                     type="number"
                                                                     defaultValue={shift.hours}
                                                                     disabled={isPending}
-                                                                    className="w-full p-2 border border-border rounded-md"
+                                                                    className="h-8 w-20 rounded-md border border-input bg-card px-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
                                                                     onKeyDown={(e) => {
                                                                         if (e.key === 'Enter') {
                                                                             const target = e.target as HTMLInputElement;
@@ -1116,14 +1116,14 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                                     }}
                                                                 />
                                                             </td>
-                                                            <td className="p-3 text-center">
-                                                                <Button
+                                                            <td className="px-4 py-2.5 text-right">
+                                                                <button
                                                                     disabled={isPending}
-                                                                    className='bg-black text-white'
+                                                                    className='text-destructive hover:text-destructive/80 text-sm font-semibold disabled:opacity-50'
                                                                     onClick={() => { deleteShift(shift.id, updatedData.first_name + " " + updatedData.last_name) }}
                                                                 >
                                                                     Delete
-                                                                </Button>
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     ))

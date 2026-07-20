@@ -102,42 +102,44 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
 
     return (
 <div>
-    <div className="max-w-4xl mx-auto bg-card rounded-lg shadow-xs p-6">
+    <div className="max-w-4xl bg-card rounded-xl border border-border p-6">
         {
-            seasonData && eventData && 
+            seasonData && eventData &&
             <div>
                 {
                         selectedSeason !== -1000 &&
-                        <div className="mb-5">
-                            <Button 
+                        <div className="mb-5 flex justify-end">
+                            <Button
                                 disabled={isPending}
-                                onClick={handleDelete} 
-                                className="flex items-center justify-center text-white bg-primary hover:bg-primary/90 focus:ring-2 focus:ring-ring rounded-lg py-2 px-4 transition duration-300 ease-in-out"
+                                onClick={handleDelete}
+                                size="sm"
+                                variant="outline"
+                                className="text-destructive hover:text-destructive hover:bg-destructive/10"
                             >
-                                <svg 
-                                    xmlns="http://www.w3.org/2000/svg" 
-                                    fill="none" 
-                                    viewBox="0 0 24 24" 
-                                    strokeWidth="1.5" 
-                                    stroke="currentColor" 
-                                    className="h-5 w-5 mr-2"
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="1.5"
+                                    stroke="currentColor"
+                                    className="h-4 w-4 mr-2"
                                 >
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                 </svg>
-                                Delete
+                                Delete Season
                             </Button>
                         </div>
                     }
-                <div className="mb-4 flex items-center space-x-4"> 
-                    <div className="w-full"> 
-                        <label className="block text-lg font-medium text-foreground">Season</label>
-                        <select 
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-end gap-4">
+                    <div className="w-full">
+                        <label className="block text-sm font-medium text-foreground">Season</label>
+                        <select
                             onChange={(e) => {
                                 if(!isNaN(Number(e.target.value)))
                                     setSelectedSeason(Number(e.target.value))
                             }}
                             value={selectedSeason}
-                            className="mt-2 block w-full border border-border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-2 block w-full h-10 rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             disabled={isPending}
                         >
                             {
@@ -153,67 +155,69 @@ const AdminSeasonList = ({seasonData, eventData} : {seasonData: Prisma.PromiseRe
                         </select>
                     </div>
                     <div>
-                            <label className="block text-lg font-medium text-foreground">Required Active Events:</label>
-                            <input 
+                            <label className="block text-sm font-medium text-foreground whitespace-nowrap">Required Active Events:</label>
+                            <input
                                 disabled={isPending}
-                                type="number" 
+                                type="number"
                                 value={nRAE}
                                 onChange={(e) => {
                                     if(!isNaN(Number(e.target.value)))
                                         setNRAE(Number(e.target.value))
                                 }}
-                                className="mt-2 border border-border rounded-md px-4 py-2"
+                                className="mt-2 h-10 w-full rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                     </div>
                     {
-                        selectedSeason === -1000 &&  
-                        <div> 
+                        selectedSeason === -1000 &&
+                        <div>
                             <div>
-                                <label className="block text-lg font-medium text-foreground">Year:</label>
-                                <input 
+                                <label className="block text-sm font-medium text-foreground">Year:</label>
+                                <input
                                     disabled={isPending}
-                                    type="number" 
+                                    type="number"
                                     value={newSeason}
                                     onChange={(e) => {
                                         if(!isNaN(Number(e.target.value)))
                                             setNewSeason(Number(e.target.value))
                                     }}
-                                    className="mt-2 border border-border rounded-md px-4 py-2"
+                                    className="mt-2 h-10 w-full rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 />
                             </div>
                         </div>
                     }
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-2">
                     {
                         selectedEvents && eventData.map((event, key) => (
                             <div key={key} className="flex items-center">
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     checked={selectedEvents[key]}
-                                    onChange={() => 
+                                    onChange={() =>
                                         setSelectedEvents(selectedEvents.map((event, tempKey) => {
-                                            if(tempKey === key) 
+                                            if(tempKey === key)
                                                 return !event
                                             else return event
                                         }))
                                     }
                                     disabled={isPending}
-                                    className="h-4 w-4 text-blue-600 border-border rounded focus:ring-2 focus:ring-blue-500"
+                                    className="h-4 w-4 accent-primary border-border rounded focus-visible:ring-2 focus-visible:ring-ring"
                                 />
-                                <label className="text-foreground ml-2 w-full">{event.name}</label>
+                                <label className="text-sm text-foreground ml-2 w-full">{event.name}</label>
                             </div>
                         ))
                     }
                 </div>
 
-                <Button disabled={isPending} onClick={handleSubmit} className="text-white flex w-52 mt-11 mb-2 mx-auto rounded-full bg-primary hover:bg-primary/90 transition duration-300">Save</Button>
+                <div className="flex justify-end mt-8 mb-2">
+                    <Button disabled={isPending} onClick={handleSubmit} size="sm">Save Changes</Button>
+                </div>
                 { success ? (
                         <FormSuccess message={ success } />
                     ) : (
                         <FormError message={ error } />
-                    )} 
+                    )}
             </div>
         }
     </div>
