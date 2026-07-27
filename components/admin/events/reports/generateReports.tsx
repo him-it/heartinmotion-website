@@ -1,6 +1,7 @@
 import { getActiveVolunteerHours, getCurrentEventData, getDateRange, getInternOfficerVolunteer, getLifetime, getPastEventData, getWeeklyUpdate, getYearlyEvent } from '@/actions/admin/reports/report'
 import ExcelJS from 'exceljs'
 import { saveAs } from 'file-saver'
+import { formatShiftDate, formatShiftTime, formatShiftTimeRange } from '@/lib/time'
 
 export const dateRangeReport = async (start: Date, end: Date, event_id: number, event_name: string) => {
     const workbook = new ExcelJS.Workbook()
@@ -35,10 +36,10 @@ export const dateRangeReport = async (start: Date, end: Date, event_id: number, 
                 member.registration_approval_date,
                 '',
                 '',
-                new Date(shift.start_time.getTime() - 30 * 60 * 1000).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}),
-                shift.start_time.toLocaleDateString('en-US'),
+                formatShiftTime(new Date(shift.start_time.getTime() - 30 * 60 * 1000), {hour: '2-digit', minute: '2-digit'}),
+                formatShiftDate(shift.start_time, {month: 'numeric', day: 'numeric', year: 'numeric'}),
                 shift.description,
-                shift.start_time.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}) + ' - ' + shift.end_time.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}),
+                formatShiftTimeRange(shift.start_time, shift.end_time, {hour: '2-digit', minute: '2-digit'}),
                 member.member_member.member_memberprivate?.member_type,
                 member.member_member.member_memberprivate?.has_long_sleeves ? "Yes" : "No",
                 member.member_member.member_memberprivate?.has_hoodies ? "Yes" : "No",
@@ -163,7 +164,7 @@ export const yearlyEventReport = async () => {
 
         filteredEvents.map(event => {
             const dataArray = [
-                event.events_eventshift[0].start_time.toLocaleDateString('en-US') + " - " + event.events_eventshift[event.events_eventshift.length - 1].start_time.toLocaleDateString('en-US'),
+                formatShiftDate(event.events_eventshift[0].start_time, {month: 'numeric', day: 'numeric', year: 'numeric'}) + " - " + formatShiftDate(event.events_eventshift[event.events_eventshift.length - 1].start_time, {month: 'numeric', day: 'numeric', year: 'numeric'}),
                 event.name,
                 event.events_eventshift.reduce((acc, shift) => acc + shift.events_eventshiftmember.reduce((acc, member) => acc + member.hours, 0), 0),
                 event.events_eventshift.reduce((acc, shift) => acc + shift.events_eventshiftmember.length, 0),
@@ -322,10 +323,10 @@ export const currentEventDataReport = async (id: number) => {
                 member.registration_approval_date,
                 '',
                 '',
-                new Date(shift.start_time.getTime() - 30 * 60 * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true}),
-                shift.start_time.toLocaleDateString('en-US', {timeZone: "UTC"}),
+                formatShiftTime(new Date(shift.start_time.getTime() - 30 * 60 * 1000), { hour: '2-digit', minute: '2-digit', hour12: true }),
+                formatShiftDate(shift.start_time, {month: 'numeric', day: 'numeric', year: 'numeric'}),
                 shift.description,
-                shift.start_time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
+                formatShiftTimeRange(shift.start_time, shift.end_time, { hour: '2-digit', minute: '2-digit', hour12: true }),
                 member.member_member.member_memberprivate?.member_type,
                 member.member_member.member_memberprivate?.has_long_sleeves ? "Yes" : "No",
                 '',
@@ -395,10 +396,10 @@ export const pastEventDataReport = async (id: number) => {
                 member.registration_approval_date,
                 '',
                 '',
-                new Date(shift.start_time.getTime() - 30 * 60 * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true}),
-                shift.start_time.toLocaleDateString('en-US'),
+                formatShiftTime(new Date(shift.start_time.getTime() - 30 * 60 * 1000), { hour: '2-digit', minute: '2-digit', hour12: true }),
+                formatShiftDate(shift.start_time, {month: 'numeric', day: 'numeric', year: 'numeric'}),
                 shift.description,
-                shift.start_time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', {  hour: '2-digit', minute: '2-digit', hour12: true }),
+                formatShiftTimeRange(shift.start_time, shift.end_time, { hour: '2-digit', minute: '2-digit', hour12: true }),
                 member.member_member.member_memberprivate?.member_type,
                 member.member_member.member_memberprivate?.has_long_sleeves ? "Yes" : "No",
                 '',
@@ -499,9 +500,9 @@ export const lifetimeReport = async (id: number) => {
             shift.events_eventshift.events_event.name,
             shift.events_eventshift.id,
             shift.events_eventshift.description,
-            shift.events_eventshift.start_time.toLocaleDateString('en-US'),
-            shift.events_eventshift.start_time.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'}),
-            shift.events_eventshift.end_time.toLocaleTimeString('en-US', { hour: '2-digit', minute:'2-digit'}),
+            formatShiftDate(shift.events_eventshift.start_time, {month: 'numeric', day: 'numeric', year: 'numeric'}),
+            formatShiftTime(shift.events_eventshift.start_time, {hour: '2-digit', minute: '2-digit'}),
+            formatShiftTime(shift.events_eventshift.end_time, {hour: '2-digit', minute: '2-digit'}),
             lifetimeData.school,
             lifetimeData.graduating_year,
             shift.confirmed ? "TRUE" : "FALSE",

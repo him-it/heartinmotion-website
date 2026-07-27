@@ -14,6 +14,7 @@ import { FormError } from '@/components/ui/formError';
 import { Button } from "@/components/ui/button";
 import { Modal, TableShell, Toolbar, ToolbarSpacer, tdClass, thClass } from "@/components/admin/workbench";
 import { currentEventDataReport, dateRangeReport, pastEventDataReport } from "../reports/generateReports";
+import { formatShiftDate, formatShiftTimeRange } from "@/lib/time";
 
 const dateInputClass = "h-9 rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 
@@ -211,8 +212,8 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                                     {shift.description}
                                                 </Link>
                                             </td>
-                                            <td className={tdClass + " whitespace-nowrap"}>{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                                            <td className={tdClass + " whitespace-nowrap"}>{shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</td>
+                                            <td className={tdClass + " whitespace-nowrap"}>{formatShiftDate(shift.start_time)}</td>
+                                            <td className={tdClass + " whitespace-nowrap"}>{formatShiftTimeRange(shift.start_time, shift.end_time)}</td>
                                             <td className={tdClass}>{shift.location}</td>
                                             <td className={tdClass + " text-right tabular-nums"}>{shift.spots - shift.events_eventshiftmember.length}</td>
                                             <td className={tdClass + " text-right tabular-nums"}>{shift.events_eventshiftmember.length}</td>
@@ -249,8 +250,8 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                                     {shift.description}
                                                 </Link>
                                             </td>
-                                            <td className={tdClass + " whitespace-nowrap"}>{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                                            <td className={tdClass + " whitespace-nowrap"}>{shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</td>
+                                            <td className={tdClass + " whitespace-nowrap"}>{formatShiftDate(shift.start_time)}</td>
+                                            <td className={tdClass + " whitespace-nowrap"}>{formatShiftTimeRange(shift.start_time, shift.end_time)}</td>
                                             <td className={tdClass}>{shift.location}</td>
                                             <td className={tdClass + " text-right tabular-nums"}>{shift.spots - shift.events_eventshiftmember.length}</td>
                                             <td className={tdClass + " text-right tabular-nums"}>{shift.events_eventshiftmember.length}</td>
@@ -324,7 +325,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                             </div>
                             <div className="flex gap-2">
                                 <dt className="font-semibold text-foreground">Date:</dt>
-                                <dd className="text-foreground">{selectedShift.events_eventsignup_shifts[0]?.events_eventshift.start_time.toLocaleDateString('en-US')}</dd>
+                                <dd className="text-foreground">{selectedShift.events_eventsignup_shifts[0] && formatShiftDate(selectedShift.events_eventsignup_shifts[0].events_eventshift.start_time, { month: 'numeric', day: 'numeric', year: 'numeric' })}</dd>
                             </div>
                             <div className="flex gap-2">
                                 <dt className="font-semibold text-foreground">Friends:</dt>

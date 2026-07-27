@@ -1,6 +1,7 @@
 "use client"
 
 import { getUpcomingEvents } from "@/actions/volunteer/event"
+import { formatShiftDate, formatShiftTime } from "@/lib/time"
 import { Prisma } from "@prisma/client"
 import Link from "next/link"
 
@@ -29,9 +30,9 @@ export const EventsList = ({ eventListData } : { eventListData: Prisma.PromiseRe
                                         <div key={key} className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 border-t border-border pt-2 first:border-t-0 first:pt-0">
                                             <span className="text-sm font-medium text-foreground">{shift.description}</span>
                                             <span className="text-sm text-muted-foreground">
-                                                {shift.start_time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                                                {formatShiftDate(shift.start_time, { weekday: 'short', month: 'short', day: 'numeric' })}
                                                 {" · "}
-                                                {shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
+                                                {formatShiftTime(shift.start_time)}
                                             </span>
                                         </div>
                                     ))}

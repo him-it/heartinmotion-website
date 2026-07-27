@@ -24,6 +24,7 @@ import { FormError } from '@/components/ui/formError'
 import Link from 'next/link'
 import { shiftDeleteMember, updateShiftCompleted, updateShiftConfirmed, updateShiftHours } from '@/actions/admin/event'
 import { lifetimeReport } from '../events/reports/generateReports'
+import { formatShiftDate } from '@/lib/time'
 
 const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturnType<typeof getMemberById> }) => {
     const [activeTab, setActiveTab] = useState<'profile' | 'club' | 'shifts'>('profile')
@@ -1076,7 +1077,7 @@ const AdminMemberDetails = ({ memberData } : { memberData : Prisma.PromiseReturn
                                                     updatedData.events_eventshiftmember.map((shift, key) => (
                                                         <tr key={key} className="border-b border-border last:border-0 hover:bg-muted/60 transition-colors">
                                                             <td className="px-4 py-2.5 text-sm text-foreground whitespace-nowrap">
-                                                                {shift.events_eventshift.start_time.toLocaleDateString('en-US', { timeZone:'UTC', day: '2-digit', month: '2-digit', year: 'numeric' }) + " (" + shift.events_eventshift.start_time.toLocaleString('en-US', { timeZone:'UTC',  weekday: 'short' }) + ")"}
+                                                                {formatShiftDate(shift.events_eventshift.start_time, { day: '2-digit', month: '2-digit', year: 'numeric' }) + " (" + formatShiftDate(shift.events_eventshift.start_time, { weekday: 'short' }) + ")"}
                                                             </td>
                                                             <td className="px-4 py-2.5 text-sm text-foreground">
                                                                 <Link href={"/admin/events/event/" + shift.events_eventshift.events_event.slug} className="text-primary hover:text-primary/90 hover:underline font-medium">{shift.events_eventshift.events_event.name}</Link>

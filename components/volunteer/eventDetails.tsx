@@ -18,6 +18,7 @@ import { getRegisteredShifts, getWaitlistedShifts } from '@/actions/account/user
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 import { getFriends } from '@/actions/admin/member'
 import { sanitizeHtml } from '@/lib/sanitize'
+import { formatShiftDate, formatShiftTimeRange } from '@/lib/time'
 
 export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedShiftData } : { eventDetailData: Prisma.PromiseReturnType<typeof getPublicEventBySlug>, registeredShiftData: Prisma.PromiseReturnType<typeof getRegisteredShifts>, waitlistedShiftData: Prisma.PromiseReturnType<typeof getWaitlistedShifts>}) => {
     const [showRegistration, setShowRegistration] = useState(false);
@@ -102,8 +103,8 @@ export const EventDetails = ({ eventDetailData, registeredShiftData, waitlistedS
                     {eventDetailData && eventDetailData.events_eventshift && eventDetailData.events_eventshift.filter(shift => shift.start_time > new Date()).map((shift, key) => (
                             <div key={key} className="mb-4 rounded-xl border border-border shadow-xs p-4 bg-card">
                                 <h3 className="text-foreground font-semibold text-lg">{shift.description}</h3>
-                                <div className="mt-1 text-sm text-muted-foreground">{shift.start_time.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
-                                <div className="mt-1 text-sm text-muted-foreground">{ shift.start_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div>
+                                <div className="mt-1 text-sm text-muted-foreground">{formatShiftDate(shift.start_time, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                                <div className="mt-1 text-sm text-muted-foreground">{formatShiftTimeRange(shift.start_time, shift.end_time)}</div>
                                 <div className="mt-1 text-sm text-muted-foreground">{shift.location}</div>
                                 <div className="mt-2 inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground"><span className="font-semibold mr-1">{(shift.spots - shift._count.events_eventshiftmember >= 0) ? (shift.spots - shift._count.events_eventshiftmember) : 0}</span><span>spots left</span></div>
                                 { registeredShiftData && waitlistedShiftData && session.data?.user.admin_level !== undefined &&

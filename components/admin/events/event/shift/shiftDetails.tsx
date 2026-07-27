@@ -33,6 +33,7 @@ import { getMemberNames } from "@/actions/admin/member";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Modal, TableShell, Toolbar, ToolbarSpacer, tdClass, thClass } from "@/components/admin/workbench";
+import { formatShiftDate, formatShiftTime, shiftTimeToInputValue } from "@/lib/time";
 
 const AdminShiftDetails = ({
   shiftData,
@@ -273,20 +274,8 @@ const AdminShiftDetails = ({
         description: shiftData.description,
         location: shiftData.location,
         spots: shiftData.spots,
-        start_time: new Date(
-          shiftData.start_time.getTime() +
-            new Date().getTimezoneOffset() * -60 * 1000 +
-            3600000
-        )
-          .toISOString()
-          .slice(0, 19),
-        end_time: new Date(
-          shiftData.end_time.getTime() +
-            new Date().getTimezoneOffset() * -60 * 1000 +
-            3600000
-        )
-          .toISOString()
-          .slice(0, 19),
+        start_time: shiftTimeToInputValue(shiftData.start_time),
+        end_time: shiftTimeToInputValue(shiftData.end_time),
       });
     }
   }, [shiftData, form]);
@@ -393,27 +382,14 @@ const AdminShiftDetails = ({
               <h3 className="text-lg font-semibold text-foreground">{updatedData.description}</h3>
               <p className="text-sm text-muted-foreground mt-1">
                 {updatedData.start_time &&
-                  updatedData.start_time.toLocaleDateString("en", {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
+                  formatShiftDate(updatedData.start_time)}
               </p>
               <p className="text-sm text-muted-foreground">
                 {updatedData.start_time &&
-                  updatedData.start_time.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                  })}{" "}
+                  formatShiftTime(updatedData.start_time)}{" "}
                 -{" "}
                 {updatedData.end_time &&
-                  updatedData.end_time.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                  })}
+                  formatShiftTime(updatedData.end_time)}
               </p>
               <p className="text-sm text-muted-foreground">{updatedData.location}</p>
               <div className="mt-5 font-semibold text-sm">

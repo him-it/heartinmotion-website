@@ -7,6 +7,7 @@ import { AddMemberSchema, EventSchema, ShiftSchema } from '@/schemas'
 import { events_eventshift } from '@prisma/client'
 import { requireAdmin } from '@/lib/authGuard'
 import { slugify } from '@/lib/slug'
+import { shiftInputToStoredTime } from '@/lib/time'
 
 export const getEventBySlug = async (slug: string) => {
     if (!(await requireAdmin(4)))
@@ -246,8 +247,8 @@ export const createShift = async (data: z.infer<typeof ShiftSchema>) => {
             data: {
                 description: data.description,
                 location: data.location,
-                start_time: new Date(new Date(data.start_time).getTime() + 7 * 60 * 60 * 1000),
-                end_time: new Date(new Date(data.end_time).getTime() + 7 * 60 * 60 * 1000),
+                start_time: shiftInputToStoredTime(data.start_time),
+                end_time: shiftInputToStoredTime(data.end_time),
                 spots: data.spots,
                 events_event: {
                     connect: {id: data.event_id}
@@ -271,8 +272,8 @@ export const updateShift = async (data: z.infer<typeof ShiftSchema>, id: number)
             data: {
                 description: data.description,
                 location: data.location,
-                start_time: new Date(new Date(data.start_time).getTime() + 7 * 60 * 60 * 1000),
-                end_time: new Date(new Date(data.end_time).getTime() + 7 * 60 * 60 * 1000),
+                start_time: shiftInputToStoredTime(data.start_time),
+                end_time: shiftInputToStoredTime(data.end_time),
                 spots: data.spots
             }
         })

@@ -1,6 +1,7 @@
 "use client"
 
 import { getRegisteredShifts } from "@/actions/account/user"
+import { formatShiftDate, formatShiftTimeRange } from "@/lib/time"
 import { Prisma } from "@prisma/client"
 import Link from "next/link"
 import { Button } from "../ui/button"
@@ -41,8 +42,8 @@ const RegisteredShifts = ({shiftData} : {shiftData: Prisma.PromiseReturnType<typ
                                         </td>
                                         <td className="border border-border p-1 md:p-2 text-sm md:text-base">
                                             <div>
-                                                <div>{shift.events_eventshift.start_time.toLocaleDateString('en-US', {  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                                                <div>{shift.events_eventshift.start_time.toLocaleTimeString('en-US', {  hour: 'numeric', minute: 'numeric', hour12: true }) + " - " + shift.events_eventshift.end_time.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div>
+                                                <div>{formatShiftDate(shift.events_eventshift.start_time)}</div>
+                                                <div>{formatShiftTimeRange(shift.events_eventshift.start_time, shift.events_eventshift.end_time)}</div>
                                             </div>
                                         </td>
                                         <td className="border border-border p-1 md:p-2 text-sm md:text-base">
