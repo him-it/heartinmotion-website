@@ -2,6 +2,7 @@
 
 import * as z from 'zod'
 
+import { Prisma } from '@prisma/client'
 import { db } from "@/lib/db"
 import { MemberClubSchema, AccountSchema } from "@/schemas"
 import { requireAdmin, requireSelfOrAdmin } from "@/lib/authGuard"
@@ -209,11 +210,7 @@ export const editMember = async (member_id: number, data: z.infer<typeof Account
         return { error: "Invalid fields!" }
 
     try {
-        const { graduating_year } = data
-
-        // Email is the identity key — admins edit it through member management,
-        // not by overwriting it from the profile form payload.
-        const { email: _email, ...rest } = data
+        const { graduating_year, email, ...rest } = data
 
         await db.member_member.update({
             where: {
@@ -221,12 +218,17 @@ export const editMember = async (member_id: number, data: z.infer<typeof Account
             },
             data: {
                 ...rest,
+                // Email is the login identity, matched against the member's Google
+                // account at sign-in — normalize to how OAuth emails arrive.
+                email: email.trim().toLowerCase(),
                 graduating_year: Number(graduating_year)
             }
         })
 
         return { success: "Saved successfully!" }
-    } catch {
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002')
+            return { error: "That email address is already used by another member." }
         return { error: "An unexpected error occurred." }
     }
 }
