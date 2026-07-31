@@ -5,6 +5,7 @@ import { ShiftSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from 'zod'
@@ -19,6 +20,7 @@ import { formatShiftDate, formatShiftTimeRange } from "@/lib/time";
 const dateInputClass = "h-9 rounded-md border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 
 const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<typeof getEventBySlug> | undefined }) => {
+    const router = useRouter();
     const [showPopup, setShowPopup] = useState(false);
     const [showNewShiftPopup, setShowNewShiftPopup] = useState(false);
     const [showPendingPopup, setShowPendingPopup] = useState(false);
@@ -30,6 +32,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
     const [ toTime, setToTime ] = useState<Date>()
 
     const handleViewClick = (shiftSignup: any) => {
+        setError(undefined);
         setSelectedShift(shiftSignup);
         setShowPopup(true);
     };
@@ -59,9 +62,15 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
     const registerShiftSignUp = (data: any) => {
         startTransition(() => {
             registerShiftSignup(data)
-                .then(() => {
+                .then((res) => {
+                    if (res?.error) {
+                        setSuccess(undefined)
+                        setError(res.error)
+                        return
+                    }
+                    setError(undefined)
                     closePopup()
-                    window.location.reload()
+                    router.refresh()
                 })
                 .catch(() => {
                     setSuccess(undefined)
@@ -73,9 +82,15 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
     const deleteShiftSignUp = (data: any) => {
         startTransition(() => {
             deleteShiftSignup(data)
-                .then(() => {
+                .then((res) => {
+                    if (res?.error) {
+                        setSuccess(undefined)
+                        setError(res.error)
+                        return
+                    }
+                    setError(undefined)
                     closePopup()
-                    window.location.reload()
+                    router.refresh()
                 })
                 .catch(() => {
                     setSuccess(undefined)
@@ -332,6 +347,7 @@ const AdminEventDetails = ({ eventData }: { eventData: Prisma.PromiseReturnType<
                                 <dd className="text-foreground">{selectedShift.friends}</dd>
                             </div>
                         </dl>
+                        {error && <div className="mt-4"><FormError message={error} /></div>}
                         <div className="flex items-center gap-2 mt-6">
                             <Button
                                 size="sm"
