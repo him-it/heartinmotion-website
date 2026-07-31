@@ -405,32 +405,43 @@ export const deleteShiftData = async (id: number) => {
         return { error: "Unauthorized." }
 
     try {
-        await db.$transaction([
-            db.events_eventshiftmember.deleteMany({
+        await db.$transaction(async (tx) => {
+            // Signup join rows reference signups with a NoAction FK, so the
+            // join rows must be deleted before the signups they point to.
+            const signupIds = (await tx.events_eventsignup_shifts.findMany({
+                where: {
+                    eventshift_id: id
+                },
+                select: {
+                    eventsignup_id: true
+                }
+            })).map((row) => row.eventsignup_id)
+
+            await tx.events_eventshiftmember.deleteMany({
                 where: {
                     shift_id: id
                 }
-            }),
-            db.events_eventsignup.deleteMany({
+            })
+            await tx.events_eventsignup_shifts.deleteMany({
                 where: {
-                    events_eventsignup_shifts: {
-                        some: {
-                            eventshift_id: id
-                        }
+                    eventsignup_id: {
+                        in: signupIds
                     }
                 }
-            }),
-            db.events_eventsignup_shifts.deleteMany({
+            })
+            await tx.events_eventsignup.deleteMany({
                 where: {
-                    eventshift_id: id
+                    id: {
+                        in: signupIds
+                    }
                 }
-            }),
-            db.events_eventshift.delete({
+            })
+            await tx.events_eventshift.delete({
                 where: {
                     id
                 }
             })
-        ])
+        })
     } catch {
         return {error: "An unexpected error occurred."}
     }

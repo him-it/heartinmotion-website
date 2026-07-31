@@ -110,7 +110,11 @@ const AdminShiftDetails = ({
     )
       if (shiftData?.id && shiftData?.events_event) {
         deleteShiftData(shiftData.id)
-          .then(() => {
+          .then((res) => {
+            if (res?.error) {
+              setError(res.error);
+              return;
+            }
             window.location.replace(
               "/admin/events/event/" + shiftData?.events_event.slug
             );
